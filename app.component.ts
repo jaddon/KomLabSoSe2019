@@ -55,6 +55,7 @@ export class AppComponent {
     { source: this.nodes[0], target: this.nodes[7], left: false, right: true },
   ];
 
+  // store the white rectangulars as simulation for text fields
   infos = [
     {text: 'map0', target: this.nodes[0], hidden: true},
     {text: 'map1', target: this.nodes[1], hidden: true},
@@ -69,10 +70,6 @@ export class AppComponent {
 
   ngAfterContentInit() {
     const rect = this.graphContainer.nativeElement.getBoundingClientRect();
-    console.log(rect.width, rect.height);
-
-    // this.width = rect.width;
-    // this.height = rect.height;
 
 
 
@@ -108,16 +105,13 @@ export class AppComponent {
 
 
 
+  // add the svg<g> element to group svg shapes together
     this.path = this.svg.append('svg:g').selectAll('path');
     this.circle = this.svg.append('svg:g').selectAll('g');
     this.info = this.svg.append('svg:g').selectAll('rect');
 
 
-
-//  this.svg.on('mousedown', (dataItem, value, source) => this.mousedown(dataItem, value, source))
-//  .on('mouseup', (dataItem) => this.mouseup(dataItem));
-//  this.restart();
-
+// refresh after each mousedown and mouseup
     this.svg.on('mousedown', (dataItem, value, source) => this.mousedown(dataItem, value, source));
     this.restart();
     this.svg.on('mouseup', (dataItem) => this.mouseup(dataItem));
@@ -126,11 +120,14 @@ export class AppComponent {
   }
 
   mousedown(dataItem: any, value: any, source: any) {
-    // because :active only works in WebKit?
+    // when mouse down set this.svg as active
     this.svg.classed('active', true);
 
+
+
     if (this.clickOnNode === false) {
-      if (this.mousedownNode === this.selectedNode || this.mousedownNode === null) {
+      // if (this.mousedownNode === this.selectedNode || this.mousedownNode === null) {
+        // if click on the same node once again or click on the background, then not zooming
          this.centered = null;
          this.selectedNode = null;
          this.centerx = this.width / 2;
@@ -141,86 +138,77 @@ export class AppComponent {
         .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
          console.log('this is my : ' + this.selectedNode );
          this.restart();
-      }
+      // }
     }
 
-    console.log('down');
-    // console.log(this.clickOnNode);
-    // console.log(this.mousedownNode);
-    // console.log(this.selectedNode);
     this.restart();
   }
 
   mouseup(source: any) {
-    // because :active only works in WebKit?
+    // when mouseup, set the svg background as inactive
     this.svg.classed('active', false);
 
     // clear mouse event vars
     this.mousedownNode = null;
     this.mouseupNode = null;
     this.mousedownLink = null;
-    console.log('up');
     this.clickOnNode = false;
 
 
+    // remove all white rectangulars when the scale is 1
     if (this.k === 1) {
       this.svg.selectAll('rect').remove();
     }
-
-    // if(true){
-    //   for(var i = 0; i<this.infos.length; i++){
-    //     this.infos[i].hidden = true;
-    //   }
-    // }
 }
 
+// refresh function
   restart() {
 
-
-
-
-
-    console.log('k' + this.k);
-    console.log('infos' + this.infos[0].hidden);
-
+// bind the paths with data
     this.path = this.path.data(this.links);
-
+// bind the white rectangulars with data
     this.info = this.info.data(this.infos);
-
-    this.path.style('marker-start', (d) => d.left ? 'url(#start-arrow)' : '')
-      .style('marker-end', (d) => d.right ? 'url(#end-arrow)' : '');
-
 
     this.path.exit().remove();
 
 
 
   // create paths
-    this.path = this.path
+  this.path = this.path
   .enter()
   .append('svg:path')
   .attr('class', 'link')
   .attr('d', (d) => {
-    let targetY = 0;
-    let targetX = 0;
-    if (Math.abs(d.source.x - d.target.x) > Math.abs(d.source.y - d.target.y)) {
-      if (d.target.x < d.source.x) {
-        targetX = d.target.x + 27;
-        targetY = d.target.y;
-      } else {
-        targetX = d.target.x - 27;
-        targetY = d.target.y;
-      }
+    const deltaX = d.target.x - d.source.x;
+    const deltaY = d.target.y - d.source.y;
+    const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const normX = deltaX / dist;
+    const normY = deltaY / dist;
+    const xy = Math.abs(deltaX / deltaY);
+    const sourcePadding = 0;
+
+    let targetPadding = 0;
+
+    if (Math.abs(d.source.x - d.target.x) > 10*Math.abs(d.source.y - d.target.y) || Math.abs(d.source.x - d.target.x) === 10*Math.abs(d.source.y - d.target.y)){
+      
+      targetPadding = d.right ? 27-0.25*(2-xy) : 17-0.25*(2-xy);
+      // targetPadding = d.right ? 27-800000*(2-xy)*Math.pow((dist/2310),5) : 17-400000*(2-xy)*Math.pow((dist/2310),5);
     }
-    if (Math.abs(d.source.x - d.target.x) < Math.abs(d.source.y - d.target.y)) {
-      if (d.target.y < d.source.y) {
-        targetX = d.target.x;
-        targetY = d.target.y + 17;
-      } else {
-        targetX = d.target.x;
-        targetY = d.target.y - 17;
-      }
+
+    else if (Math.abs(d.source.x - d.target.x) > 3*Math.abs(d.source.y - d.target.y) || (Math.abs(d.source.x - d.target.x) === 3*Math.abs(d.source.y - d.target.y))){
+      targetPadding = d.right ? 27-0.8*(2-xy) : 17-0.8*(2-xy);
     }
+
+    else if (Math.abs(d.source.x - d.target.x) < 3*Math.abs(d.source.y - d.target.y)){     
+      targetPadding = d.right ? 27-4*(2-xy) : 17-2*(2-xy);
+    }
+
+
+    // const targetPadding = d.right ? 27-0.5*(2-xy) : 17-0.5*(2-xy);
+    const sourceX = d.source.x + (sourcePadding * normX);
+    const sourceY = d.source.y + (sourcePadding * normY);
+    const targetX = d.target.x - (targetPadding * normX);
+    const targetY = d.target.y - (targetPadding * normY);
 // calculate the d attribute for path
     return `M${d.source.x},${d.source.y}L${targetX},${targetY}`;
   })
@@ -239,27 +227,28 @@ export class AppComponent {
       .attr('x', (d) => d.target.x)
       .attr('y', (d) => d.target.y)
       .attr('fill', 'white')
-      .attr('width', '20')
-      .attr('height', '20')
+      .attr('width', '60')
+      .attr('height', '80')
       .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible');
 
 
 
-
-    this.circle = this.circle.data(this.nodes, (d) => d.id);
-    this.circle.selectAll('ellipse')
+// bind the circle with data
+  this.circle = this.circle.data(this.nodes, (d) => d.id);
+  // create ellipses
+  this.circle.selectAll('ellipse')
   .style('fill', (d) => (d === this.selectedNode) ? d3.rgb(this.colors(d.id)).brighter().toString() : this.colors(d.id))
   .style('stroke', (d) => (d === this.selectedNode) ? 'black' : 'white');
 
 
-    this.circle.exit().remove();
+  this.circle.exit().remove();
 
-
-    const g = this.circle.enter().append('svg:g');
+// for each ellipse create a g element
+const g = this.circle.enter().append('svg:g');
 
 
 // create ellipses
-    g.append('svg:ellipse')
+g.append('svg:ellipse')
 .attr('class', 'node')
 .attr('rx', 25)
 .attr('ry', 15)
@@ -274,11 +263,11 @@ export class AppComponent {
   this.mousedownNode = d;
   this.selectedNode = (this.mousedownNode === this.selectedNode) ? null : this.mousedownNode;
 
-  // console.log('before'+this.centered);
 
+  // if click on the same node twice, focus and zoom will be reset
   this.centerx = this.centered !== d ? d.x : this.width / 2;
   this.centery = this.centered !== d ? d.y : this.height / 2;
-  this.k = this.centered !== d ? 4 : 1;
+  this.k = this.centered !== d ? 3 : 1;
   this.centered = this.centered !== d ? d : null;
   this.clickOnNode = true;
 
@@ -287,10 +276,9 @@ export class AppComponent {
   }
 
   this.svg.selectAll('rect').remove();
-  console.log('hidden');
 
 
-  if (this.k === 4) {
+  if (this.k === 3) {
     this.infos[d.id].hidden = false;
   }
 
@@ -301,18 +289,11 @@ export class AppComponent {
   .attr('transform', 'translate(' + this.width * this.k / 2  + ',' + this.height * this.k / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
   });
 
-    console.log(this.centerx);
-
-
-
-
-    console.log(this.selectedNode);
-
 
 
 
 // create texts
-    g.append('svg:text')
+g.append('svg:text')
 .attr('class', 'text')
 .attr('x', (d) => d.x)
 .attr('y', (d) => d.y)
@@ -321,25 +302,11 @@ export class AppComponent {
 .attr('text-anchor', 'middle')
 .text((d) => d.text);
 
+this.circle = g.merge(this.circle);
 
 
-    this.circle = g.merge(this.circle);
-
-
-    for (let i = 0; i < this.infos.length; i++) {
+for (let i = 0; i < this.infos.length; i++) {
   this.infos[i].hidden = true;
 }
-
-
-
-
-// console.log(this.mousedownNode);
-// console.log(this.selectedNode);
-
-
-// console.log(this.centered);
-// console.log(this.centerx);
-// console.log(this.centery);
-// console.log(this.k);
   }
 }
