@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit{
 
   title = 'KomTest';
 
-  @ViewChild('graphContainer') graphContainer: ElementRef;
+  @ViewChild('graphContainer', {static: true}) graphContainer: ElementRef;
 
   width = 1240;
   height = 570;
