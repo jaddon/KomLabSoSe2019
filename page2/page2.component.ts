@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
 import json from './page2.json';
-import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 
 @Component({
@@ -496,20 +495,6 @@ export class Page2Component implements OnInit{
     .attr('fill','white')
     ;
 
-
-   var viewer =   this.svg.select('foreignObject')
-    // .attr('x', '0')
-    .select('pdf-viewer')
-    .on('mousedown', (d)=>{
-      // this.svg.select('pdf-viewer')
-      // .attr('page', '1');
-      this.pageNumber = 50;
-      this.svg.select('foreignObject')
-      .attr('visibility', 'hidden');
-    })
-    ;
-
-
     // this part works with normal html element
 
     // this.svg.append("foreignObject")
@@ -577,6 +562,8 @@ export class Page2Component implements OnInit{
         this.svg.selectAll('rect.gRect').attr('visibility','hidden');
         this.svg.selectAll('text.gText').attr('visibility','hidden');
         this.svg.selectAll('image.gImage').attr('visibility','hidden');
+        this.svg.select('foreignObject').attr('visibility','hidden');
+
         this.restart();
 
     }
