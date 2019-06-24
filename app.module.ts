@@ -11,6 +11,7 @@ import { MicroMapBasicComponent } from './micro-map-basic/micro-map-basic.compon
 import { SingleChoiceComponent } from './test/singleChoice/singleChoice.component';
 import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { Page3Component } from './page3/page3.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

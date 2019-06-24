@@ -47,6 +47,8 @@ export class BuildMapService{
     .attr('height', height)
     .attr('ready', false)
 
+    svg.select('foreignObject').attr('visibility', 'hidden');
+
     // var logo = svg. append('image') . attr('xlink:href', 'assets/icon.jpg') . attr('width', 100) . attr('height', 50);
 
   // arrow styles
@@ -151,13 +153,13 @@ export class BuildMapService{
     .ticks(2, "f");
 
     svg.append("g")
-       .attr("transform", "translate(500, 10)")
+       .attr("transform", "translate(900, 10)")
        .call(x_axis);
 
 // create ball on the slider bar
     sliderCircle = svg.append("circle")
     .attr('class', 'ball')
-    .attr("cx", 500)
+    .attr("cx", 900)
     .attr("cy", 10)
     .attr("r", 7)
     .style("fill", "purple");
@@ -367,7 +369,7 @@ export class BuildMapService{
     .on('mousedown', (d) => {
     
       // this code is needed for initialize the mousedown function before dragging the slider bar
-      if(parseInt(svg.select('circle.ball').attr('cx'))===500){
+      if(parseInt(svg.select('circle.ball').attr('cx'))===900){
         window.alert("Node locked");
       }
       else{    
@@ -427,6 +429,31 @@ export class BuildMapService{
           .attr('height', '80')
           .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
           .attr('stroke', 'black')
+          .on('mousedown', (d)=>{
+            d3.select('svg').attr('clickOnNode', 'true');
+            svg.select('foreignObject')
+            .attr('visibility','visible')
+            .transition()
+            .duration(0)
+            .attr('transform', 'translate('+ (d.target.x-180) + ", 0)");
+
+            // make sure that the pdf view will be fixed on the top of page
+              svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
+            
+            // make sure the pdf could be fully shown even if click on node on the left border
+            if(d.target.x<150){
+              svg.select('foreignObject')
+              .attr('visibility','visible')
+              .transition()
+              .duration(0)
+              .attr('transform', 'translate('+ (d.target.x-65) + ", 0)");
+              svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset - 65*3) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
+            }
+
+            svg.attr('page', parseInt(d.page)+18);
+            console.log("current page: " + d.page);
+            
+          })
           .merge(glossary)
           ;
           
@@ -459,6 +486,9 @@ export class BuildMapService{
     .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
     .text((d) => d.text)
     .call(this.wrap,40)
+    .on('mousedown', (d)=>{
+
+    })
     .merge(gText);
     ;
     
@@ -504,26 +534,26 @@ export class BuildMapService{
           d3.select(this).attr("cx", 
           (d)=>{
             // console.log(this);
-            if(d3.event.x<550){
-              return 500;
+            if(d3.event.x<950){
+              return 900;
             }
-            else if(d3.event.x<=650){
-              return 600;
+            else if(d3.event.x<=1050){
+              return 1000;
             }
             else{
-              return 700;
+              return 1100;
             }
           })
           d3.select(this).attr("cy", 10);
     
           var cx = parseInt(d3.select(this).attr('cx'));
-            if(cx===500){
+            if(cx===900){
               d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
               d3.select('svg').selectAll('ellipse.node').style('fill','grey')
               .on('mousedown', (d)=> window.alert("Node locked"));
             }
-            else if(cx===600){
+            else if(cx===1000){
     
     
               d3.select('svg').attr('clickOnNode', 'false');
@@ -629,11 +659,12 @@ export class BuildMapService{
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                         return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
                     );
-                    d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                  d3.select('svg').selectAll('image.gImage').filter(function(a,i){
                       return i===id}).attr('visibility', 
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                         return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
                     );
+
       
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return i!==id}).attr('visibility', 
@@ -643,7 +674,7 @@ export class BuildMapService{
                         return i!==id}).attr('visibility', 
                         'hidden'
                         );
-                        d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                    d3.select('svg').selectAll('image.gImage').filter(function(a,i){
                           return i!==id}).attr('visibility', 
                           'hidden'
                           );

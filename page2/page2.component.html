@@ -3,5 +3,17 @@
         width="100%"
         height="100%"
         class="associations">
+
+
+        <foreignObject x="0" y="0" width="350" height="480">
+          <xhtml:pdf-viewer [src]="pdfSrc" 
+          [(page)]="pageNumber"
+          [show-all]="false"
+          zoom="0.45"
+          render-text="true"
+          style="display: block;"
+          #pdfViewer>   
+          </pdf-viewer>
+        </foreignObject>
   </svg>
   </div>

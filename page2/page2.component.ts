@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
 import json from './page2.json';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 
 @Component({
@@ -17,13 +18,21 @@ import json from './page2.json';
 })
 export class Page2Component implements OnInit{
 
+  pageNumber : number = 5;
+
+  pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
+
   constructor(private buildMapService: BuildMapService, private router: Router){
   }
-    
+
+
 
 
   ngOnInit(){
-    // console.log(json.nodes);
+
+  
+   
+   // console.log(json.nodes);
     this.nodes = json.nodes;
     this.nodesNextMap = json.nodesNextMap;
     this.linkwords = json.linkwords;
@@ -77,7 +86,8 @@ export class Page2Component implements OnInit{
 
     var temp2 = json.glossaries;
     for(var i = 0; i<temp2.length; i++){
-      var glossary = {"target":null, "hidden":true, "width": 60, "height": 80};
+      var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
+      glossary.page = temp2[i].page;
       if(temp2[i].target.includes("nodes["))
       {
         // console.log(temp[i]);
@@ -96,7 +106,8 @@ export class Page2Component implements OnInit{
     }
     var temp3 = json.gTexts;
     for(var i = 0; i<temp3.length; i++){
-      var gText = {"text":null, "target":null, "hidden": true};
+      var gText = {"text":null, "target":null, "hidden": true, "page": null};
+      gText.page = temp3[i].page;
       if(temp3[i].target.includes("nodes["))
       {
         // console.log(temp[i]);
@@ -115,7 +126,7 @@ export class Page2Component implements OnInit{
       // console.log(gText);
       this.gTexts.push(gText);
     }
-     console.log(this.gTexts);
+    //  console.log(this.gTexts);
 
 
  
@@ -124,7 +135,7 @@ export class Page2Component implements OnInit{
 
   title = 'KomTest';
 
-  @ViewChild('graphContainer', {static: true}) graphContainer: ElementRef;
+  @ViewChild('pdfViewer', {static: false}) pdfViewers: ElementRef;
 
   width = 1240;
   height = 480;
@@ -486,6 +497,53 @@ export class Page2Component implements OnInit{
     ;
 
 
+   var viewer =   this.svg.select('foreignObject')
+    // .attr('x', '0')
+    .select('pdf-viewer')
+    .on('mousedown', (d)=>{
+      // this.svg.select('pdf-viewer')
+      // .attr('page', '1');
+      this.pageNumber = 50;
+      this.svg.select('foreignObject')
+      .attr('visibility', 'hidden');
+    })
+    ;
+
+
+    // this part works with normal html element
+
+    // this.svg.append("foreignObject")
+    // .attr("width", 800)
+    // .attr("height", 400)
+    // .append("xhtml:div")
+    // .style("font", "14px 'Helvetica Neue'")
+    // .html("<h1>An HTML Foreign Object in SVG</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu enim quam. Quisque nisi risus, sagittis quis tempor nec, aliquam eget neque. Nulla bibendum semper lorem non ullamcorper. Nulla non ligula lorem. Praesent porttitor, tellus nec suscipit aliquam, enim elit posuere lorem, at laoreet enim ligula sed tortor. Ut sodales, urna a aliquam semper, nibh diam gravida sapien, sit amet fermentum purus lacus eget massa. Donec ac arcu vel magna consequat pretium et vel ligula. Donec sit amet erat elit. Vivamus eu metus eget est hendrerit rutrum. Curabitur vitae orci et leo interdum egestas ut sit amet dui. In varius enim ut sem posuere in tristique metus ultrices.<p>Integer mollis massa at orci porta vestibulum. Pellentesque dignissim turpis ut tortor ultricies condimentum et quis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod lorem vulputate dui pharetra luctus. Sed vulputate, nunc quis porttitor scelerisque, dui est varius ipsum, eu blandit mauris nibh pellentesque tortor. Vivamus ultricies ante eget ipsum pulvinar ac tempor turpis mollis. Morbi tortor orci, euismod vel sagittis ac, lobortis nec est. Quisque euismod venenatis felis at dapibus. Vestibulum dignissim nulla ut nisi tristique porttitor. Proin et nunc id arcu cursus dapibus non quis libero. Nunc ligula mi, bibendum non mattis nec, luctus id neque. Suspendisse ut eros lacus. Praesent eget lacus eget risus congue vestibulum. Morbi tincidunt pulvinar lacus sed faucibus. Phasellus sed vestibulum sapien.");
+
+
+    //this part dosen't work with pdf-viewer
+
+    // this.svg.append("foreignObject")
+    // .attr('y',200)
+    // .attr("width", 800)
+    // .attr("height", 480)
+    // .append("xhtml:pdf-viewer")
+    // .style("display", "block")
+    // .attr("src", this.pdfSrc)
+    // // .attr('ng-reflect-src', 'https://cors-anywhere.herokuap')
+    // .attr("render-text", true)
+    // // .attr('ng-reflect-render-text',true)
+    // .attr("page", "21")
+    // // .attr('ng-reflect-page', '21')
+    // // .attr('ng-reflect-zoom', '0.5')
+    // // .attr('ng-reflect-show-all', false)
+    // // .src(this.pdfSrc)
+
+    var element = document.getElementsByTagName("pdf-viewer")[0];
+    // element.addEventListener("change", this.restart);
+    // element.setAttribute('zoom', '0.2');
+    // element.addEventListener("change", this.restart);
+    
+    console.log(element);
 
 
 // refresh after each mousedown and mouseup
@@ -560,6 +618,8 @@ delayNavigation() {
 var offset = 0;
 
 var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+
+this.pageNumber = this.svg.attr("page");
 
 this.svg  = buildMap[0];
 
