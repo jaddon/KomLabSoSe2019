@@ -33,3 +33,6 @@
   ::ng-deep svg:not(.active):not(.ctrl) {
     cursor: crosshair;
   }
+
+
+

@@ -266,9 +266,11 @@ this.gImage.merge(this.gImage);
 this.linkword = buildMap[6];
 this.linkword.merge(this.linkword);
 
-
 this.routerLink = buildMap[8];
 console.log(this.routerLink);
+
+
+
 
 this.router.navigate[this.routerLink];
   }

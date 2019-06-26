@@ -2,26 +2,26 @@ import { Component, ElementRef, ViewChild, OnInit, DoCheck } from '@angular/core
 import * as d3 from 'd3';
 import {style} from '@angular/animations';
 // import { svg } from 'd3';
-import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './page2.json';
+import json from './modify2.json';
+import { ModifyMapService } from '../modifyMap.service';
 
 
 @Component({
-  selector: 'app-page2',
-  templateUrl: './page2.component.html',
-  styleUrls: ['./page2.component.css'],
-  providers: [BuildMapService],
+  selector: 'app-modify2',
+  templateUrl: './modify2.component.html',
+  styleUrls: ['./modify2.component.css'],
+  providers: [ModifyMapService],
 })
-export class Page2Component implements OnInit{
+export class Modify2Component implements OnInit{
 
   pageNumber : number = 5;
 
   pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
 
-  constructor(private buildMapService: BuildMapService, private router: Router){
+  constructor(private modifyMapService: ModifyMapService, private router: Router){
   }
 
 
@@ -342,9 +342,9 @@ export class Page2Component implements OnInit{
     // (<HTMLInputElement>document.getElementById('slider')).onchange = this.restart;
 
 
-  var svgArray = this.buildMapService.initSvg(this.svg, this.width, this.height, this.path, this.circle, this.linkword, this.glossary, this.gText, this.gImage, this.sliderCircle, this.circleNextMap, this.toNextMapRect, this.linkwords, this.toNextMapButton);
+  var svgArray = this.modifyMapService.initSvg(this.svg, this.width, this.height, this.path, this.circle, this.linkword, this.glossary, this.gText, this.gImage, this.sliderCircle, this.circleNextMap, this.toNextMapRect, this.linkwords, this.toNextMapButton);
 
-  //  this.svg = this.buildMapService.initSvg(this.svg, this.width, this.height)
+  //  this.svg = this.modifyMapService.initSvg(this.svg, this.width, this.height)
   this.svg = svgArray[0];
   // add the svg<g> element to group svg shapes together  
   this.path = svgArray[1];
@@ -366,6 +366,10 @@ export class Page2Component implements OnInit{
   .style("strokeWidth", "10px")
   .attr('visibility', 'hidden')
   .on('mousedown', (d)=>{
+
+    if(d3.event.button===0){
+
+
     this.svg.append('rect')
     .attr('class', 'progress')
     .attr('x', '400')
@@ -385,6 +389,9 @@ export class Page2Component implements OnInit{
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
     .text('progress : 0%')
+
+    }
+
   })
   ;
 
@@ -397,25 +404,31 @@ export class Page2Component implements OnInit{
   .style("strokeWidth", "10px")
   .attr('visibility', 'hidden')
   .on('mousedown', (d)=>{
-    this.svg.append('rect')
-    .attr('class', 'progress')
-    .attr('x', '800')
-    .attr('y', '200')
-    .attr('width', '100')
-    .attr('height', '60')
-    .attr('rx', '5')
-    .attr('ry', '5')
-    .style('fill', 'blue')
-    .style('opacity', '0.8');
 
-    this.svg.append('text')
-    .attr('class', 'progress')
-    .attr('x', '850')
-    .attr('y', '210')
-    .attr('fill', 'white')
-    .attr('font-size', '5')
-    .attr('text-anchor', 'middle')
-    .text('progress : 0%')
+    if(d3.event.button===0){
+
+      this.svg.append('rect')
+      .attr('class', 'progress')
+      .attr('x', '800')
+      .attr('y', '200')
+      .attr('width', '100')
+      .attr('height', '60')
+      .attr('rx', '5')
+      .attr('ry', '5')
+      .style('fill', 'blue')
+      .style('opacity', '0.8');
+  
+      this.svg.append('text')
+      .attr('class', 'progress')
+      .attr('x', '850')
+      .attr('y', '210')
+      .attr('fill', 'white')
+      .attr('font-size', '5')
+      .attr('text-anchor', 'middle')
+      .text('progress : 0%')
+
+    }
+
   })
   ;
 
@@ -427,26 +440,10 @@ export class Page2Component implements OnInit{
   .attr('fill','orange')
   .attr('cursor', 'pointer')
   .on('mousedown', (d)=>{
-    // if(this.svg.selectAll('polygon').attr('visibility')==='hidden'){
-    //   this.svg.selectAll('rect.progress').remove();
-    // }
-    this.svg.selectAll('polygon').attr('visibility', this.svg.selectAll('polygon').attr('visibility')==='hidden'?'visible':'hidden')
-    
-// just for decoration
 
-    if(this.svg.select('circle.rotate').attr('cy')==='0'){
-      this.svg.select('circle.rotate')
-      .transition()
-      .duration(1000)
-      .attr('transform', 'rotate(90, 0, 0)');
-      
-    }
-    else{
-      this.svg.select('circle.rotate')
-      .transition()
-      .duration(1000)
-      .attr('transform', 'rotate(-90, 0, 0)');
-    }
+    this.svg.selectAll('polygon').attr('visibility', this.svg.selectAll('polygon').attr('visibility')==='hidden'?'visible':'hidden')
+
+   
 
   })
   .on('mouseup', (d)=>{
@@ -458,26 +455,7 @@ export class Page2Component implements OnInit{
   })
 
 
-  this.svg.append('circle')
-  .attr('class', 'rotate1')
-  .attr('cx', '0')
-  .attr('cy', '0')
-  .attr('r', 50)
-  .attr('fill','red')
-  .on('mousedown', (d)=>{  
-  })
-  .on('mouseup', (d)=>{
-  })
-  ;
-
-  this.svg.append('circle')
-    .attr('class', 'rotate')
-    .attr('cx', '40')
-    .attr('cy', '0')
-    .attr('r', 10)
-    .attr('fill','white')
-    ;
-
+ 
     // this part works with normal html element
 
     // this.svg.append("foreignObject")
@@ -506,19 +484,6 @@ export class Page2Component implements OnInit{
     // // .attr('ng-reflect-show-all', false)
     // // .src(this.pdfSrc)
 
-    var button = this.svg.append("foreignObject")
-    .attr("width", 120)
-    .attr("height", 60)
-    .attr('x', '550')
-    .attr('y', '10')
-    .append('xhtml:div')
-    .attr('class','button')
-    .html('<a href="http://localhost:4200/modify2" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Modify</a>');
-
-
-
-
-
 
 
 // refresh after each mousedown and mouseup
@@ -532,21 +497,23 @@ export class Page2Component implements OnInit{
   mousedown(dataItem: any, value: any, source: any) {
     // when mouse down set this.svg as active
     this.svg.classed('active', true);
+
+    console.log('mousedown');
     
 
     if (this.svg.attr('clickOnNode')==='false') {
         // if click on the same node once again or click on the background, then not zooming
-         this.centered = null;
-         this.selectedNode = null;
-         this.centerx = this.width / 2;
-         this.centery = this.height / 2;
-         this.k = 1;
+        //  this.centered = null;
+        //  this.selectedNode = null;
+        //  this.centerx = this.width / 2;
+        //  this.centery = this.height / 2;
+        //  this.k = 1;
 
 
          
-         this.svg.transition()
-        .duration(750)
-        .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
+        //  this.svg.transition()
+        // .duration(750)
+        // .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
 
 
         this.svg.selectAll('rect.gRect').attr('visibility','hidden');
@@ -563,7 +530,7 @@ export class Page2Component implements OnInit{
 
   mouseup(source: any) {
 
-    console.log('mouseup');
+    // console.log('mouseup');
 
     // when mouseup, set the svg background as inactive
     this.svg.classed('active', false);
@@ -595,9 +562,11 @@ delayNavigation() {
 // refresh function
   restart() {  
 
+    // console.log('restart');
+
 var offset = 0;
 
-var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+var buildMap = this.modifyMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
 
 this.pageNumber = this.svg.attr("page");
 

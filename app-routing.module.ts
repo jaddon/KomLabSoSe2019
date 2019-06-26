@@ -7,6 +7,7 @@ import { MicroMapBasicComponent } from './micro-map-basic/micro-map-basic.compon
 import { SingleChoiceComponent } from './test/singleChoice/singleChoice.component';
 import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
+import { Modify2Component } from './modify2/modify2.component';
 // Create Path Here
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
     {path: 'page1', component: Page1Component},
     {path: 'page2', component: Page2Component},
     {path: 'page3', component: Page3Component},
+    {path: 'modify2', component: Modify2Component},
     {path: 'micro-basic', component: MicroMapBasicComponent},
     {path: 'test/singleChoice', component: SingleChoiceComponent},
 ];

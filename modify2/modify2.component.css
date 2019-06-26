@@ -18,12 +18,12 @@
     cursor: pointer;
   }
 
-  ::ng-deep rect.button {
+  ::ng-deep circle.ball {
+    stroke-width: 1.5px;
     cursor: pointer;
   }
 
-  ::ng-deep circle.ball {
-    stroke-width: 1.5px;
+  ::ng-deep rect.button {
     cursor: pointer;
   }
 
@@ -33,7 +33,6 @@
     stroke-width: 4px;
     cursor: default;
   }
-
 
   ::ng-deep text{
     font: 6px sans-serif;
@@ -46,18 +45,13 @@
   }
 
 
+
   ::ng-deep text.toNext{
     font: 30px sans-serif;
     pointer-events: none;
   }
 
-
+  
   ::ng-deep svg:not(.active):not(.ctrl) {
     cursor: crosshair;
   }
-
-
-
- 
-
-

@@ -47,9 +47,10 @@ export class BuildMapService{
     .attr('height', height)
     .attr('ready', false)
 
-    svg.select('foreignObject').attr('visibility', 'hidden');
+      // var logo = svg. append('image') . attr('xlink:href', 'assets/icon.jpg') . attr('width', 100) . attr('height', 50);
 
-    // var logo = svg. append('image') . attr('xlink:href', 'assets/icon.jpg') . attr('width', 100) . attr('height', 50);
+    svg.select('foreignObject.pdf').attr('visibility', 'hidden');
+  
 
   // arrow styles
     svg.append('svg:defs').append('svg:marker')
@@ -431,7 +432,7 @@ export class BuildMapService{
           .attr('stroke', 'black')
           .on('mousedown', (d)=>{
             d3.select('svg').attr('clickOnNode', 'true');
-            svg.select('foreignObject')
+            svg.select('foreignObject.pdf')
             .attr('visibility','visible')
             .transition()
             .duration(0)
@@ -442,7 +443,7 @@ export class BuildMapService{
             
             // make sure the pdf could be fully shown even if click on node on the left border
             if(d.target.x<150){
-              svg.select('foreignObject')
+              svg.select('foreignObject.pdf')
               .attr('visibility','visible')
               .transition()
               .duration(0)

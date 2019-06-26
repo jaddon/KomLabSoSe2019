@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit{
 
 
   constructor(private router: Router){
-
   }
 
 
@@ -66,7 +65,6 @@ export class HomeComponent implements OnInit{
 
 
   ngOnInit(){
-    
   }
 
 
@@ -75,11 +73,11 @@ export class HomeComponent implements OnInit{
 
 
 
+
     this.svg = d3.select('#graphContainer')
     .attr('oncontextmenu', 'return false;')
     .attr('width', this.width)
     .attr('height', this.height);
-
 
 
   // arrow styles
@@ -120,6 +118,9 @@ export class HomeComponent implements OnInit{
     this.restart();
 
   }
+
+
+
 
   mousedown(dataItem: any, value: any, source: any) {
     // when mouse down set this.svg as active

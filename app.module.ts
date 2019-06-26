@@ -12,6 +12,7 @@ import { SingleChoiceComponent } from './test/singleChoice/singleChoice.componen
 import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { Modify2Component } from './modify2/modify2.component';
 
 
 @NgModule({
@@ -23,13 +24,15 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MicroMapBasicComponent,
     SingleChoiceComponent,
     Page2Component,
-    Page3Component
+    Page3Component,
+    Modify2Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    PdfViewerModule
+    PdfViewerModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
