@@ -4,6 +4,9 @@ import { RouterLink } from '@angular/router';
 
 export class ModifyMapService{
 
+// // store the numbers of ellipse, when create one new node then add one (ignore deleting)
+//   ellipseNumber: any;
+
     // wrap function for automatically breaking lines to fit the text field
   wrap(text: any, width: number) {
 
@@ -23,7 +26,6 @@ export class ModifyMapService{
         
         tspan = text.text(null).append('tspan').attr('x', x).attr('y', y);
   
-        
       while (word = words.pop()) {
         line.push(word);
         const dash = lineNumber > 0 ? '-' : '';
@@ -41,35 +43,7 @@ export class ModifyMapService{
   }
 
 
-  removeNode(id: number){
-
-    d3.selectAll('path.link').filter(function(a,i){
-      var ellipse = d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-        return parseInt(a['id'])===id;
-      }).nodes()[0]
-
-      var x = ellipse['cx']['baseVal']['value'];
-      var y = ellipse['cy']['baseVal']['value'];
-
-
-      console.log(x+' '+y);
-      return (a['source']['x']===x&&a['source']['y']===y)||(a['target']['x']===x&&a['target']['y']===y);
-
-    }).remove();
-
-    d3.selectAll('ellipse.node').filter(function(a,i){
-      return parseInt(a['id'])===id;
-    }).remove();
-
-    d3.selectAll('text.eText').filter(function(a,i){
-      return parseInt(a['id'])===id;
-    }).remove();
-
-    d3.select('g.dropdown').attr('visibility', 'hidden');
-  }
-
-
-  modifyNode(id: number){
+  removeNode(id: number, nodes: any, links: any, glossaries: any, gTexts: any){
 
     var ellipse = d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
       return parseInt(a['id'])===id;
@@ -78,8 +52,94 @@ export class ModifyMapService{
     var x = ellipse['cx']['baseVal']['value'];
     var y = ellipse['cy']['baseVal']['value'];
 
+    var text;
+
+    for(var i = 0;i<nodes.length;i++){
+      if(parseInt(nodes[i]['id'])===id){
+        text=nodes[i]['text'];
+      }
+    }
+  
+    // remove connected links
+    for(var i = 0;i<links.length;i++){
+
+      for(var t = 0;t<nodes.length;t++){
+
+      var nodeId = nodes[t]['id'];
+
+        for(var j =0;j<links.length;j++){
+          if(links[j]['id'].split(' ')[0]===('a'+nodeId)){
+            links[j]['source']=nodes[t];
+          }
+          else if(links[j]['id'].split(' ')[1]===('a'+nodeId)){
+            links[j]['target']=nodes[t];
+          }
+
+          if((links[j]['id'].split(' ')[0].includes('a'))&&(links[j]['source']['id']===id)
+            ||(links[j]['id'].split(' ')[1].includes('a'))&&(links[j]['target']['id']===id)
+        ){   
+            links.splice(j,1);
+          }
+        }
+    }
+  }
+
+
+// remove node
+    for(var i = 0;i<nodes.length;i++){
+      if(parseInt(nodes[i]['id'])===id){
+        nodes.splice(i,1);
+      }
+    }
+// remove glossary and text conten in glossary
+      for(var i = 0;i<glossaries.length;i++){
+      if(parseInt(glossaries[i]['id'])===id){
+        glossaries.splice(i,1);
+      }
+    }
+    for(var i = 0;i<gTexts.length;i++){
+      if(parseInt(gTexts[i]['id'])===id){
+        gTexts.splice(i,1);
+      }
+    }
+
+    console.log(gTexts)
+    console.log(glossaries)
+    console.log(nodes)
+
+
+    d3.select('g.dropdown').attr('visibility', 'hidden');
+  }
+
+
+  modifyNode(id: number, nodes: any){
+
+    console.log(id)
+
+    // var ellipse = d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+    //   return parseInt(a['id'])===id;
+    // }).nodes()[0]
+
+    // var x = ellipse['cx']['baseVal']['value'];
+    // var y = ellipse['cy']['baseVal']['value'];
+    var x;
+    var y;
+
+    for(var i = 0;i<nodes.length;i++){
+      if(nodes[i]['id']===id){
+        x=parseInt(nodes[i]['x']);
+        y=parseInt(nodes[i]['y']);
+      }
+    }
+
    
-    var inputField = d3.select('svg').append("foreignObject")
+    var g = d3.select('svg').append('svg:g')
+    .attr('class', 'modify')
+    .attr('x',x)
+    .attr('y',y)
+    .attr('visibility', 'visible')
+
+    var inputField = g.append("foreignObject")
     .attr('class','modify')
     .attr("width", 80)
     .attr("height", 50)
@@ -94,7 +154,7 @@ export class ModifyMapService{
     .attr('id',100)
     ;
 
-    var inputButton = d3.select('svg').append("foreignObject")
+    var inputButton = g.append("foreignObject")
     .attr('class','modify')
     .attr("width", 60)
     .attr("height", 35)
@@ -109,21 +169,23 @@ export class ModifyMapService{
       // get input value from input field, warning could be ignored
       var textNew = document.getElementById('100').value;
 
-      document.getElementById(id.toString()).textContent=textNew;
+      document.querySelectorAll('[id^="eText'+id.toString()+'"]')[0].textContent=textNew;
 
-      
-      // d3.select('svg').append('svg:text')
-      // .attr('class', 'eTextNew')
-      // .attr('id', id)
-      // .attr('x', (d) => x)
-      // .attr('y', (d) => y)
-      // .attr('fill', 'white')
-      // .attr('font-size', '5')
-      // .attr('text-anchor', 'middle')
-      // .text((d) => text);
+      // document.getElementById(id.toString()).textContent=textNew;
+
+      var index;
+
+      for(var i=0;i<nodes.length;i++){
+        if(nodes[i]['id']===id){
+            index=i;
+        }
+      }
+
+      nodes[index]['text'] = textNew;
 
      inputField.remove();
      inputButton.remove();
+     d3.select('svg').select('g.modify').remove();
 
     })
    
@@ -131,7 +193,7 @@ export class ModifyMapService{
 
   }
 
-  draggingNode(id: number){
+  draggingNode(id: number, nodes: any){
     var ellipse = d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
       return parseInt(a['id'])===id;
     })
@@ -139,62 +201,73 @@ export class ModifyMapService{
     var x = ellipse.attr('cx');
     var y = ellipse.attr('cy');
 
+    var gRect = d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    })
+
+    var gText = d3.select('svg').selectAll('text.gText').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    })
+
+    var gImage = d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    })
+
+
     var w = d3.select(window)
     .on("mousemove", (d)=>{
 
-    for(var i = 0; i<document.querySelectorAll('[id^="'+x+','+y+'"]').length; i++){
-      // console.log(document.querySelectorAll('[id^="400,70"]')[i].getAttribute('d'));
 
-      var dOld = document.querySelectorAll('[id^="'+x+','+y+'"]')[i].getAttribute('d');
+  // change d attribute of connected path to set them to point to new position of dragged node
+    for(var i = 0; i<document.querySelectorAll('[id^="a'+id.toString()).length; i++){
+
+      var dOld = document.querySelectorAll('[id^="a'+id.toString())[i].getAttribute('d');
       var dNew = 'M'+d3.event.x+','+(d3.event.y-110)+'L'+dOld.split('L')[1];
-      document.querySelectorAll('[id^="'+x+','+y+'"]')[i].setAttribute('d',dNew)
+      document.querySelectorAll('[id^="a'+id.toString())[i].setAttribute('d',dNew)
+
       // console.log(dNew);
     }
 
-    for(var i = 0; i<document.querySelectorAll('[id$="'+x+','+y+'"]').length; i++){
-      // console.log(document.querySelectorAll('[id^="400,70"]')[i].getAttribute('d'));
+    for(var i = 0; i<document.querySelectorAll('[id$="a'+id.toString()).length; i++){
 
-      var dOld = document.querySelectorAll('[id$="'+x+','+y+'"]')[i].getAttribute('d');
+      var dOld = document.querySelectorAll('[id$="a'+id.toString())[i].getAttribute('d');
       var dNew = dOld.split('L')[0]+'L'+d3.event.x+','+(d3.event.y-110);
-      document.querySelectorAll('[id$="'+x+','+y+'"]')[i].setAttribute('d',dNew)
-      // console.log(dNew);
+      document.querySelectorAll('[id$="a'+id.toString())[i].setAttribute('d',dNew)
+    }  
+
+
+
+
+    for(var i = 0;i<nodes.length;i++){
+      if(parseInt(nodes[i]['id'])===id){
+        nodes[i]['x']=d3.event.x;
+        nodes[i]['y']=(d3.event.y-110);
+      }
     }
-
-    // console.log(document.querySelectorAll('[id^="400,70"]')[0])
-
-
-
-    // var path = document.getElementById(sourceText+id.toString());
-    // console.log(path);
-
-      // d3.selectAll('path.link').filter(function(a,i){
-      //   var ellipse = d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-      //     return parseInt(a['id'])===id;
-      //   }).nodes()[0]
-  
-      //   var x = ellipse['cx']['baseVal']['value'];
-      //   var y = ellipse['cy']['baseVal']['value'];
-  
-  
-      //   console.log(x+' '+y);
-      //   return (a['source']['x']===x&&a['source']['y']===y)||(a['target']['x']===x&&a['target']['y']===y);
-  
-      // }).remove();
-      
-
-
 
       ellipse
       .attr('cx',d3.event.x)
       .attr('cy',d3.event.y-110)
       .attr('opacity','0.6');
 
+      gRect
+      .attr('x',d3.event.x)
+      .attr('y',d3.event.y-110);
+
+      gText
+      .attr('x',d3.event.x+10)
+      .attr('y',d3.event.y-100)
+      .call(this.wrap,40)
+      ;
+
+      gImage
+      .attr('x',d3.event.x+10)
+      .attr('y',d3.event.y-50);
+
       d3.select('svg').selectAll('text.eText').filter(function(a,i){
         return parseInt(a['id'])===id;})
         .attr('x',d3.event.x)
         .attr('y',d3.event.y-110)
-
-
 
         d3.select('g.dropdown').attr('visibility', 'hidden');
 
@@ -209,12 +282,6 @@ export class ModifyMapService{
       w.on("mousemove", null).on("mouseup", null);
       
     })
-
-
-    // d3.select('svg').select('ellipse.node').on('mousemmove',(d)=>{
-    //   d3.select('svg').select('ellipse.node').attr('cx',d3.event.x)
-    //   .attr('opacity','0.6')
-    // })
   }
 
   initSvg(svg, width, height, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect, linkwords, toNextMapButton) : any[]{
@@ -223,6 +290,8 @@ export class ModifyMapService{
     .attr('width', width)
     .attr('height', height)
     .attr('ready', false)
+    // store the total number of ellipse to give id for new created ellipse (ignore delete action)
+    .attr('nodeTotalNumber', 0);
 
      // var logo = svg. append('image') . attr('xlink:href', 'assets/icon.jpg') . attr('width', 100) . attr('height', 50);
 
@@ -276,51 +345,61 @@ export class ModifyMapService{
 
 
 
-// link word should only be created once, therefore moved into ngAfterInit 
-       // create link words
-       linkword = linkword.data(linkwords, (d) => d.id);
-       linkword.exit().remove();
-       // const g1 = linkword.enter().append('svg:g');
+// // link word should only be created once, therefore moved into ngAfterInit 
+//        // create link words
+//        linkword = linkword.data(linkwords, (d) => d.id);
+//       //  linkword.exit().remove();
+//        // const g1 = linkword.enter().append('svg:g');
+
+
+//        const gLinkWord = linkword.enter()
+//        .append('svg:g')
+//        .attr('class', 'linkword')
+//        .attr('x', (d) => d.x)
+//        .attr('y', (d) => d.y)
+//        .attr('length', (d) => d.text.length)
+
+//        linkword = gLinkWord.merge(linkword);
       
-       linkword = linkword.enter()
-       .append('svg:g')
-       .attr('class', 'linkword')
-       .attr('x', (d) => d.x)
-       .attr('y', (d) => d.y)
-       .attr('length', (d) => d.text.length)
-       .merge(linkword)
-       ;
+//       //  linkword = linkword.enter()
+//       //  .append('svg:g')
+//       //  .attr('class', 'linkword')
+//       //  .attr('x', (d) => d.x)
+//       //  .attr('y', (d) => d.y)
+//       //  .attr('length', (d) => d.text.length)
+//       //  .merge(linkword)
+//       //  ;
    
-       svg.selectAll('g.linkword')
-       .append('svg:ellipse')
-       .attr('class', 'linkword')
-       .attr('cx', (d) => d.x )
-       .attr('cy', (d) => d.y-1 )
-       .attr('rx', '10')
-       .attr('ry', '7')
-       .attr('fill', 'lightgrey')
-       ;
+//        svg.selectAll('g.linkword')
+//        .append('svg:ellipse')
+//        .attr('class', 'linkword')
+//        .attr('cx', (d) => d.x )
+//        .attr('cy', (d) => d.y-1 )
+//        .attr('rx', '10')
+//        .attr('ry', '7')
+//        .attr('fill', 'lightgrey')
+//        ;
       
-       svg.selectAll('g.linkword')
-       .append('svg:text')
-       .attr('class', 'linkword')
-       .attr('x', (d) => d.x)
-       .attr('y', (d) => d.y)
-       .attr('fill', 'red')
-       .attr('font-size', '5')
-       .attr('text-anchor', 'middle')
-       .text((d) => d.text)
-       ;
+//        svg.selectAll('g.linkword')
+//        .append('svg:text')
+//        .attr('class', 'linkword')
+//        .attr('x', (d) => d.x)
+//        .attr('y', (d) => d.y)
+//        .attr('fill', 'red')
+//        .attr('font-size', '5')
+//        .attr('text-anchor', 'middle')
+//        .text((d) => d.text)
+//        ;
 
 
-    //  console.log(linkwords.length);
-    for(var id = 0;id<parseInt(linkwords.length);id++){
-      var textLength = svg.selectAll('g.linkword').filter(function(a,i){
-       return i===id}).attr('length');
-      //  console.log(parseInt(textLength)+1);
-       svg.selectAll('ellipse.linkword').filter(function(a,i){
-        return i===id;}).attr('rx', parseInt(textLength)*2+3)
-    }
+//     //  console.log(linkwords.length);
+//     for(var id = 0;id<parseInt(linkwords.length);id++){
+//       var textLength = svg.selectAll('g.linkword').filter(function(a,i){
+//        return i===id}).attr('length');
+//       //  console.log(parseInt(textLength)+1);
+//        svg.selectAll('ellipse.linkword').filter(function(a,i){
+//         return i===id;}).attr('rx', parseInt(textLength)*2+3)
+//     }
 
 
 
@@ -465,13 +544,15 @@ export class ModifyMapService{
    .attr('visibility', 'hidden')
    ;
 
-   var button4 = create.append("foreignObject")
-   .attr('class','create1')
+  var button4 = create.append("foreignObject")
+  .attr('class','create1')
   .attr("width", 80)
   .attr("height", 35)
   .attr('x', '0')
   .attr('y', '0')
-  .append('xhtml:div')
+  
+
+  button4.append('xhtml:div')
   .attr('class','button')
   .html('<button type="button" class="btn btn-primary btn-sm">concept</button>')
 
@@ -485,6 +566,15 @@ export class ModifyMapService{
   .attr('class','button')
   .html('<button type="button" class="btn btn-primary btn-sm">linkword</button>')
 
+   // input for enter the text in ellipse
+   var eInput = svg.append('svg:g')
+   .attr('class','create')
+   .attr('x', '0')
+   .attr('y', '0')
+   .style('cursor', 'pointer')
+   .attr('visibility', 'hidden')
+   ;
+
 
 
     return [svg, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect];
@@ -493,6 +583,10 @@ export class ModifyMapService{
 
 
   buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset) : any[]{
+
+    d3.select('svg').attr('nodeTotalNumber',(d)=>{
+      return nodes.length;
+    })
     
     // svg.select('text.toNext').attr('font-size', '30px')
     // .attr('visibility', (d)=>{
@@ -501,23 +595,27 @@ export class ModifyMapService{
     
     
     // bind the paths with data
-    path = path.data(links);
+     path = path.data(links,(d)=>d.id);
     // bind the white rectangulars with data
-        glossary = glossary.data(glossaries);
+        glossary = glossary.data(glossaries,(d)=>d.id);
     
-        gText = gText.data(gTexts);
+        gText = gText.data(gTexts,(d)=>d.id);
     
-        gImage = gImage.data(gTexts);
+        gImage = gImage.data(gTexts,(d)=>d.id);
     
+        linkword = linkword.data(linkwords,(d)=>d.id);
     
         path.exit().remove();
+
+
+        const gPath = path.enter().append('svg:g');
     
       // create paths
-      path = path
-      .enter()
+      gPath
       .append('svg:path')
       .attr('class', 'link')
-      .attr('id', (d)=>d.source.x.toString()+','+d.source.y.toString()+' '+d.target.x.toString()+','+d.target.y.toString())
+      .attr('id',(d)=>d.id)
+      // .attr('id', (d)=>d.source.x.toString()+','+d.source.y.toString()+' '+d.target.x.toString()+','+d.target.y.toString())
       .attr('source', (d)=>d.source)
       .attr('target', (d)=>d.target)
       .attr('sourceX',(d)=>d.source.x)
@@ -551,8 +649,12 @@ export class ModifyMapService{
       // set arrow style
       .style('marker-start', (d) => d.left ? 'url(#start-arrow)' : '')
       .style('marker-end', (d) => d.right ? 'url(#end-arrow)' : '')
-      .merge(path);
+      // .merge(path);
     
+      path = gPath.merge(path);
+      path.exit().remove();
+
+
    
     // bind the circle with data
       circle = circle.data(nodes, (d) => d.id);
@@ -593,7 +695,7 @@ export class ModifyMapService{
     .attr('ry', 16)
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
-    .attr('idFix', (d)=> d.id)
+    .attr('id', (d)=> d.id)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
     .style('fill', (d) => 
     {
@@ -626,7 +728,7 @@ export class ModifyMapService{
     .attr('class', 'eText')
     .attr('x', (d) => d.x)
     .attr('y', (d) => d.y)
-    .attr('id',(d) => d.id)
+    .attr('id',(d) => 'eText'+d.id.toString())
     .attr('fill', 'white')
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
@@ -650,10 +752,11 @@ export class ModifyMapService{
     circle.exit().remove();
     
     glossary.exit().remove();
+
+    const gGlossary = glossary.enter().append('svg:g');
     
     
-        glossary = glossary
-          .enter()
+        gGlossary
           .append('svg:rect')
           .attr('class', 'gRect')
           .attr('x', (d) => { if(d.target.x+60<=svg.attr('width')){
@@ -673,6 +776,7 @@ export class ModifyMapService{
           .attr('width', '60')
           .attr('height', '80')
           .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
+          .attr('id',(d)=>d.id)
           .attr('stroke', 'black')
           .on('mousedown', (d)=>{
    
@@ -707,8 +811,10 @@ export class ModifyMapService{
 
             
           })
-          .merge(glossary)
+          // .merge(glossary)
           ;
+
+          glossary = gGlossary.merge(glossary)
           
           gText.exit().remove();
     
@@ -733,6 +839,7 @@ export class ModifyMapService{
      else{
          return d.target.y-70;
      }})
+    .attr('id',(d)=>d.id)
     .attr('fill', 'black')
     .attr('font-size', '4')
     .attr('text-anchor', 'left')
@@ -767,6 +874,65 @@ export class ModifyMapService{
     .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
     .merge(gImage)
     ;
+
+
+    //todo
+
+// link word should only be created once, therefore moved into ngAfterInit 
+       // create link words
+      //  linkword.exit().remove();
+       // const g1 = linkword.enter().append('svg:g');
+
+
+       const gLinkWord = linkword.enter()
+       .append('svg:g')
+       .attr('class', 'linkword')
+       .attr('x', (d) => d.x)
+       .attr('y', (d) => d.y)
+       .attr('length', (d) => d.text.length)
+
+       linkword = gLinkWord.merge(linkword);
+      
+      //  linkword = linkword.enter()
+      //  .append('svg:g')
+      //  .attr('class', 'linkword')
+      //  .attr('x', (d) => d.x)
+      //  .attr('y', (d) => d.y)
+      //  .attr('length', (d) => d.text.length)
+      //  .merge(linkword)
+      //  ;
+   
+       gLinkWord
+       .append('svg:ellipse')
+       .attr('class', 'linkword')
+       .attr('cx', (d) => d.x )
+       .attr('cy', (d) => d.y-1 )
+       .attr('rx', '10')
+       .attr('ry', '7')
+       .attr('fill', 'lightgrey')
+       ;
+      
+       gLinkWord
+       .append('svg:text')
+       .attr('class', 'linkword')
+       .attr('x', (d) => d.x)
+       .attr('y', (d) => d.y)
+       .attr('fill', 'red')
+       .attr('font-size', '5')
+       .attr('text-anchor', 'middle')
+       .text((d) => d.text)
+       ;
+
+
+    //  console.log(linkwords.length);
+    for(var id = 0;id<parseInt(linkwords.length);id++){
+      var textLength = svg.selectAll('g.linkword').filter(function(a,i){
+       return i===id}).attr('length');
+      //  console.log(parseInt(textLength)+1);
+       svg.selectAll('ellipse.linkword').filter(function(a,i){
+        return i===id;}).attr('rx', parseInt(textLength)*2+3)
+    }
+
     
     
 // start state
@@ -853,6 +1019,7 @@ export class ModifyMapService{
                  // right click
                  if(d3.event.button===2){
                     svg.select('g.dropdown').attr('visibility','visible')
+                    svg.selectAll('g.modify').attr('visibility','hidden')
                     .attr('x', d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
                       // console.log(d);
                       // console.log(a);
@@ -869,6 +1036,8 @@ export class ModifyMapService{
                       .attr('nodeId',d['id'])
                       .on('mousedown', (d)=>{
 
+                        d3.select('svg').select('g.create').attr('visibility','hidden');
+
                         // // get cy of the clicked ellipse
                         // var y = d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
                         //   var id = parseInt(d3.select('foreignObject.dropdown3').attr('nodeId'));
@@ -876,30 +1045,31 @@ export class ModifyMapService{
                         // }).nodes()[0]['cy']['baseVal']['value']
 
 
-                        console.log(d3.event['path'][2]['y']['baseVal']['value'])
+                        // console.log(d3.event['path'][2]['y']['baseVal']['value'])
 
-                        console.log(d3.select('foreignObject.dropdown3').attr('y'))
+                        // console.log(d3.select('foreignObject.dropdown3').attr('y'))
 
 
 
                         // if click on delete button
                         if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown3').attr('y'))){
                           var id = parseInt(d3.select('foreignObject.dropdown3').attr('nodeId'));
-                          this.removeNode(id);
+
+                          this.removeNode(id, nodes, links, glossaries, gTexts);
                         }
                         
                         // if click on modify
                         else if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown2').attr('y'))){
                           // console.log('modify')
                           var id = parseInt(d3.select('foreignObject.dropdown3').attr('nodeId'));
-                          this.modifyNode(id);
+                          this.modifyNode(id, nodes);
 
                         }
 
                         // if click on dragging button
                         else if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown1').attr('y'))) {
                           var id = parseInt(d3.select('foreignObject.dropdown3').attr('nodeId'));
-                          this.draggingNode(id);
+                          this.draggingNode(id, nodes);
 
                         }
 
@@ -1127,19 +1297,83 @@ export class ModifyMapService{
       if(d3.event.button===0){
         if(d3.event.path.length===8){
           d3.select('g.dropdown').attr('visibility','hidden');
+          d3.select('g.create').attr('visibility','hidden');
+          d3.selectAll('g.modify').remove();
         }
       }
 
     })
     .on('contextmenu',(d)=>{
 
-      // if(d3.event.path.length===8){
-      //     d3.select('g.create').attr('visibility','visible')
-      //     d3.select('foreignObject.create1').attr('x',d3.event.x-14)
-      //     .attr('y',d3.event.y-120);
-      //     d3.select('foreignObject.create2').attr('x',d3.event.x-14)
-      //     .attr('y',d3.event.y-85);
-      // }
+
+      console.log(gTexts)
+
+      // console.log(d3.event.path.length)
+      d3.select('svg').select('g.create').attr('visibility','hidden')
+
+
+      if(d3.event.path.length<=8){
+        d3.select('svg').select('g.dropdown').attr('visibility','hidden')
+        d3.selectAll('g.modify').remove()
+          d3.select('g.create').attr('visibility','visible')
+          d3.select('foreignObject.create1').attr('x',d3.event.x-14)
+          .attr('y',d3.event.y-120);
+          d3.select('foreignObject.create2').attr('x',d3.event.x-14)
+          .attr('y',d3.event.y-85);
+
+          d3.select('svg').select('foreignObject.create1')
+          .on('mousedown',(d)=>{
+
+            d3.select('svg').attr('nodeTotalNumber', (d)=>{
+              return parseInt(d3.select('svg').attr('nodeTotalNumber'))+1;
+            })
+
+            var id = parseInt(nodes.length);
+
+            nodes.push({id: parseInt(nodes.length), text: "", x: d3.select('foreignObject.create1')
+            .attr('x'), y: d3.select('foreignObject.create1')
+            .attr('y'), reflexive: true});
+
+            glossaries.push({id: id,
+              target: nodes[id],
+              hidden: true,
+              width: 60,
+              height: 80,
+              page: '1'
+            })
+
+            gTexts.push({id: id,
+              target: nodes[id],
+              hidden: true,
+              page: '1'
+            })
+
+            d3.select('svg').select('g.create').attr('visibility','hidden')
+
+            // input the text in created ellipse
+            this.modifyNode(id, nodes);
+          })
+
+
+          d3.select('svg').select('foreignObject.create2')
+          .on('mousedown',(d)=>{
+
+            var idLinkWord = parseInt(linkwords.length);
+
+            linkwords.push({id: parseInt(linkwords.length), text: "default", x: parseInt(d3.select('foreignObject.create1')
+            .attr('x')), 
+            y: parseInt(d3.select('foreignObject.create1')
+            .attr('y'))});
+
+            d3.select('svg').select('g.create').attr('visibility','hidden')
+
+            console.log(linkwords)
+
+
+          }
+        )
+          
+      }
       
     })
 

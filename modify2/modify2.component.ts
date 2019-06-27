@@ -39,7 +39,8 @@ export class Modify2Component implements OnInit{
 
     var temp = json.links;
     for(var i = 0; i<temp.length; i++){
-      var link = {"source":null, "target":null, "left": false, "right": true};
+      var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
+      link.id = temp[i].id;
       if(temp[i].source.includes("nodes["))
       {
         // console.log(temp[i]);
@@ -85,8 +86,9 @@ export class Modify2Component implements OnInit{
 
     var temp2 = json.glossaries;
     for(var i = 0; i<temp2.length; i++){
-      var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
+      var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null, 'id': null};
       glossary.page = temp2[i].page;
+      glossary.id = temp2[i].id;
       if(temp2[i].target.includes("nodes["))
       {
         // console.log(temp[i]);
@@ -105,8 +107,9 @@ export class Modify2Component implements OnInit{
     }
     var temp3 = json.gTexts;
     for(var i = 0; i<temp3.length; i++){
-      var gText = {"text":null, "target":null, "hidden": true, "page": null};
+      var gText = {"text":null, "target":null, "hidden": true, "page": null, 'id': null};
       gText.page = temp3[i].page;
+      gText.id = temp3[i].id;
       if(temp3[i].target.includes("nodes["))
       {
         // console.log(temp[i]);
