@@ -280,9 +280,14 @@ export class ModifyMapService{
       })
       .attr('opacity','1');
       w.on("mousemove", null).on("mouseup", null);
+
+      console.log('x'+d3.event.x+' '+'y'+(d3.event.y-110));
       
     })
   }
+
+
+
 
   initSvg(svg, width, height, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect, linkwords, toNextMapButton) : any[]{
     svg = d3.select('svg')
@@ -339,70 +344,6 @@ export class ModifyMapService{
     gText = svg.append('svg:g').selectAll('text.gText')
     gImage = svg.append('svg:g').selectAll('image.gImage');
     ;
-
-
-
-
-
-
-// // link word should only be created once, therefore moved into ngAfterInit 
-//        // create link words
-//        linkword = linkword.data(linkwords, (d) => d.id);
-//       //  linkword.exit().remove();
-//        // const g1 = linkword.enter().append('svg:g');
-
-
-//        const gLinkWord = linkword.enter()
-//        .append('svg:g')
-//        .attr('class', 'linkword')
-//        .attr('x', (d) => d.x)
-//        .attr('y', (d) => d.y)
-//        .attr('length', (d) => d.text.length)
-
-//        linkword = gLinkWord.merge(linkword);
-      
-//       //  linkword = linkword.enter()
-//       //  .append('svg:g')
-//       //  .attr('class', 'linkword')
-//       //  .attr('x', (d) => d.x)
-//       //  .attr('y', (d) => d.y)
-//       //  .attr('length', (d) => d.text.length)
-//       //  .merge(linkword)
-//       //  ;
-   
-//        svg.selectAll('g.linkword')
-//        .append('svg:ellipse')
-//        .attr('class', 'linkword')
-//        .attr('cx', (d) => d.x )
-//        .attr('cy', (d) => d.y-1 )
-//        .attr('rx', '10')
-//        .attr('ry', '7')
-//        .attr('fill', 'lightgrey')
-//        ;
-      
-//        svg.selectAll('g.linkword')
-//        .append('svg:text')
-//        .attr('class', 'linkword')
-//        .attr('x', (d) => d.x)
-//        .attr('y', (d) => d.y)
-//        .attr('fill', 'red')
-//        .attr('font-size', '5')
-//        .attr('text-anchor', 'middle')
-//        .text((d) => d.text)
-//        ;
-
-
-//     //  console.log(linkwords.length);
-//     for(var id = 0;id<parseInt(linkwords.length);id++){
-//       var textLength = svg.selectAll('g.linkword').filter(function(a,i){
-//        return i===id}).attr('length');
-//       //  console.log(parseInt(textLength)+1);
-//        svg.selectAll('ellipse.linkword').filter(function(a,i){
-//         return i===id;}).attr('rx', parseInt(textLength)*2+3)
-//     }
-
-
-
 
 // create slider bar
     var data = [1,2,3];
@@ -575,14 +516,16 @@ export class ModifyMapService{
    .attr('visibility', 'hidden')
    ;
 
-
-
     return [svg, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect];
     
   }
 
 
   buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset) : any[]{
+
+
+    d3.selectAll('path.temp').remove();
+
 
     d3.select('svg').attr('nodeTotalNumber',(d)=>{
       return nodes.length;
@@ -622,29 +565,9 @@ export class ModifyMapService{
       .attr('sourceY',(d)=>d.source.y)
       .attr('targetX',(d)=>d.target.x)
       .attr('targetY',(d)=>d.target.y)
-      .attr('d', (d) => {
-        const deltaX = d.target.x - d.source.x;
-        const deltaY = d.target.y - d.source.y;
-        const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        const normX = deltaX / dist;
-        const normY = deltaY / dist;
-        const xy = Math.abs(deltaX / deltaY);
-        let sourcePadding = 8;
-    
-        let targetPadding = 0;
-    
-        targetPadding = 0;
-        sourcePadding = 0;
-        
-    
-    
-        // const targetPadding = d.right ? 27-0.5*(2-xy) : 17-0.5*(2-xy);
-        const sourceX = d.source.x ;
-        const sourceY = d.source.y ;
-        const targetX = d.target.x ;
-        const targetY = d.target.y ;
+      .attr('d', (d) => {     
     // calculate the d attribute for path
-        return `M${sourceX},${sourceY}L${targetX},${targetY}`;
+        return `M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`;
       })
       // set arrow style
       .style('marker-start', (d) => d.left ? 'url(#start-arrow)' : '')
@@ -672,8 +595,8 @@ export class ModifyMapService{
 
     gNextMap.append('svg:ellipse')
     .attr('class', 'nodeNextMap')
-    .attr('rx', 34)
-    .attr('ry', 16)
+    .attr('rx', 55)
+    .attr('ry', 20)
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
@@ -691,8 +614,8 @@ export class ModifyMapService{
     // create ellipses
     g.append('svg:ellipse')
     .attr('class', 'node')
-    .attr('rx', 34)
-    .attr('ry', 16)
+    .attr('rx', 55)
+    .attr('ry', 20)
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
     .attr('id', (d)=> d.id)
@@ -703,7 +626,25 @@ export class ModifyMapService{
     }
     )
     .style('stroke', (d) => (!d.reflexive) ? 'black' : 'white')
-    .on('mousedown', (d) => {
+    .on('mouseover', (d)=>{
+      d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+        return a['id']===d.id;
+      })
+      .style('fill','lightgreen')
+
+    // store the destination for new generated path
+      d3.select('svg').attr('endNodeId',d.id)
+    })
+    .on('mouseout', (d)=>{
+      d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+        return a['id']===d.id;
+      })
+      .style('fill','green');
+
+      d3.select('svg').attr('endNodeId',null)
+    })
+
+   .on('mousedown', (d) => {
 
     if(d3.event.button===0){
       // this code is needed for initialize the mousedown function before dragging the slider bar
@@ -717,10 +658,162 @@ export class ModifyMapService{
       else{    
       }
         }
+  })
+  .call(d3.drag()
+  .on('start',function(d) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this)
+    .classed("dragging", true);
 
+    d3.select('svg')
+    .append('svg:path')
+    .attr('class', 'dragLine')
+    .attr('sourceX',(d)=>d3.event.x)
+    .attr('sourceY',(d)=>d3.event.y)
+    .attr('targetX',(d)=>d3.event.x)
+    .attr('targetY',(d)=>d3.event.y)
+    .attr('d', (d) => {     
+  // calculate the d attribute for path
+      return `M${d3.event.x},${(d3.event.y)}L${d3.event.x},${d3.event.y}`;
+    })
     
-     
-  });
+    // d3.select('svg').attr('drag',true);
+
+    d3.select('svg').attr('startNodeId',this.id);
+
+  })
+  .on('drag',function(d) {
+    d3.select('path.dragLine')
+    .attr('sourceX',(d)=>d3.select(this).attr('cx'))
+    .attr('sourceY',(d)=>d3.select(this).attr('cy'))
+    .attr('targetX',(d)=>d3.event.x)
+    .attr('targetY',(d)=>d3.event.y)
+    .attr('d', (d) => {     
+      // calculate the d attribute for path
+          return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${d3.event.x},${d3.event.y}`;
+        })
+      // set arrow style
+      .style('marker-end', 'url(#end-arrow)');
+
+
+  })
+  .on('end', function(d) {
+    d3.select(this).classed("dragging", false);
+
+    var targetNodeId;
+    var targetLinkwordId;
+    if(d3.select('svg').attr('endNodeId')!==null){
+      targetNodeId = parseInt(d3.select('svg').attr('endNodeId'));
+    }
+    if(d3.select('svg').attr('endLinkwordId')!==null){
+      targetLinkwordId = parseInt(d3.select('svg').attr('endLinkwordId'));
+    }
+
+    // avoid create path to itself
+    if(parseInt(d3.select('svg').attr('startNodeId'))===targetNodeId) {
+      d3.selectAll('path.dragLine').remove();
+      return;
+    } 
+
+    if(targetLinkwordId===undefined&&targetNodeId===undefined){
+      d3.selectAll('path.dragLine').remove();
+      return;
+    } 
+
+    var sourceNode;
+    for(var i = 0;i<nodes.length;i++){
+      if(nodes[i]['id']===parseInt(this.id)){
+        sourceNode = nodes[i];
+      }
+    }
+   if(targetNodeId===undefined){
+    var endLinkword;
+    for(var i = 0;i<linkwords.length;i++){
+      if(linkwords[i]['id']===parseInt(targetLinkwordId)){
+        endLinkword = linkwords[i];
+      }
+    }
+
+    //don't create duplicated link
+    var duplicated=false;
+    for(var i=0;i<links.length;i++){
+      if(links[i]['id']==='a'+this.id+' b'+targetLinkwordId){
+        duplicated=true;
+        d3.selectAll('path.dragLine').remove();
+        return;
+      }
+    }
+      links.push({
+      source: sourceNode,
+      target: endLinkword,
+      left: false,
+      right: true,
+      id: 'a'+this.id+' b'+targetLinkwordId
+
+    })
+
+    // append a temporaty path because the path generated from data will be shown by next click
+    d3.select('svg')
+    .append('svg:path')
+    .attr('class','temp')
+    .attr('sourceX',(d)=>d3.select(this).attr('cx'))
+    .attr('sourceY',(d)=>d3.select(this).attr('cy'))
+    .attr('targetX',(d)=>endLinkword['x'])
+    .attr('targetY',(d)=>endLinkword['y'])
+    .attr('d', (d) => {     
+      // calculate the d attribute for path
+          return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endLinkword['x']},${endLinkword['y']}`;
+        })
+      // set arrow style
+      .style('marker-end', 'url(#end-arrow)');
+ 
+    }
+    else{
+      var endNode;
+      for(var i = 0;i<nodes.length;i++){
+        if(nodes[i]['id']===parseInt(targetNodeId)){
+          endNode = nodes[i];
+        }
+      }
+      //don't create duplicated link
+      var duplicated=false;
+      for(var i=0;i<links.length;i++){
+       if(links[i]['id']==='a'+this.id+' a'+targetNodeId){
+        duplicated=true;
+        d3.selectAll('path.dragLine').remove();
+        return;
+       }
+     }
+        links.push({
+        source: sourceNode,
+        target: endNode,
+          left: false,
+          right: true,
+          id: 'a'+this.id+' a'+targetNodeId
+        })
+         // append a temporaty path because the path generated from data will be shown by next click
+    d3.select('svg')
+    .append('svg:path')
+    .attr('class','temp')
+    .attr('sourceX',(d)=>d3.select(this).attr('cx'))
+    .attr('sourceY',(d)=>d3.select(this).attr('cy'))
+    .attr('targetX',(d)=>endNode['x'])
+    .attr('targetY',(d)=>endNode['y'])
+    .attr('d', (d) => {     
+      // calculate the d attribute for path
+          return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endNode['x']},${endNode['y']}`;
+        })
+      // set arrow style
+      .style('marker-end', 'url(#end-arrow)');
+    }
+    
+
+
+    d3.selectAll('path.dragLine').remove();
+    
+ })
+ )
+ ;
     
  
     // create texts
@@ -889,34 +982,193 @@ export class ModifyMapService{
        .attr('class', 'linkword')
        .attr('x', (d) => d.x)
        .attr('y', (d) => d.y)
+       .attr('id',(d)=>d.id)
        .attr('length', (d) => d.text.length)
 
        linkword = gLinkWord.merge(linkword);
-      
-      //  linkword = linkword.enter()
-      //  .append('svg:g')
-      //  .attr('class', 'linkword')
-      //  .attr('x', (d) => d.x)
-      //  .attr('y', (d) => d.y)
-      //  .attr('length', (d) => d.text.length)
-      //  .merge(linkword)
-      //  ;
    
        gLinkWord
        .append('svg:ellipse')
        .attr('class', 'linkword')
        .attr('cx', (d) => d.x )
        .attr('cy', (d) => d.y-1 )
+       .attr('id',(d)=>d.id)
        .attr('rx', '10')
-       .attr('ry', '7')
+       .attr('ry', '10')
        .attr('fill', 'lightgrey')
-       ;
+       .on('mouseover', (d)=>{ 
+           d3.selectAll('ellipse.linkword')
+           .filter(function(a,i){
+             return a['id']===d.id;
+           })
+           .attr('fill','grey');
+           d3.select('svg').attr('endLinkwordId',d.id)
+       })
+       .on('mouseout',function(d){
+          d3.select(this).attr('fill','lightgrey');
+          d3.select('svg').attr('endLinkwordId',null)
+      })
+      .call(d3.drag()
+      .on('start',function(d) {
+        d3.event.sourceEvent.stopPropagation();
+        d3.select(this)
+        .classed("dragging", true);
+    
+        d3.select('svg')
+        .append('svg:path')
+        .attr('class', 'dragLine')
+        .attr('sourceX',(d)=>d3.event.x)
+        .attr('sourceY',(d)=>d3.event.y)
+        .attr('targetX',(d)=>d3.event.x)
+        .attr('targetY',(d)=>d3.event.y)
+        .attr('d', (d) => {     
+      // calculate the d attribute for path
+          return `M${d3.event.x},${(d3.event.y)}L${d3.event.x},${d3.event.y}`;
+        })
+        
+        // d3.select('svg').attr('drag',true);
+    
+        d3.select('svg').attr('startLinkwordId',this.id);
+    
+      })
+      .on('drag',function(d) {
+        d3.select('path.dragLine')
+        .attr('sourceX',(d)=>d3.select(this).attr('cx'))
+        .attr('sourceY',(d)=>d3.select(this).attr('cy'))
+        .attr('targetX',(d)=>d3.event.x)
+        .attr('targetY',(d)=>d3.event.y)
+        .attr('d', (d) => {     
+          // calculate the d attribute for path
+              return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${d3.event.x},${d3.event.y}`;
+            })
+          // set arrow style
+          .style('marker-end', 'url(#end-arrow)');
+    
+    
+      })
+      .on('end', function(d) {
+        d3.select(this).classed("dragging", false);
+    
+        var targetNodeId;
+        var targetLinkwordId;
+        if(d3.select('svg').attr('endNodeId')!==null){
+          targetNodeId = parseInt(d3.select('svg').attr('endNodeId'));
+        }
+        if(d3.select('svg').attr('endLinkwordId')!==null){
+          targetLinkwordId = parseInt(d3.select('svg').attr('endLinkwordId'));
+        }
+    
+        // avoid create path to itself
+        if(parseInt(d3.select('svg').attr('startLinkwordId'))===targetLinkwordId) {
+          d3.selectAll('path.dragLine').remove();
+          return;
+        } 
+    
+        if(targetLinkwordId===undefined&&targetNodeId===undefined){
+          d3.selectAll('path.dragLine').remove();
+          return;
+        } 
+    
+        var sourceLinkword;
+        for(var i = 0;i<linkwords.length;i++){
+          if(linkwords[i]['id']===parseInt(this.id)){
+            sourceLinkword = linkwords[i];
+          }
+        }
+       if(targetNodeId===undefined){
+        var endLinkword;
+        for(var i = 0;i<linkwords.length;i++){
+          if(linkwords[i]['id']===parseInt(targetLinkwordId)){
+            endLinkword = linkwords[i];
+          }
+        }
+    
+        //don't create duplicated link
+        var duplicated=false;
+        for(var i=0;i<links.length;i++){
+          if(links[i]['id']==='b'+this.id+' b'+targetLinkwordId){
+            duplicated=true;
+            d3.selectAll('path.dragLine').remove();
+            return;
+          }
+        }
+          links.push({
+          source: sourceLinkword,
+          target: endLinkword,
+          left: false,
+          right: true,
+          id: 'b'+this.id+' b'+targetLinkwordId
+    
+        })
+    
+        // append a temporaty path because the path generated from data will be shown by next click
+        d3.select('svg')
+        .append('svg:path')
+        .attr('class','temp')
+        .attr('sourceX',(d)=>d3.select(this).attr('cx'))
+        .attr('sourceY',(d)=>d3.select(this).attr('cy'))
+        .attr('targetX',(d)=>endLinkword['x'])
+        .attr('targetY',(d)=>endLinkword['y'])
+        .attr('d', (d) => {     
+          // calculate the d attribute for path
+              return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endLinkword['x']},${endLinkword['y']}`;
+            })
+          // set arrow style
+          .style('marker-end', 'url(#end-arrow)');
+     
+        }
+        else{
+          var endNode;
+          for(var i = 0;i<nodes.length;i++){
+            if(nodes[i]['id']===parseInt(targetNodeId)){
+              endNode = nodes[i];
+            }
+          }
+          //don't create duplicated link
+          var duplicated=false;
+          for(var i=0;i<links.length;i++){
+           if(links[i]['id']==='b'+this.id+' a'+targetNodeId){
+            duplicated=true;
+            d3.selectAll('path.dragLine').remove();
+            return;
+           }
+         }
+            links.push({
+            source: sourceLinkword,
+            target: endNode,
+              left: false,
+              right: true,
+              id: 'b'+this.id+' a'+targetNodeId
+            })
+             // append a temporaty path because the path generated from data will be shown by next click
+        d3.select('svg')
+        .append('svg:path')
+        .attr('class','temp')
+        .attr('sourceX',(d)=>d3.select(this).attr('cx'))
+        .attr('sourceY',(d)=>d3.select(this).attr('cy'))
+        .attr('targetX',(d)=>endNode['x'])
+        .attr('targetY',(d)=>endNode['y'])
+        .attr('d', (d) => {     
+          // calculate the d attribute for path
+              return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endNode['x']},${endNode['y']}`;
+            })
+          // set arrow style
+          .style('marker-end', 'url(#end-arrow)');
+        }
+        
+    
+       
+    
+        d3.selectAll('path.dragLine').remove();
+        
+     }))
       
        gLinkWord
        .append('svg:text')
        .attr('class', 'linkword')
        .attr('x', (d) => d.x)
        .attr('y', (d) => d.y)
+       .attr('id',(d)=>d.id)
        .attr('fill', 'red')
        .attr('font-size', '5')
        .attr('text-anchor', 'middle')
@@ -924,13 +1176,12 @@ export class ModifyMapService{
        ;
 
 
-    //  console.log(linkwords.length);
+// change the size of ellipse to cover the text
     for(var id = 0;id<parseInt(linkwords.length);id++){
       var textLength = svg.selectAll('g.linkword').filter(function(a,i){
        return i===id}).attr('length');
-      //  console.log(parseInt(textLength)+1);
        svg.selectAll('ellipse.linkword').filter(function(a,i){
-        return i===id;}).attr('rx', parseInt(textLength)*2+3)
+        return i===id;}).attr('rx', parseInt(textLength)*2.5+8)
     }
 
     
@@ -941,21 +1192,9 @@ export class ModifyMapService{
             //   d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
             //     d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
             //     d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
-              d3.select('svg').selectAll('ellipse.node').on('mousedown', 
+              d3.select('svg').selectAll('ellipse.node').on('click', 
               (d)=> {      
                   
-                
-                // console.log(d3.event.button);
-
-                //  // right click
-                //  if(d3.event.button===2){
-                //     svg.select('svg:g.dropdown').attr('visibility','visible');
-                //     console.log('right')
-                // }
-
-
-                // console.log('start state');
-
                 var id = d['id'];
 
                 //  important: in modification mode svg will return to start state after dragging slider
@@ -967,11 +1206,8 @@ export class ModifyMapService{
                 
 
                 if(d3.event.button === 0 && d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-                    return i===id}).style('fill')==='green'){
-                                    
- 
-
-    
+                    return i===id}).style('fill')!=='grey'){
+     
                 if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return i===id}).attr('visibility')==='hidden'){
                     d3.select('svg').attr('clickOnNode', 'true');
@@ -1305,9 +1541,6 @@ export class ModifyMapService{
     })
     .on('contextmenu',(d)=>{
 
-
-      console.log(gTexts)
-
       // console.log(d3.event.path.length)
       d3.select('svg').select('g.create').attr('visibility','hidden')
 
@@ -1366,8 +1599,6 @@ export class ModifyMapService{
             .attr('y'))});
 
             d3.select('svg').select('g.create').attr('visibility','hidden')
-
-            console.log(linkwords)
 
 
           }

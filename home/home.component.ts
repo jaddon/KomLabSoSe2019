@@ -303,7 +303,8 @@ g.append('svg:ellipse')
   .attr('transform', 'translate(' + this.width * this.k / 2  + ',' + this.height * this.k / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
 
   if(d.id===1||d.id===2||d.id===3){
-    this.toMicro(d.id);
+    setTimeout(() => { this.toMicro(d.id); }, 700);
+    // this.toMicro(d.id);
   }
 
 

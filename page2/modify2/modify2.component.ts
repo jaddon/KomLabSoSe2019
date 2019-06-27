@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
 import json from './modify2.json';
-import { ModifyMapService } from '../modifyMap.service';
+import { ModifyMapService } from '../../modifyMap.service';
 
 
 @Component({
@@ -533,7 +533,6 @@ export class Modify2Component implements OnInit{
 
   mouseup(source: any) {
 
-    // console.log('mouseup');
 
     // when mouseup, set the svg background as inactive
     this.svg.classed('active', false);

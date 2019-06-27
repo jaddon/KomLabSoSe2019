@@ -117,7 +117,7 @@ export class BuildMapService{
        .attr('cx', (d) => d.x )
        .attr('cy', (d) => d.y-1 )
        .attr('rx', '10')
-       .attr('ry', '7')
+       .attr('ry', '10')
        .attr('fill', 'lightgrey')
        ;
       
@@ -139,7 +139,7 @@ export class BuildMapService{
        return i===id}).attr('length');
       //  console.log(parseInt(textLength)+1);
        svg.selectAll('ellipse.linkword').filter(function(a,i){
-        return i===id;}).attr('rx', parseInt(textLength)*2+3)
+        return i===id;}).attr('rx', parseInt(textLength)*2.5+8)
     }
 
 
@@ -337,8 +337,8 @@ export class BuildMapService{
 
     gNextMap.append('svg:ellipse')
     .attr('class', 'nodeNextMap')
-    .attr('rx', 34)
-    .attr('ry', 16)
+    .attr('rx', 55)
+    .attr('ry', 20)
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
@@ -356,8 +356,8 @@ export class BuildMapService{
     // create ellipses
     g.append('svg:ellipse')
     .attr('class', 'node')
-    .attr('rx', 34)
-    .attr('ry', 16)
+    .attr('rx', 55)
+    .attr('ry', 20)
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
@@ -376,7 +376,19 @@ export class BuildMapService{
       else{    
       }
       
-      });
+      })
+      // .on('mouseover', (d)=>{
+      //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+      //     return a['id']===d.id;
+      //   })
+      //   .style('fill','lightgreen')
+      // })
+      // .on('mouseout', (d)=>{
+      //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+      //     return a['id']===d.id;
+      //   })
+      //   .style('fill','green');
+      // });
     
  
     // create texts
@@ -560,7 +572,9 @@ export class BuildMapService{
               d3.select('svg').attr('clickOnNode', 'false');
     
               d3.select('svg').selectAll('ellipse.node').style('fill','green');
+
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
+              // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
                 var id = d['id'];
     
     

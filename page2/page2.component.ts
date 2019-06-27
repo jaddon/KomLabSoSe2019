@@ -513,7 +513,7 @@ export class Page2Component implements OnInit{
     .attr('y', '10')
     .append('xhtml:div')
     .attr('class','button')
-    .html('<a href="http://localhost:4200/modify2" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Modify</a>');
+    .html('<a href="http://localhost:4200/page2/modify2" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Modify</a>');
 
 
 

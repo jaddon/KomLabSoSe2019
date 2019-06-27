@@ -34,8 +34,22 @@
     cursor: default;
   }
 
+  ::ng-deep path.dragLine {
+    fill: none;
+    stroke: #000;
+    stroke-width: 4px;
+    cursor: default;
+  }
+
+  ::ng-deep path.temp {
+    fill: none;
+    stroke: #000;
+    stroke-width: 4px;
+    cursor: default;
+  }
+
   ::ng-deep text{
-    font: 6px sans-serif;
+    font: 10px sans-serif;
     pointer-events: none;
   }
 

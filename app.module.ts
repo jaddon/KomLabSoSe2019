@@ -12,7 +12,8 @@ import { SingleChoiceComponent } from './test/singleChoice/singleChoice.componen
 import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { Modify2Component } from './modify2/modify2.component';
+import { Modify2Component } from './page2/modify2/modify2.component';
+
 
 
 @NgModule({
