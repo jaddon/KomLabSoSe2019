@@ -44,6 +44,7 @@ export class Page3Component implements OnInit{
   toNextMapRect: any;
   routerLink: any;
   toNextMapButton: any;
+  gButton: any;
  
 
   selectedNode = null;
@@ -148,7 +149,7 @@ export class Page3Component implements OnInit{
     // (<HTMLInputElement>document.getElementById('slider')).onchange = this.restart;
 
 
-  var svgArray = this.buildMapService.initSvg(this.svg, this.width, this.height, this.path, this.circle, this.linkword, this.glossary, this.gText, this.gImage, this.sliderCircle, this.nodesNextMap, this.toNextMapRect, this.linkwords, this.toNextMapButton);
+  var svgArray = this.buildMapService.initSvg(this.svg, this.width, this.height, this.path, this.circle, this.linkword, this.glossary, this.gText, this.gImage, this.sliderCircle, this.nodesNextMap, this.toNextMapRect, this.linkwords, this.toNextMapButton, this.gButton);
 
   //  this.svg = this.buildMapService.initSvg(this.svg, this.width, this.height)
   this.svg = svgArray[0];
@@ -162,6 +163,7 @@ export class Page3Component implements OnInit{
   this.sliderCircle = svgArray[7];
   this.circleNextMap = svgArray[8];
   this.toNextMapRect = svgArray[9];
+  this.gButton = svgArray[10];
 
 
 
@@ -231,7 +233,7 @@ export class Page3Component implements OnInit{
 
 var offset = 600;
 
-var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
 
 this.svg  = buildMap[0];
 
@@ -249,6 +251,8 @@ this.linkword = buildMap[6];
 this.linkword.merge(this.linkword);
 this.circleNextMap = buildMap[7];
 this.circleNextMap.merge(this.circleNextMap);
+this.gButton = buildMap[9];
+this.gButton.merge(this.gButton);
 
 
 this.routerLink = buildMap[8];

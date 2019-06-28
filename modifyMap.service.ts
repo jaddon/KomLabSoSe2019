@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import { RouterLink } from '@angular/router';
+import { saveAs } from 'file-saver';
 
 
 export class ModifyMapService{
@@ -672,6 +673,17 @@ export class ModifyMapService{
    .attr('visibility', 'hidden')
    ;
 
+   // save the data into json file
+    var saveButton = svg.append("foreignObject")
+    .attr('class','save')
+    .attr("width", 120)
+    .attr("height", 60)
+    .attr('x', '550')
+    .attr('y', '10')
+    .append('xhtml:div')
+    .attr('class','button')
+    .html('<button type="button" class="btn btn-primary btn-sm active">Save</button>');
+
     return [svg, path, circle, linkword, glossary, gText, gImage, circleNextMap, toNextMapRect];
     
   }
@@ -680,6 +692,57 @@ export class ModifyMapService{
   buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, circle, nodes, linkword, linkwords, nodesNextMap, circleNextMap, offset) : any[]{
 
 
+  // transform the data into a consistent form with the original json data
+  var nodesJSON = nodes;
+  var linkwordsJSON = linkwords;
+  var nodesNextMapJSON = nodesNextMap;
+
+  var linksJSON = [];
+  for(var i = 0;i<links.length;i++){
+    var linkJSON = {id:null, source:null, target:null}
+    linkJSON['id']=links[i]['id']
+    var sourceId=links[i]['id'].split(' ')[0];
+    var targetId=links[i]['id'].split(' ')[1];
+
+    if(sourceId.includes('a')){
+      linkJSON['source']='nodes['+sourceId.split('a')[1]+']';
+    }
+    else if(sourceId.includes('b')){
+      linkJSON['source']='linkwords['+sourceId.split('b')[1]+']';
+    }
+    if(targetId.includes('a')){
+      linkJSON['target']='nodes['+targetId.split('a')[1]+']';
+    }
+    else if(targetId.includes('b')){
+      linkJSON['target']='linkwords['+targetId.split('b')[1]+']';
+    }
+    linksJSON.push(linkJSON);
+  }
+
+  var gTextsJSON = [];
+  for(var i=0;i<gTexts.length;i++){
+    var gTextJSON = {id:null, text:null, target:null, hidden:true, page:null}
+    gTextJSON['id']=gTexts[i]['id'];
+    gTextJSON['text']=gTexts[i]['text'];
+    gTextJSON['page']=gTexts[i]['page'];
+    gTextJSON['target'] = 'nodes['+gTexts[i]['target']['id']+']';
+    gTextsJSON.push(gTextJSON);
+  }
+
+  var glossariesJSON = [];
+  for(var i=0;i<glossaries.length;i++){
+    var glossaryJSON = {id:null, target:null, hidden:true, width: 60, height: 80, page:null}
+    glossaryJSON['id']=glossaries[i]['id'];
+    glossaryJSON['page']=glossaries[i]['page'];
+    glossaryJSON['target'] = 'nodes['+glossaries[i]['target']['id']+']';
+    glossariesJSON.push(glossaryJSON);
+  }
+
+   d3.select('foreignObject.save')
+   .on('click',(d)=>{
+    var blob = new Blob(["\"nodes\":"+JSON.stringify(nodesJSON)+",\n\n\n"+"\"linkwords\":"+JSON.stringify(linkwordsJSON)+",\n\n\n"+"\"lins\":"+JSON.stringify(linksJSON)+",\n\n\n"+"\"nodesNextMap\":"+JSON.stringify(nodesNextMapJSON)+",\n\n\n"+"\"glossaries\":"+JSON.stringify(glossariesJSON)+",\n\n\n"+"\"gTexts\":"+JSON.stringify(gTextsJSON)], { type: "" });
+    saveAs(blob, "modifiedMap.json");
+  })
 
     d3.selectAll('path.temp').remove();
 

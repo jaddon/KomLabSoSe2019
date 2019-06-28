@@ -40,7 +40,7 @@ export class BuildMapService{
     );
   }
 
-  initSvg(svg, width, height, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect, linkwords, toNextMapButton) : any[]{
+  initSvg(svg, width, height, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect, linkwords, toNextMapButton, gButton) : any[]{
     svg = d3.select('svg')
     .attr('oncontextmenu', 'return false;')
     .attr('width', width)
@@ -89,6 +89,7 @@ export class BuildMapService{
 
     gText = svg.append('svg:g').selectAll('text.gText')
     gImage = svg.append('svg:g').selectAll('image.gImage');
+    gButton = svg.append('svg:g').selectAll('foreignObject.gButton');
     ;
 
 
@@ -240,12 +241,12 @@ export class BuildMapService{
 
 
 
-    return [svg, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect];
+    return [svg, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect, gButton];
     
   }
 
 
-  buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset) : any[]{
+  buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, gButton, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset) : any[]{
     
     // svg.select('text.toNext').attr('font-size', '30px')
     // .attr('visibility', (d)=>{
@@ -261,6 +262,8 @@ export class BuildMapService{
         gText = gText.data(gTexts);
     
         gImage = gImage.data(gTexts);
+
+        gButton =gButton.data(gTexts);
     
     
         path.exit().remove();
@@ -377,18 +380,20 @@ export class BuildMapService{
       }
       
       })
-      // .on('mouseover', (d)=>{
-      //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-      //     return a['id']===d.id;
-      //   })
-      //   .style('fill','lightgreen')
-      // })
-      // .on('mouseout', (d)=>{
-      //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-      //     return a['id']===d.id;
-      //   })
-      //   .style('fill','green');
-      // });
+      .on('mouseover', (d)=>{
+        d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+          return a['id']===d.id;
+        })
+        .style('stroke', (d) => 'black')
+        .style('stroke-width', '3px')
+      })
+      .on('mouseout', (d)=>{
+        d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+          return a['id']===d.id;
+        })
+        .style('stroke', (d) => 'white')
+        .style('stroke-width', '1.5px')
+      });
     
  
     // create texts
@@ -442,31 +447,31 @@ export class BuildMapService{
           .attr('height', '80')
           .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
           .attr('stroke', 'black')
-          .on('mousedown', (d)=>{
-            d3.select('svg').attr('clickOnNode', 'true');
-            svg.select('foreignObject.pdf')
-            .attr('visibility','visible')
-            .transition()
-            .duration(0)
-            .attr('transform', 'translate('+ (d.target.x-180) + ", 0)");
+          // .on('mousedown', (d)=>{
+          //   d3.select('svg').attr('clickOnNode', 'true');
+          //   svg.select('foreignObject.pdf')
+          //   .attr('visibility','visible')
+          //   .transition()
+          //   .duration(0)
+          //   .attr('transform', 'translate('+ (d.target.x-180) + ", 0)");
 
-            // make sure that the pdf view will be fixed on the top of page
-              svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
+          //   // make sure that the pdf view will be fixed on the top of page
+          //     svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
             
-            // make sure the pdf could be fully shown even if click on node on the left border
-            if(d.target.x<150){
-              svg.select('foreignObject.pdf')
-              .attr('visibility','visible')
-              .transition()
-              .duration(0)
-              .attr('transform', 'translate('+ (d.target.x-65) + ", 0)");
-              svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset - 65*3) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
-            }
+          //   // make sure the pdf could be fully shown even if click on node on the left border
+          //   if(d.target.x<150){
+          //     svg.select('foreignObject.pdf')
+          //     .attr('visibility','visible')
+          //     .transition()
+          //     .duration(0)
+          //     .attr('transform', 'translate('+ (d.target.x-65) + ", 0)");
+          //     svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset - 65*3) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
+          //   }
 
-            svg.attr('page', parseInt(d.page)+18);
-            console.log("current page: " + d.page);
+          //   svg.attr('page', parseInt(d.page)+18);
+          //   console.log("current page: " + d.page);
             
-          })
+          // })
           .merge(glossary)
           ;
           
@@ -530,6 +535,55 @@ export class BuildMapService{
     
     
 
+    gButton = gButton
+    .enter()
+    .append('foreignObject')
+    .attr('class', 'gButton')
+    .attr('visibility', 'hidden')
+    .attr("width", 50)
+    .attr("height", 25)
+    .attr('x', (d) => { if(d.target.x+60<=svg.attr('width')){
+      return d.target.x+15;}
+      else{
+        return d.target.x-45;
+      }
+ })
+    .attr('y', (d) => {if(d.target.y+80<=svg.attr('height')){
+        return d.target.y+50;
+     }
+     else{
+         return d.target.y-30;
+     }})
+     .on('mousedown', (d)=>{
+      d3.select('svg').attr('clickOnNode', 'true');
+      svg.select('foreignObject.pdf')
+      .attr('visibility','visible')
+      .transition()
+      .duration(0)
+      .attr('transform', 'translate('+ (d.target.x-180) + ", 0)");
+
+      // make sure that the pdf view will be fixed on the top of page
+        svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
+      
+      // make sure the pdf could be fully shown even if click on node on the left border
+      if(d.target.x<150){
+        svg.select('foreignObject.pdf')
+        .attr('visibility','visible')
+        .transition()
+        .duration(0)
+        .attr('transform', 'translate('+ (d.target.x-65) + ", 0)");
+        svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset - 65*3) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
+      }
+
+      svg.attr('page', parseInt(d.page)+18);
+      console.log("current page: " + d.page);
+      
+    })
+     .append('xhtml:div')
+     .attr('class','button')
+     .html('<button type="button" class="btn btn-link btn-sm">Book</button>')
+     .merge(gButton)
+    ;
     
     
     
@@ -603,6 +657,12 @@ export class BuildMapService{
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
                   );
+
+                  d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
+                    return i===id}).attr('visibility', 
+                    d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                  );
     
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                     return i!==id}).attr('visibility', 
@@ -612,7 +672,11 @@ export class BuildMapService{
                       return i!==id}).attr('visibility', 
                       'hidden'
                       );
-                      d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                  d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                        return i!==id}).attr('visibility', 
+                        'hidden'
+                        );
+                  d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
                         return i!==id}).attr('visibility', 
                         'hidden'
                         );
@@ -649,6 +713,7 @@ export class BuildMapService{
               d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
+                d3.select('svg').selectAll('foreignObject.gButton').attr('visibility', 'hidden');
               d3.select('svg').selectAll('ellipse.node').style('fill','green').on('mousedown', 
               (d)=> {           
                 
@@ -680,6 +745,12 @@ export class BuildMapService{
                         return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
                     );
 
+                  d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
+                      return i===id}).attr('visibility', 
+                      d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                    );
+
       
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return i!==id}).attr('visibility', 
@@ -690,6 +761,11 @@ export class BuildMapService{
                         'hidden'
                         );
                     d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                          return i!==id}).attr('visibility', 
+                          'hidden'
+                          );
+
+                    d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
                           return i!==id}).attr('visibility', 
                           'hidden'
                           );
@@ -726,7 +802,7 @@ export class BuildMapService{
     var routerLink = svg.select('text.toNext').attr('routerLink');
     // console.log(routerLink);
 
-    return [svg, circle, path, glossary, gText, gImage, linkword, circleNextMap, routerLink];
+    return [svg, circle, path, glossary, gText, gImage, linkword, circleNextMap, routerLink, gButton];
     
     
       }

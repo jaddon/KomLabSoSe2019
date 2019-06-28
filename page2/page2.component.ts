@@ -151,6 +151,8 @@ export class Page2Component implements OnInit{
   linkword: any;
   gText: any;
   gImage: any;
+  gButton: any;
+
   sliderCircle: any;
   circleNextMap: any;
   toNextMapRect: any;
@@ -342,7 +344,7 @@ export class Page2Component implements OnInit{
     // (<HTMLInputElement>document.getElementById('slider')).onchange = this.restart;
 
 
-  var svgArray = this.buildMapService.initSvg(this.svg, this.width, this.height, this.path, this.circle, this.linkword, this.glossary, this.gText, this.gImage, this.sliderCircle, this.circleNextMap, this.toNextMapRect, this.linkwords, this.toNextMapButton);
+  var svgArray = this.buildMapService.initSvg(this.svg, this.width, this.height, this.path, this.circle, this.linkword, this.glossary, this.gText, this.gImage, this.sliderCircle, this.circleNextMap, this.toNextMapRect, this.linkwords, this.toNextMapButton, this.gButton);
 
   //  this.svg = this.buildMapService.initSvg(this.svg, this.width, this.height)
   this.svg = svgArray[0];
@@ -356,6 +358,7 @@ export class Page2Component implements OnInit{
   this.sliderCircle = svgArray[7];
   this.circleNextMap = svgArray[8];
   this.toNextMapRect = svgArray[9];
+  this.gButton = svgArray[10];
 
   this.svg.append("polygon")
   .attr('class', 'cluster')
@@ -552,6 +555,7 @@ export class Page2Component implements OnInit{
         this.svg.selectAll('rect.gRect').attr('visibility','hidden');
         this.svg.selectAll('text.gText').attr('visibility','hidden');
         this.svg.selectAll('image.gImage').attr('visibility','hidden');
+        this.svg.selectAll('foreignObject.gButton').attr('visibility','hidden');
         this.svg.select('foreignObject.pdf').attr('visibility','hidden');
 
         this.restart();
@@ -597,7 +601,7 @@ delayNavigation() {
 
 var offset = 0;
 
-var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
 
 this.pageNumber = this.svg.attr("page");
 
@@ -619,6 +623,8 @@ this.linkword = buildMap[6];
 this.linkword.merge(this.linkword);
 this.circleNextMap = buildMap[7];
 this.circleNextMap.merge(this.circleNextMap);
+this.gButton = buildMap[9];
+this.gButton.merge(this.gButton);
 
 
 this.routerLink = buildMap[8];

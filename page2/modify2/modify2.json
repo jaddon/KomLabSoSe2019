@@ -11,25 +11,25 @@
         { "id": 8, "text": "declaration", "x": 404, "y": 255,  "reflexive": true },
         { "id": 9, "text": "initialization", "x": 480, "y": 224,  "reflexive": true },
         { "id": 10, "text": "print statement", "x": 626, "y": 209,  "reflexive": true },
-        { "id": 11, "text": "input", "x": 496, "y": 280,  "reflexive": false },
-        { "id": 12, "text": "output", "x": 599, "y": 300,  "reflexive": false },
-        { "id": 13, "text": "Scanner class", "x": 440, "y": 360,  "reflexive": false },
-        { "id": 14, "text": "System class", "x": 590, "y": 380,  "reflexive": false },
-        { "id": 15, "text": "loop", "x": 326, "y": 316,  "reflexive": false },
-        { "id": 16, "text": "loop body", "x": 156, "y": 265,  "reflexive": false },
-        { "id": 17, "text": "loop variable", "x": 133, "y": 331,  "reflexive": false },
-        { "id": 18, "text": "infinite loop", "x": 208, "y": 379,  "reflexive": false },
-        { "id": 19, "text": "pretest loop", "x": 235, "y": 425,  "reflexive": false },
-        { "id": 20, "text": "posttest loop", "x": 371, "y": 420,  "reflexive": false }
+        { "id": 11, "text": "input", "x": 496, "y": 280,  "reflexive": true },
+        { "id": 12, "text": "output", "x": 599, "y": 300,  "reflexive": true },
+        { "id": 13, "text": "Scanner class", "x": 440, "y": 360,  "reflexive": true },
+        { "id": 14, "text": "System class", "x": 590, "y": 380,  "reflexive": true },
+        { "id": 15, "text": "loop", "x": 326, "y": 316,  "reflexive": true },
+        { "id": 16, "text": "loop body", "x": 156, "y": 265,  "reflexive": true },
+        { "id": 17, "text": "loop variable", "x": 133, "y": 331,  "reflexive": true },
+        { "id": 18, "text": "infinite loop", "x": 208, "y": 379,  "reflexive": true },
+        { "id": 19, "text": "pretest loop", "x": 235, "y": 425,  "reflexive": true },
+        { "id": 20, "text": "posttest loop", "x": 371, "y": 420,  "reflexive": true }
     ],
 
     "nodesNextMap" : [
-    { "id": 0, "text": "value", "x": 870, "y": 100, "reflexive": false },
-    { "id": 1, "text": "variable", "x": 1185, "y": 300, "reflexive": false },
-    { "id": 2, "text": "constant", "x": 900, "y": 300, "reflexive": false },
-    { "id": 3, "text": "instance variable", "x": 980, "y": 380, "reflexive": false },
-    { "id": 4, "text": "local variable", "x": 1100, "y": 395, "reflexive": false },
-    { "id": 5, "text": "class variable", "x": 1200, "y": 380, "reflexive": false }
+    { "id": 0, "text": "value", "x": 870, "y": 100, "reflexive": true },
+    { "id": 1, "text": "variable", "x": 1185, "y": 300, "reflexive": true },
+    { "id": 2, "text": "constant", "x": 900, "y": 300, "reflexive": true },
+    { "id": 3, "text": "instance variable", "x": 980, "y": 380, "reflexive": true },
+    { "id": 4, "text": "local variable", "x": 1100, "y": 395, "reflexive": true },
+    { "id": 5, "text": "class variable", "x": 1200, "y": 380, "reflexive": true }
     
   ],
 
