@@ -13,6 +13,8 @@ import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Modify2Component } from './page2/modify2/modify2.component';
+import { Test2Component } from './page2/test2/test2.component';
+
 
 
 
@@ -26,7 +28,8 @@ import { Modify2Component } from './page2/modify2/modify2.component';
     SingleChoiceComponent,
     Page2Component,
     Page3Component,
-    Modify2Component
+    Modify2Component,
+    Test2Component
   ],
   imports: [
     BrowserModule,

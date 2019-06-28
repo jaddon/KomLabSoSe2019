@@ -8,6 +8,7 @@ import { SingleChoiceComponent } from './test/singleChoice/singleChoice.componen
 import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
 import { Modify2Component } from './page2/modify2/modify2.component';
+import { Test2Component } from './page2/test2/test2.component';
 
 // Create Path Here
 const routes: Routes = [
@@ -15,15 +16,20 @@ const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'page1', component: Page1Component},
     {path: 'page2', component: Page2Component, 
+    // don't use children here because svg will be covered by the parent svg
     // children: [
     //   {
     //     path: 'modify2', component: Modify2Component
     //   }]
     },
     {path: 'page2/modify2', component: Modify2Component},
+    {path: 'page2/test2', component: Test2Component},
+
+    
     {path: 'page3', component: Page3Component},
     {path: 'micro-basic', component: MicroMapBasicComponent},
     {path: 'test/singleChoice', component: SingleChoiceComponent},
+
 ];
 
 @NgModule({
