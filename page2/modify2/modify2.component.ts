@@ -38,12 +38,14 @@ export class Modify2Component implements OnInit{
 
 
     var temp = json.links;
+    // console.log(temp);
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
       link.id = temp[i].id;
+      console.log(temp[i].target);
       if(temp[i].source.includes("nodes["))
       {
-        // console.log(temp[i]);
+      // console.log(temp[i].source);
        var n = parseInt(temp[i].source.split("nodes[")[1].split(']')[0]);
       //  console.log(n);
        link.source = this.nodes[n];

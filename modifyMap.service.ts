@@ -710,11 +710,17 @@ export class ModifyMapService{
     else if(sourceId.includes('b')){
       linkJSON['source']='linkwords['+sourceId.split('b')[1]+']';
     }
+    else if(sourceId.includes('c')){
+      linkJSON['source']='nodesNextMap['+sourceId.split('c')[1]+']';
+    }
     if(targetId.includes('a')){
       linkJSON['target']='nodes['+targetId.split('a')[1]+']';
     }
     else if(targetId.includes('b')){
       linkJSON['target']='linkwords['+targetId.split('b')[1]+']';
+    }
+    else if(targetId.includes('c')){
+      linkJSON['target']='nodesNextMap['+targetId.split('c')[1]+']';
     }
     linksJSON.push(linkJSON);
   }
@@ -740,7 +746,7 @@ export class ModifyMapService{
 
    d3.select('foreignObject.save')
    .on('click',(d)=>{
-    var blob = new Blob(["\"nodes\":"+JSON.stringify(nodesJSON)+",\n\n\n"+"\"linkwords\":"+JSON.stringify(linkwordsJSON)+",\n\n\n"+"\"lins\":"+JSON.stringify(linksJSON)+",\n\n\n"+"\"nodesNextMap\":"+JSON.stringify(nodesNextMapJSON)+",\n\n\n"+"\"glossaries\":"+JSON.stringify(glossariesJSON)+",\n\n\n"+"\"gTexts\":"+JSON.stringify(gTextsJSON)], { type: "" });
+    var blob = new Blob(["{\"nodes\":"+JSON.stringify(nodesJSON)+",\n\n\n"+"\"linkwords\":"+JSON.stringify(linkwordsJSON)+",\n\n\n"+"\"links\":"+JSON.stringify(linksJSON)+",\n\n\n"+"\"nodesNextMap\":"+JSON.stringify(nodesNextMapJSON)+",\n\n\n"+"\"glossaries\":"+JSON.stringify(glossariesJSON)+",\n\n\n"+"\"gTexts\":"+JSON.stringify(gTextsJSON)+'}'], { type: "" });
     saveAs(blob, "modifiedMap.json");
   })
 

@@ -29,7 +29,7 @@ import { Test2Component } from './page2/test2/test2.component';
     Page2Component,
     Page3Component,
     Modify2Component,
-    Test2Component
+    Test2Component,
   ],
   imports: [
     BrowserModule,
