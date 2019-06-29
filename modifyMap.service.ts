@@ -321,7 +321,7 @@ export class ModifyMapService{
 
     var inputFieldPage = g.append("foreignObject")
     .attr('class','modify')
-    .attr("width", 30)
+    .attr("width", 120)
     .attr("height", 50)
     .attr('x',x)
     .attr('y',y+22)
@@ -332,7 +332,7 @@ export class ModifyMapService{
     .style('height','20px')
     .style('font-size', '1px')
     .attr('id',400)
-    .attr('placeholder', 'page')
+    .attr('placeholder', 'enter page number')
     ;
 
     var inputButton = g.append("foreignObject")
@@ -340,7 +340,7 @@ export class ModifyMapService{
     .attr("width", 60)
     .attr("height", 70)
     .attr('x',x+120)
-    .attr('y',y-5)
+    .attr('y',y+5)
 
     inputButton.append('xhtml:div')
     .attr('class','button')
@@ -392,8 +392,56 @@ export class ModifyMapService{
 
   }
 
+  removeLinkword(id:number, linkwords:any, links:any){
+
+    var ellipse = d3.select('svg').selectAll('ellipse.linkword').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    }).nodes()[0]
+
+    var x = ellipse['cx']['baseVal']['value'];
+    var y = ellipse['cy']['baseVal']['value'];
+  
+    // remove connected links
+    for(var i = 0;i<links.length;i++){
+
+      for(var t = 0;t<linkwords.length;t++){
+
+      var linkwordId = linkwords[t]['id'];
+
+        for(var j =0;j<links.length;j++){
+          if(links[j]['id'].split(' ')[0]===('b'+linkwordId)){
+            links[j]['source']=linkwords[t];
+          }
+          else if(links[j]['id'].split(' ')[1]===('b'+linkwordId)){
+            links[j]['target']=linkwords[t];
+          }
+
+          if((links[j]['id'].split(' ')[0].includes('b'))&&(links[j]['source']['id']===id)
+            ||(links[j]['id'].split(' ')[1].includes('b'))&&(links[j]['target']['id']===id)
+        ){   
+            links.splice(j,1);
+          }
+        }
+    }
+  }
+
+
+// remove node
+    for(var i = 0;i<linkwords.length;i++){
+      if(parseInt(linkwords[i]['id'])===id){
+        linkwords.splice(i,1);
+      }
+    }
+
+    d3.select('g.dropdown').attr('visibility', 'hidden');
+
+  }
+
 
   modifyLinkword(id: number, linkwords: any){
+
+    console.log(linkwords)
+    console.log(id)
 
     var x;
     var y;
@@ -404,6 +452,8 @@ export class ModifyMapService{
         y=parseInt(linkwords[i]['y']);
       }
     }
+
+    console.log(x)
 
    
     var g = d3.select('svg').append('svg:g')
@@ -463,6 +513,85 @@ export class ModifyMapService{
    
     d3.select('g.dropdown').attr('visibility', 'hidden');
 
+  }
+
+  draggingLinkword(id:number, linkwords:any){
+    var ellipse = d3.select('svg').selectAll('ellipse.linkword').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    })
+
+    var x = ellipse.attr('cx');
+    var y = ellipse.attr('cy');
+
+    var g = d3.select('svg').selectAll('g.linkword').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    })
+
+    var lText = d3.select('svg').selectAll('text.linkword').filter(function(a,i){
+      return parseInt(a['id'])===id;
+    })
+
+    var w = d3.select(window)
+    .on("mousemove", (d)=>{
+
+
+  // change d attribute of connected path to set them to point to new position of dragged node
+    for(var i = 0; i<document.querySelectorAll('[id^="b'+id.toString()).length; i++){
+
+      var dOld = document.querySelectorAll('[id^="b'+id.toString())[i].getAttribute('d');
+      var dNew = 'M'+d3.event.x+','+(d3.event.y-110)+'L'+dOld.split('L')[1];
+      document.querySelectorAll('[id^="b'+id.toString())[i].setAttribute('d',dNew)
+
+      // console.log(dNew);
+    }
+
+    for(var i = 0; i<document.querySelectorAll('[id$="b'+id.toString()).length; i++){
+
+      var dOld = document.querySelectorAll('[id$="b'+id.toString())[i].getAttribute('d');
+      var dNew = dOld.split('L')[0]+'L'+d3.event.x+','+(d3.event.y-110);
+      document.querySelectorAll('[id$="b'+id.toString())[i].setAttribute('d',dNew)
+    }  
+
+
+
+
+    for(var i = 0;i<linkwords.length;i++){
+      if(parseInt(linkwords[i]['id'])===id){
+        linkwords[i]['x']=d3.event.x;
+        linkwords[i]['y']=(d3.event.y-110);
+      }
+    }
+
+      ellipse
+      .attr('cx',d3.event.x)
+      .attr('cy',d3.event.y-110)
+      .attr('opacity','0.6');
+
+      g
+      .attr('x',d3.event.x)
+      .attr('y',d3.event.y-110);
+
+
+      d3.select('svg').selectAll('text.linkword').filter(function(a,i){
+        return parseInt(a['id'])===id;})
+        .attr('x',d3.event.x)
+        .attr('y',d3.event.y-110)
+
+        d3.select('g.dropdown').attr('visibility', 'hidden');
+
+
+    })
+    .on('mouseup',(d)=>{
+      // d3.select('svg').classed('active',false);
+      var ellipse = d3.select('svg').selectAll('ellipse.linkword').filter(function(a,i){
+        return parseInt(a['id'])===id;
+      })
+      .attr('opacity','1');
+      w.on("mousemove", null).on("mouseup", null);
+
+      console.log('x'+d3.event.x+' '+'y'+(d3.event.y-110));
+      
+    })
   }
 
 
@@ -553,46 +682,50 @@ export class ModifyMapService{
     )
     ;
 
-    toNextMapButton = svg.append('svg:rect')
-    .attr('class', 'button')
+    toNextMapButton = svg.append('foreignObject')
+    .attr('class', 'toNext')
     .attr('x', '320')
-    .attr('y', '170')
+    .attr('y', '150')
     .attr('width', '150')
-    .attr('height', '30')
-    .attr('rx', '5')
-    .attr('ry', '5')
-    .style('opacity', '0.9')
-    .attr('fill', 'green')
+    .attr('height', '60')
     .attr('visibility', (d)=>{
-        return svg.select('rect.toNext').attr('visibility');
-      }
-    )
-    .on('mousedown', (d)=>{
-      svg.select('text.toNext').attr('routerLink', '/page3');
-   })
+      return svg.select('rect.toNext').attr('visibility');
+    }
+  )
+  .on('mousedown', (d)=>{
+    svg.select('text.toNext').attr('routerLink', '/page3');
+ })
+  ;
     ;
 
-    toNextMapButton = svg.append('svg:rect')
-    .attr('class', 'button')
+    toNextMapButton
+    .append('xhtml:div')
+    .attr('class','button')
+    .html('<button type="button" class="btn btn-success btn-lg btn-block">Yes</button>')
+
+
+
+    toNextMapButton = svg.append('foreignObject')
+    .attr('class', 'toNext')
     .attr('x', '690')
-    .attr('y', '170')
+    .attr('y', '150')
     .attr('width', '150')
-    .attr('height', '30')
-    .attr('rx', '5')
-    .attr('ry', '5')
-    .style('opacity', '0.9')
-    .attr('fill', 'red')
+    .attr('height', '60')
     .attr('visibility', (d)=>{
-        return svg.select('rect.toNext').attr('visibility');
-      }
-    )
-    .on('mousedown',(d)=>{
+      return svg.select('rect.toNext').attr('visibility');
+    }
+  )
+  .on('mousedown',(d)=>{
+    svg.select('rect.toNext').attr('visibility', 'hidden');
+    svg.select('text.toNext').attr('visibility', 'hidden');
+    svg.selectAll('foreignObject.toNext').attr('visibility', 'hidden');
+  })
+  ;
 
-      svg.select('rect.toNext').attr('visibility', 'hidden');
-      svg.select('text.toNext').attr('visibility', 'hidden');
-      svg.selectAll('rect.button').attr('visibility', 'hidden');
-    })
-    ;
+    toNextMapButton
+    .append('xhtml:div')
+    .attr('class','button')
+    .html('<button type="button" class="btn btn-danger btn-lg btn-block">No</button>')
 
     // dropdown menu
     var dropdown = svg.append('svg:g')
@@ -611,7 +744,7 @@ export class ModifyMapService{
    .attr('y', '0')
    .append('xhtml:div')
    .attr('class','button')
-   .html('<button type="button" class="btn btn-primary btn-sm">drag</button>')
+   .html('<button type="button" class="btn btn-primary btn-sm btn-block">drag</button>')
 
    var button2 = dropdown.append("foreignObject")
    .attr('class','dropdown2')
@@ -621,7 +754,7 @@ export class ModifyMapService{
    .attr('y', '35')
    .append('xhtml:div')
    .attr('class','button')
-   .html('<button type="button" class="btn btn-primary btn-sm">modify</button>')
+   .html('<button type="button" class="btn btn-primary btn-sm btn-block">modify</button>')
 
    var button3 = dropdown.append("foreignObject")
    .attr('class','dropdown3')
@@ -631,7 +764,7 @@ export class ModifyMapService{
    .attr('y', '70')
    .append('xhtml:div')
    .attr('class','button')
-   .html('<button type="button" class="btn btn-primary btn-sm">delete</button>')
+   .html('<button type="button" class="btn btn-primary btn-sm btn-block">delete</button>')
 
    // create menu
    var create = svg.append('svg:g')
@@ -652,7 +785,7 @@ export class ModifyMapService{
 
   button4.append('xhtml:div')
   .attr('class','button')
-  .html('<button type="button" class="btn btn-primary btn-sm">concept</button>')
+  .html('<button type="button" class="btn btn-primary btn-sm btn-block">concept</button>')
 
   var button5 = create.append("foreignObject")
   .attr('class','create2')
@@ -662,7 +795,7 @@ export class ModifyMapService{
   .attr('y', '35')
   .append('xhtml:div')
   .attr('class','button')
-  .html('<button type="button" class="btn btn-primary btn-sm">linkword</button>')
+  .html('<button type="button" class="btn btn-primary btn-sm btn-block">linkword</button>')
 
    // input for enter the text in ellipse
    var eInput = svg.append('svg:g')
@@ -676,13 +809,13 @@ export class ModifyMapService{
    // save the data into json file
     var saveButton = svg.append("foreignObject")
     .attr('class','save')
-    .attr("width", 120)
-    .attr("height", 60)
+    .attr("width", 80)
+    .attr("height", 40)
     .attr('x', '550')
     .attr('y', '10')
     .append('xhtml:div')
     .attr('class','button')
-    .html('<button type="button" class="btn btn-primary btn-sm active">Save</button>');
+    .html('<button type="button" class="btn btn-primary btn-sm active btn-block">Save</button>');
 
     return [svg, path, circle, linkword, glossary, gText, gImage, circleNextMap, toNextMapRect];
     
@@ -773,7 +906,7 @@ export class ModifyMapService{
         gImage = gImage.data(gTexts,(d)=>d.id);
     
         linkword = linkword.data(linkwords,(d)=>d.id);
-    
+
         path.exit().remove();
 
 
@@ -832,7 +965,7 @@ export class ModifyMapService{
     .on('mousedown', (d)=>{
       svg.select('rect.toNext').attr('visibility', 'visible');
       svg.select('text.toNext').attr('visibility', 'visible');
-      svg.selectAll('rect.button').attr('visibility', 'visible');
+      d3.selectAll('foreignObject.toNext').attr('visibility', 'visible');
     })
     ;
     
@@ -1204,6 +1337,9 @@ export class ModifyMapService{
        // const g1 = linkword.enter().append('svg:g');
 
 
+       linkword.exit().remove();
+
+
        const gLinkWord = linkword.enter()
        .append('svg:g')
        .attr('class', 'linkword')
@@ -1386,6 +1522,54 @@ export class ModifyMapService{
         d3.selectAll('path.dragLine').remove();
         
      }))
+     .on('contextmenu', (d)=>{
+            
+      // right click
+      if(d3.event.button===2){
+         svg.select('g.dropdown').attr('visibility','visible')
+         svg.selectAll('g.modify').attr('visibility','hidden')
+         .attr('x', d3.select('svg').selectAll('ellipse.linkword').filter(function(a,i){
+             return a['id']===d['id']}).attr('cx'))
+         ;
+
+         for(var i = 1; i<4; i++){
+         svg.selectAll('foreignObject.dropdown'+i).attr('x', d3.select('svg').selectAll('ellipse.linkword').filter(function(a,i){
+             return a['id']===d['id']}).attr('cx'))
+         ;
+
+         svg.selectAll('foreignObject.dropdown'+i).attr('y', parseInt(d3.select('svg').selectAll('ellipse.linkword').filter(function(a,i){
+           return a['id']===d['id']}).attr('cy'))+(i-1)*35)
+           .attr('linkwordId',d['id'])
+           .on('mousedown', (d)=>{
+
+             d3.select('svg').select('g.create').attr('visibility','hidden');
+
+             // if click on delete button
+             if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown3').attr('y'))){
+               var id = parseInt(d3.select('foreignObject.dropdown3').attr('linkwordId'));
+               this.removeLinkword(id, linkwords, links);
+             }
+             
+             // if click on modify
+             else if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown2').attr('y'))){
+               // console.log('modify')
+               var id = parseInt(d3.select('foreignObject.dropdown3').attr('linkwordId'));
+               this.modifyLinkword(id, linkwords);
+
+             }
+
+             // if click on dragging button
+             else if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown1').attr('y'))) {
+               var id = parseInt(d3.select('foreignObject.dropdown3').attr('linkwordId'));
+               this.draggingLinkword(id, linkwords);
+
+             }
+
+           })
+       ;
+         }
+     }
+})
       
        gLinkWord
        .append('svg:text')

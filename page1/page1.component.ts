@@ -220,7 +220,8 @@ export class Page1Component implements OnInit{
         this.svg.selectAll('rect.gRect').attr('visibility','hidden');
         this.svg.selectAll('text.gText').attr('visibility','hidden');
         this.svg.selectAll('image.gImage').attr('visibility','hidden');
-        this.restart();
+        this.svg.selectAll('foreignObject.gButton').attr('visibility','hidden');
+        this.svg.select('foreignObject.pdf').attr('visibility','hidden');
 
     }
 

@@ -72,7 +72,7 @@
     { "id": "b3 a3", "source": "linkwords[3]", "target": "nodes[3]"},
     { "id": "b4 a4", "source": "linkwords[4]", "target": "nodes[4]"},
     { "id": "b5 a5", "source": "linkwords[5]", "target": "nodes[5]"},
-    { "id": "b6 a6", "source": "linkwords[5]", "target": "nodes[6]"},
+    { "id": "b5 a6", "source": "linkwords[5]", "target": "nodes[6]"},
     { "id": "a7 b1", "source": "nodes[7]", "target": "linkwords[1]"},
     { "id": "a8 b6", "source": "nodes[8]", "target": "linkwords[6]"},
     { "id": "a9 b8", "source": "nodes[9]", "target": "linkwords[8]"},
@@ -90,7 +90,7 @@
     { "id": "a15 b13", "source": "nodes[15]", "target": "linkwords[13]"},
     { "id": "b12 a16", "source": "linkwords[12]", "target": "nodes[16]"},
     { "id": "b12 a17", "source": "linkwords[12]", "target": "nodes[17]"},
-    { "id": "b12 a18", "source": "linkwords[13]", "target": "nodes[18]"},
+    { "id": "b13 a18", "source": "linkwords[13]", "target": "nodes[18]"},
     { "id": "b13 a19", "source": "linkwords[13]", "target": "nodes[19]"},
     { "id": "b13 a20", "source": "linkwords[13]", "target": "nodes[20]"},
 

@@ -6,7 +6,7 @@ import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './page2.json';
+import json from './modifiedpage2.json';
 
 
 @Component({
@@ -509,14 +509,15 @@ export class Page2Component implements OnInit{
     // // .attr('ng-reflect-show-all', false)
     // // .src(this.pdfSrc)
 
+
     var button = this.svg.append("foreignObject")
-    .attr("width", 120)
-    .attr("height", 60)
+    .attr("width", 80)
+    .attr("height", 40)
     .attr('x', '550')
     .attr('y', '10')
     .append('xhtml:div')
     .attr('class','button')
-    .html('<a href="http://localhost:4200/page2/modify2" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Modify</a>');
+    .html('<a href="http://localhost:4200/page2/modify2" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
 

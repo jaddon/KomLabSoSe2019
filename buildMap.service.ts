@@ -147,14 +147,15 @@ export class BuildMapService{
 
 
 // create slider bar
-    var data = [1,2,3];
+    var data = [1,2,3,4];
     var scale = d3.scaleLinear()
                   .domain([1, d3.max(data)])
-                  .range([0, 200]);
+                  .range([0, 300]);
     var x_axis = d3.axisBottom(scale)
-    .ticks(2, "f");
+    .ticks(3, "f");
 
     svg.append("g")
+       .attr('class','slider')
        .attr("transform", "translate(900, 10)")
        .call(x_axis);
 
@@ -164,7 +165,16 @@ export class BuildMapService{
     .attr("cx", 900)
     .attr("cy", 10)
     .attr("r", 7)
-    .style("fill", "purple");
+    .style("fill", "purple")
+
+    svg
+    .append('svg:text')
+    .attr('class','slider')
+    .attr('x',780)
+    .attr('y',16)
+    .attr('text-anchor', 'left')
+    // .attr('fill', 'purple')
+    .text('Difficult Level:')
 
 
 
@@ -197,45 +207,51 @@ export class BuildMapService{
     )
     ;
 
-    toNextMapButton = svg.append('svg:rect')
-    .attr('class', 'button')
+    toNextMapButton = svg.append('foreignObject')
+    .attr('class', 'toNext')
     .attr('x', '320')
-    .attr('y', '170')
+    .attr('y', '150')
     .attr('width', '150')
-    .attr('height', '30')
-    .attr('rx', '5')
-    .attr('ry', '5')
-    .style('opacity', '0.9')
-    .attr('fill', 'green')
+    .attr('height', '60')
     .attr('visibility', (d)=>{
-        return svg.select('rect.toNext').attr('visibility');
-      }
-    )
-    .on('mousedown', (d)=>{
-      svg.select('text.toNext').attr('routerLink', '/page3');
-   })
+      return svg.select('rect.toNext').attr('visibility');
+    }
+  )
+  .on('mousedown', (d)=>{
+    svg.select('text.toNext').attr('routerLink', '/page3');
+ })
+  ;
     ;
 
-    toNextMapButton = svg.append('svg:rect')
-    .attr('class', 'button')
+    toNextMapButton
+    .append('xhtml:div')
+    .attr('class','button')
+    .html('<button type="button" class="btn btn-success btn-lg btn-block">Yes</button>')
+
+
+
+    toNextMapButton = svg.append('foreignObject')
+    .attr('class', 'toNext')
     .attr('x', '690')
-    .attr('y', '170')
+    .attr('y', '150')
     .attr('width', '150')
-    .attr('height', '30')
-    .attr('rx', '5')
-    .attr('ry', '5')
-    .style('opacity', '0.9')
-    .attr('fill', 'red')
+    .attr('height', '60')
     .attr('visibility', (d)=>{
-        return svg.select('rect.toNext').attr('visibility');
-      }
-    )
-    .on('mousedown',(d)=>{
-      svg.select('rect.toNext').attr('visibility', 'hidden');
-      svg.select('text.toNext').attr('visibility', 'hidden');
-      svg.selectAll('rect.button').attr('visibility', 'hidden');
-    })
-    ;
+      return svg.select('rect.toNext').attr('visibility');
+    }
+  )
+  .on('mousedown',(d)=>{
+    svg.select('rect.toNext').attr('visibility', 'hidden');
+    svg.select('text.toNext').attr('visibility', 'hidden');
+    svg.selectAll('foreignObject.toNext').attr('visibility', 'hidden');
+  })
+  ;
+
+    toNextMapButton
+    .append('xhtml:div')
+    .attr('class','button')
+    .html('<button type="button" class="btn btn-danger btn-lg btn-block">No</button>')
+
 
 
 
@@ -253,7 +269,7 @@ export class BuildMapService{
     //   return svg.select('rect.toNext').attr('visibility');
     // });
     
-    
+    console.log(nodes)
     // bind the paths with data
     path = path.data(links);
     // bind the white rectangulars with data
@@ -351,7 +367,7 @@ export class BuildMapService{
     .on('mousedown', (d)=>{
       svg.select('rect.toNext').attr('visibility', 'visible');
       svg.select('text.toNext').attr('visibility', 'visible');
-      svg.selectAll('rect.button').attr('visibility', 'visible');
+      svg.selectAll('foreignObject.toNext').attr('visibility', 'visible');
     })
     ;
     
@@ -607,8 +623,11 @@ export class BuildMapService{
             else if(d3.event.x<=1050){
               return 1000;
             }
-            else{
+            else if(d3.event.x<=1150){
               return 1100;
+            }
+            else{
+              return 1200;
             }
           })
           d3.select(this).attr("cy", 10);
@@ -701,10 +720,96 @@ export class BuildMapService{
     
     
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
-                return i>=7}).style('fill','grey');
+                return d['level']>1}).style('fill','grey');
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
-                  return i>=7}).on('mousedown', (d)=> window.alert("Node locked"))
+                return d['level']>1}).on('mousedown', (d)=> window.alert("Node locked"))
             }
+            else if(cx===1100){
+    
+    
+              d3.select('svg').attr('clickOnNode', 'false');
+    
+              d3.select('svg').selectAll('ellipse.node').style('fill','green');
+
+              d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
+              // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
+                var id = d['id'];
+    
+    
+                if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                  return i===id}).attr('visibility')==='hidden'){
+                    d3.select('svg').attr('clickOnNode', 'true');
+                  }
+                  else{
+                    d3.select('svg').attr('clickOnNode', 'false');
+                  }
+    
+    
+    
+                d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                  return i===id}).attr('visibility', 
+                  d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                    return i===id}).attr('visibility')==='hidden'?'visible':'hidden'
+                  );
+                d3.select('svg').selectAll('text.gText').filter(function(a,i){
+                    return i===id}).attr('visibility', 
+                    d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                  );
+                  d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                    return i===id}).attr('visibility', 
+                    d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                  );
+
+                  d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
+                    return i===id}).attr('visibility', 
+                    d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                  );
+    
+                  d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                    return i!==id}).attr('visibility', 
+                    'hidden'
+                    );
+                  d3.select('svg').selectAll('text.gText').filter(function(a,i){
+                      return i!==id}).attr('visibility', 
+                      'hidden'
+                      );
+                  d3.select('svg').selectAll('image.gImage').filter(function(a,i){
+                        return i!==id}).attr('visibility', 
+                        'hidden'
+                        );
+                  d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
+                        return i!==id}).attr('visibility', 
+                        'hidden'
+                        );
+    
+            var k = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+              return i===id}).attr('visibility')==='hidden')?1:3;
+
+              // console.log(k);
+    
+              var x = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                return i===id}).attr('visibility')==='hidden')?620:d['x'];
+    
+              var y = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
+                  return i===id}).attr('visibility')==='hidden')?240:d['y'];
+    
+                  d3.select('svg').transition()
+                  .duration(750)
+                  .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
+    
+    
+           })
+    
+    
+              d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
+                return d['level']>2}).style('fill','grey');
+              d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
+                return d['level']>2}).on('mousedown', (d)=> window.alert("Node locked"))
+            }
+
             else {
     
     

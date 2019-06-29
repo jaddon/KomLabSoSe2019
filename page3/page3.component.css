@@ -58,6 +58,12 @@
   pointer-events: none;
 }
 
+::ng-deep text.slider{
+  fill: rgb(77, 3, 67);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 15px;
+  pointer-events: none;
+}
 
 
 ::ng-deep text.toNext{

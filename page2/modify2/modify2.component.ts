@@ -42,7 +42,6 @@ export class Modify2Component implements OnInit{
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
       link.id = temp[i].id;
-      console.log(temp[i].target);
       if(temp[i].source.includes("nodes["))
       {
       // console.log(temp[i].source);
@@ -364,7 +363,7 @@ if(this.routerLink!=null){
   setTimeout(function(){
     d3.select('rect.toNext').attr('visibility', 'hidden');
     d3.select('text.toNext').attr('visibility', 'hidden');
-    d3.selectAll('rect.button').attr('visibility', 'hidden');
+    d3.selectAll('foreignObject.toNext').attr('visibility', 'hidden');
     d3.select('svg').attr('ready', true);
   }, 750)
 
