@@ -9,6 +9,8 @@ import { Page2Component } from './page2/page2.component';
 import { Page3Component } from './page3/page3.component';
 import { Modify2Component } from './page2/modify2/modify2.component';
 import { Test2Component } from './page2/test2/test2.component';
+import { Modify1Component } from './page1/modify1/modify1.component';
+import { Modify3Component } from './page3/modify3/modify3.component';
 
 // Create Path Here
 const routes: Routes = [
@@ -24,6 +26,8 @@ const routes: Routes = [
     },
     {path: 'page2/modify2', component: Modify2Component},
     {path: 'page2/test2', component: Test2Component},
+    {path: 'page1/modify1', component:Modify1Component},
+    {path: 'page3/modify3', component:Modify3Component},
 
     
     {path: 'page3', component: Page3Component},

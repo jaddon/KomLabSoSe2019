@@ -5,17 +5,17 @@ import {style} from '@angular/animations';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './modify2.json';
+import json from './modify3.json';
 import { ModifyMapService } from '../../modifyMap.service';
 
 
 @Component({
-  selector: 'app-modify2',
-  templateUrl: './modify2.component.html',
-  styleUrls: ['./modify2.component.css'],
+  selector: 'app-modify3',
+  templateUrl: './modify3.component.html',
+  styleUrls: ['./modify3.component.css'],
   providers: [ModifyMapService],
 })
-export class Modify2Component implements OnInit{
+export class Modify3Component implements OnInit{
 
   pageNumber : number = 5;
 
@@ -191,7 +191,6 @@ export class Modify2Component implements OnInit{
 
   gTexts = [
   ];
-
 
   ngAfterContentInit() {
 

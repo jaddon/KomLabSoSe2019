@@ -4,6 +4,7 @@ import {style} from '@angular/animations';
 // import { svg } from 'd3';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
+import json from './page3.json';
 
 
 @Component({
@@ -14,10 +15,113 @@ import { Router } from '@angular/router';
 })
 export class Page3Component implements OnInit{
 
+  pageNumber : number = 5;
+
+  pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
+
   constructor(private buildMapService: BuildMapService, private router: Router){
   }
 
   ngOnInit(){
+     // console.log(json.nodes);
+     this.nodes = json.nodes;
+     this.nodesNextMap = json.nodesNextMap;
+     this.linkwords = json.linkwords;
+ 
+ 
+     var temp = json.links;
+     for(var i = 0; i<temp.length; i++){
+       var link = {"source":null, "target":null, "left": false, "right": true};
+       if(temp[i].source.includes("nodes["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp[i].source.split("nodes[")[1].split(']')[0]);
+       //  console.log(n);
+        link.source = this.nodes[n];
+       }
+       if(temp[i].target.includes("nodes["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp[i].target.split("nodes[")[1].split(']')[0]);
+       //  console.log(n);
+        link.target = this.nodes[n];
+       }
+       if(temp[i].source.includes("linkwords["))
+       {
+         var n = parseInt(temp[i].source.split("linkwords[")[1].split(']')[0]);
+         // console.log(n);
+         link.source = this.linkwords[n];
+       }
+       if(temp[i].target.includes("linkwords["))
+       {
+         var n = parseInt(temp[i].target.split("linkwords[")[1].split(']')[0]);
+         // console.log(n);
+         link.target = this.linkwords[n];
+       }
+       if(temp[i].source.includes("nodesNextMap["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp[i].source.split("nodesNextMap[")[1].split(']')[0]);
+       //  console.log(n);
+        link.source = this.nodesNextMap[n];
+       }
+       if(temp[i].target.includes("nodesNextMap["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp[i].target.split("nodesNextMap[")[1].split(']')[0]);
+       //  console.log(n);
+        link.target = this.nodesNextMap[n];
+       }
+       this.links.push(link);
+     }
+ 
+     var temp2 = json.glossaries;
+     for(var i = 0; i<temp2.length; i++){
+       var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
+       glossary.page = temp2[i].page;
+       if(temp2[i].target.includes("nodes["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp2[i].target.split("nodes[")[1].split(']')[0]);
+       //  console.log(n);
+        glossary.target = this.nodes[n];
+       }
+       if(temp2[i].target.includes("nodesNextMap["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp2[i].target.split("nodesNextMap[")[1].split(']')[0]);
+       //  console.log(n);
+        glossary.target = this.nodesNextMap[n];
+       }
+       this.glossaries.push(glossary);
+     }
+     var temp3 = json.gTexts;
+     for(var i = 0; i<temp3.length; i++){
+       var gText = {"text":null, "target":null, "hidden": true, "page": null};
+       gText.page = temp3[i].page;
+       if(temp3[i].target.includes("nodes["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp3[i].target.split("nodes[")[1].split(']')[0]);
+       //  console.log(n);
+        gText.target = this.nodes[n];
+       }
+       if(temp3[i].target.includes("nodesNextMap["))
+       {
+         // console.log(temp[i]);
+        var n = parseInt(temp3[i].target.split("nodesNextMap[")[1].split(']')[0]);
+       //  console.log(n);
+        gText.target = this.nodesNextMap[n];
+       }
+       gText.text = temp3[i].text;
+       // console.log(gText);
+       this.gTexts.push(gText);
+     }
+     //  console.log(this.gTexts);
+ 
+ 
+  
+     // console.log(this.nodes[0]);
   }
 
   title = 'KomTest';
@@ -55,89 +159,25 @@ export class Page3Component implements OnInit{
 
   // store the nodes
   nodes = [
-    { id: 0, text: 'value', x: 870, y: 100, reflexive: false },
-    { id: 1, text: 'variable', x: 1130, y: 300, reflexive: false },
-    { id: 2, text: 'constant', x: 930, y: 300, reflexive: false },
-    { id: 3, text: 'instance variable', x: 980, y: 380, reflexive: false },
-    { id: 4, text: 'local variable', x: 1100, y: 380, reflexive: false },
-    { id: 5, text: 'class variable', x: 1200, y: 380, reflexive: false },
   ];
 
   nodesNextMap = [
-    { id: 0, text: 'initialization', x: 490, y: 200, reflexive: true },
-    { id: 1, text: 'print statement', x: 620, y: 200, reflexive: true },
-    { id: 2, text: 'output', x: 590, y: 300, reflexive: false },
-    { id: 3, text: 'System class', x: 590, y: 380, reflexive: false },
   ];
+
 
    // store the link words
    linkwords = [
-    {id: 0, text: 'into', x: 950, y: 160, reflexive: false},
-    {id: 1, text: 'declared with final type', x: 1025, y: 300, reflexive: false},
-    {id: 2, text: 'has type', x: 1100, y: 340, reflexive: false},
-
-    {id: 3, text: 'put', x: 350, y: 100, reflexive: false},
-    {id: 4, text: 'put first', x: 480, y: 140, reflexive: false},
-    {id: 5, text: 'create', x: 680, y: 160, reflexive: false},
-    {id: 6, text: 'shows', x: 605, y: 250, reflexive: false},
    ];
 
   // store the links
   links = [
-    { source: this.nodes[0], target: this.linkwords[0], left: false, right: false },
-    { source: this.linkwords[0], target: this.nodes[1], left: false, right: true },
-    { source: this.nodes[1], target: this.linkwords[1], left: false, right: false },
-    { source: this.linkwords[1], target: this.nodes[2], left: false, right: true },
-    { source: this.nodes[1], target: this.linkwords[2], left: false, right: false },
-    { source: this.linkwords[2], target: this.nodes[3], left: false, right: true },
-    { source: this.linkwords[2], target: this.nodes[4], left: false, right: true },
-    { source: this.linkwords[2], target: this.nodes[5], left: false, right: true }, 
-
-    { source: this.nodesNextMap[0], target: this.linkwords[5], left: false, right: false },
-    { source: this.linkwords[5], target: this.nodes[1], left: false, right: true }, 
-    { source: this.linkwords[3], target: this.nodes[0], left: false, right: true }, 
-    { source: this.linkwords[4], target: this.nodes[0], left: false, right: true },
-    { source: this.nodesNextMap[1], target: this.linkwords[6], left: false, right: false },  
-    { source: this.linkwords[6], target: this.nodesNextMap[2], left: false, right: true },
-   
-
   ];
 
   // store the white rectangulars as simulation for text fields
   glossaries = [
-    { target: this.nodes[0], hidden: true, width: 60, height: 80},
-    { target: this.nodes[1], hidden: true, width: 60, height: 80},
-    { target: this.nodes[2], hidden: true, width: 60, height: 80},
-    { target: this.nodes[3], hidden: true, width: 60, height: 80},
-    { target: this.nodes[4], hidden: true, width: 60, height: 80},
-    { target: this.nodes[5], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[6], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[7], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[8], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[9], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[10], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[11], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[12], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[13], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[14], hidden: true, width: 60, height: 80},
   ];
 
   gTexts = [
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[0], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[1], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[2], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[3], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[4], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[5], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[6], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[7], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[8], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[9], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[10], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[11], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[12], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[13], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[14], hidden: true},
   ];
 
 
@@ -164,6 +204,65 @@ export class Page3Component implements OnInit{
   this.circleNextMap = svgArray[8];
   this.toNextMapRect = svgArray[9];
   this.gButton = svgArray[10];
+
+
+  this.svg.append("polygon")
+  .attr('class', 'cluster')
+  .attr("points", "380,5 250,30 80,100 0,160 480,450 500,450 950,450 800,200")
+  .style("fill", "lightgreen")
+  .style('opacity', '0.6')
+  .style("stroke", "black")
+  .style("strokeWidth", "10px")
+  .attr('visibility', 'hidden')
+  .on('mousedown', (d)=>{
+    this.svg.append('rect')
+    .attr('class', 'progress')
+    .attr('x', '400')
+    .attr('y', '200')
+    .attr('width', '100')
+    .attr('height', '60')
+    .attr('rx', '5')
+    .attr('ry', '5')
+    .style('fill', 'blue')
+    .style('opacity', '0.8');
+
+    this.svg.append('text')
+    .attr('class', 'progress')
+    .attr('x', '450')
+    .attr('y', '210')
+    .attr('fill', 'white')
+    .attr('font-size', '5')
+    .attr('text-anchor', 'middle')
+    .text('progress : 0%')
+  })
+  ;
+
+  this.svg.append('circle')
+  .attr('class', 'activateCluster')
+  .attr('cx', '50')
+  .attr('cy', '420')
+  .attr('r', 10)
+  .attr('fill','orange')
+  .attr('cursor', 'pointer')
+  .on('mousedown', (d)=>{
+    this.svg.selectAll('polygon').attr('visibility', this.svg.selectAll('polygon').attr('visibility')==='hidden'?'visible':'hidden')
+  })
+  .on('mouseup', (d)=>{
+    if(this.svg.selectAll('polygon').attr('visibility')==='hidden'){
+      this.svg.selectAll('rect.progress').remove();
+      this.svg.selectAll('text.progress').remove();
+    }
+
+  })
+
+  var button = this.svg.append("foreignObject")
+  .attr("width", 80)
+  .attr("height", 40)
+  .attr('x', '550')
+  .attr('y', '10')
+  .append('xhtml:div')
+  .attr('class','button')
+  .html('<a href="http://localhost:4200/page3/modify3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
 
@@ -199,7 +298,8 @@ export class Page3Component implements OnInit{
         this.svg.selectAll('rect.gRect').attr('visibility','hidden');
         this.svg.selectAll('text.gText').attr('visibility','hidden');
         this.svg.selectAll('image.gImage').attr('visibility','hidden');
-        this.restart();
+        this.svg.selectAll('foreignObject.gButton').attr('visibility','hidden');
+        this.svg.select('foreignObject.pdf').attr('visibility','hidden');
 
     }
 
@@ -231,9 +331,11 @@ export class Page3Component implements OnInit{
 // refresh function
   restart() {  
 
-var offset = 600;
+var offset = 0;
 
 var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+
+this.pageNumber = this.svg.attr("page");
 
 this.svg  = buildMap[0];
 
@@ -258,33 +360,33 @@ this.gButton.merge(this.gButton);
 this.routerLink = buildMap[8];
 // console.log(this.routerLink);
 
-this.svg.selectAll('ellipse').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('text.eText').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('text.linkword').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('path.link').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('ellipse.linkword').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('rect.gRect').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('text.gText').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('image.gImage').transition()
-.duration(0)
-.attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-this.svg.selectAll('text.eTextNextMap').transition()
-  .duration(0)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('ellipse').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('text.eText').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('text.linkword').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('path.link').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('ellipse.linkword').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('rect.gRect').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('text.gText').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('image.gImage').transition()
+// .duration(0)
+// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+// this.svg.selectAll('text.eTextNextMap').transition()
+//   .duration(0)
+//   .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
 
 
 this.routerLink = buildMap[8];

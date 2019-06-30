@@ -1,0 +1,56 @@
+{"nodes":[{"id":0,"text":"value","x":270,"y":100,"reflexive":true,"level":1},
+{"id":1,"text":"variable","x":785,"y":300,"reflexive":true,"level":1},
+{"id":2,"text":"constant","x":300,"y":300,"reflexive":true,"level":2},
+{"id":3,"text":"instance variable","x":580,"y":380,"reflexive":true,"level":3},
+{"id":4,"text":"local variable","x":700,"y":395,"reflexive":true,"level":3},
+{"id":5,"text":"class variable","x":800,"y":380,"reflexive":true,"level":3}],
+
+
+"linkwords":[{"id":0,"text":"into","x":550,"y":160},
+{"id":1,"text":"declared with final type","x":550,"y":300},
+{"id":2,"text":"has type","x":700,"y":340},
+{"id":3,"text":"put","x":-550,"y":100},
+{"id":4,"text":"put first","x":-392,"y":140},
+{"id":5,"text":"create","x":262,"y":156},
+{"id":6,"text":"shows","x":34,"y":253},
+{"id":7,"text":"by","x":6,"y":328}],
+
+
+"links":[{"id":"a0 b0","source":"nodes[0]","target":"linkwords[0]"},
+{"id":"b0 a1","source":"linkwords[0]","target":"nodes[1]"},
+{"id":"a1 b1","source":"nodes[1]","target":"linkwords[1]"},
+{"id":"b1 a2","source":"linkwords[1]","target":"nodes[2]"},
+{"id":"a1 b2","source":"nodes[1]","target":"linkwords[2]"},
+{"id":"b2 a3","source":"linkwords[2]","target":"nodes[3]"},
+{"id":"b2 a4","source":"linkwords[2]","target":"nodes[4]"},
+{"id":"b2 a5","source":"linkwords[2]","target":"nodes[5]"},
+{"id":"c0 b5","source":"nodesNextMap[0]","target":"linkwords[5]"},
+{"id":"b5 a1","source":"linkwords[5]","target":"nodes[1]"},
+{"id":"b3 a0","source":"linkwords[3]","target":"nodes[0]"},
+{"id":"b4 a0","source":"linkwords[4]","target":"nodes[0]"},
+{"id":"c1 b6","source":"nodesNextMap[1]","target":"linkwords[6]"},
+{"id":"b6 c2","source":"linkwords[6]","target":"nodesNextMap[2]"},
+{"id":"c2 b7","source":"nodesNextMap[2]","target":"linkwords[7]"},
+{"id":"b7 c3","source":"linkwords[7]","target":"nodesNextMap[3]"}],
+
+
+"nodesNextMap":[{"id":0,"text":"initialization","x":-482,"y":250,"reflexive":true},
+{"id":1,"text":"print statement","x":33,"y":220,"reflexive":true},
+{"id":2,"text":"output","x":27,"y":289,"reflexive":true},
+{"id":3,"text":"System class","x":80,"y":390,"reflexive":true}],
+
+
+"glossaries":[{"id":"0","target":"nodes[0]","hidden":true,"width":60,"height":80,"page":"15"},
+{"id":"1","target":"nodes[1]","hidden":true,"width":60,"height":80,"page":"15"},
+{"id":"2","target":"nodes[2]","hidden":true,"width":60,"height":80,"page":"38"},
+{"id":"3","target":"nodes[3]","hidden":true,"width":60,"height":80,"page":"172"},
+{"id":"4","target":"nodes[4]","hidden":true,"width":60,"height":80,"page":"56"},
+{"id":"5","target":"nodes[5]","hidden":true,"width":60,"height":80,"page":"193"}],
+
+
+"gTexts":[{"id":"0","text":"One of the most powerful features of a programming language is the ability to define and manipulate variables. A variable is a named location that stores a value.","target":"nodes[0]","hidden":true,"page":"15"},
+{"id":"1","text":"Values may be numbers, text, images, sounds, and other types of data. To store a value, you first have to declare a variable.","target":"nodes[1]","hidden":true,"page":"15"},
+{"id":"2","text":"Variables declared as final are called constants. By convention, names for constants are all uppercase, with the underscore character (_) between words.  ","target":"nodes[2]","hidden":true,"page":"38"},
+{"id":"3","text":"Attributes are also called instance variables, because each instance has its own variables (as opposed to class variables, coming up in Section 12.3). ","target":"nodes[3]","hidden":true,"page":"172"},
+{"id":"4","text":"Because variables only exist inside the methods where they are defined, they are often called local variables. ","target":"nodes[4]","hidden":true,"page":"56"},
+{"id":"5","text":"Like instance variables, class variables are defined in a class definition, before the method definitions. Butthey are identified by the keyword static. ","target":"nodes[5]","hidden":true,"page":"193"}]}

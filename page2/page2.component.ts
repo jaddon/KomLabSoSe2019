@@ -6,7 +6,7 @@ import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './modifiedpage2.json';
+import json from './page2.json';
 
 
 @Component({
@@ -362,7 +362,7 @@ export class Page2Component implements OnInit{
 
   this.svg.append("polygon")
   .attr('class', 'cluster')
-  .attr("points", "380,20 250,130 40,60 30,300 250,450 500,450 650,400 720,100")
+  .attr("points", "380,5 250,80 40,30 0,160 160,450 500,450 1050,450 1000,200")
   .style("fill", "lightgreen")
   .style('opacity', '0.6')
   .style("stroke", "black")
@@ -393,7 +393,7 @@ export class Page2Component implements OnInit{
 
   this.svg.append("polygon")
   .attr('class', 'clusterNextMap')
-  .attr("points", "650,400 720,100 920,50 1200,300 1240,380 1200,450")
+  .attr("points", "1050,450 1000,200 1050,70 1200,20 1240,120 1240,450")
   .style("fill", "lightyellow")
   .style('opacity', '0.6')
   .style("stroke", "black")
@@ -402,7 +402,7 @@ export class Page2Component implements OnInit{
   .on('mousedown', (d)=>{
     this.svg.append('rect')
     .attr('class', 'progress')
-    .attr('x', '800')
+    .attr('x', '1100')
     .attr('y', '200')
     .attr('width', '100')
     .attr('height', '60')
@@ -413,7 +413,7 @@ export class Page2Component implements OnInit{
 
     this.svg.append('text')
     .attr('class', 'progress')
-    .attr('x', '850')
+    .attr('x', '1150')
     .attr('y', '210')
     .attr('fill', 'white')
     .attr('font-size', '5')
@@ -635,31 +635,31 @@ if(this.routerLink!=null){
   
   this.svg.selectAll('ellipse').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('text.eText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('text.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('path.link').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('ellipse.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('rect.gRect').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('text.gText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('image.gImage').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
   this.svg.selectAll('text.eTextNextMap').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  -900  + ',' + 0 + ')');
 
 
 

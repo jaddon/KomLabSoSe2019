@@ -14,6 +14,8 @@ import { Page3Component } from './page3/page3.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Modify2Component } from './page2/modify2/modify2.component';
 import { Test2Component } from './page2/test2/test2.component';
+import { Modify1Component } from './page1/modify1/modify1.component';
+import { Modify3Component } from './page3/modify3/modify3.component';
 
 
 
@@ -30,6 +32,8 @@ import { Test2Component } from './page2/test2/test2.component';
     Page3Component,
     Modify2Component,
     Test2Component,
+    Modify1Component,
+    Modify3Component,
   ],
   imports: [
     BrowserModule,

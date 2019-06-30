@@ -4,7 +4,7 @@ import {style} from '@angular/animations';
 // import { svg } from 'd3';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
-
+import json from './page1.json';
 
 @Component({
   selector: 'app-page1',
@@ -14,10 +14,114 @@ import { Router } from '@angular/router';
 })
 export class Page1Component implements OnInit{
 
+
+  pageNumber : number = 5;
+
+  pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
+
   constructor(private buildMapService: BuildMapService, private router: Router){
   }
 
   ngOnInit(){
+    // console.log(json.nodes);
+    this.nodes = json.nodes;
+    this.nodesNextMap = json.nodesNextMap;
+    this.linkwords = json.linkwords;
+
+
+    var temp = json.links;
+    for(var i = 0; i<temp.length; i++){
+      var link = {"source":null, "target":null, "left": false, "right": true};
+      if(temp[i].source.includes("nodes["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp[i].source.split("nodes[")[1].split(']')[0]);
+      //  console.log(n);
+       link.source = this.nodes[n];
+      }
+      if(temp[i].target.includes("nodes["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp[i].target.split("nodes[")[1].split(']')[0]);
+      //  console.log(n);
+       link.target = this.nodes[n];
+      }
+      if(temp[i].source.includes("linkwords["))
+      {
+        var n = parseInt(temp[i].source.split("linkwords[")[1].split(']')[0]);
+        // console.log(n);
+        link.source = this.linkwords[n];
+      }
+      if(temp[i].target.includes("linkwords["))
+      {
+        var n = parseInt(temp[i].target.split("linkwords[")[1].split(']')[0]);
+        // console.log(n);
+        link.target = this.linkwords[n];
+      }
+      if(temp[i].source.includes("nodesNextMap["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp[i].source.split("nodesNextMap[")[1].split(']')[0]);
+      //  console.log(n);
+       link.source = this.nodesNextMap[n];
+      }
+      if(temp[i].target.includes("nodesNextMap["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp[i].target.split("nodesNextMap[")[1].split(']')[0]);
+      //  console.log(n);
+       link.target = this.nodesNextMap[n];
+      }
+      this.links.push(link);
+    }
+
+    var temp2 = json.glossaries;
+    for(var i = 0; i<temp2.length; i++){
+      var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
+      glossary.page = temp2[i].page;
+      if(temp2[i].target.includes("nodes["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp2[i].target.split("nodes[")[1].split(']')[0]);
+      //  console.log(n);
+       glossary.target = this.nodes[n];
+      }
+      if(temp2[i].target.includes("nodesNextMap["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp2[i].target.split("nodesNextMap[")[1].split(']')[0]);
+      //  console.log(n);
+       glossary.target = this.nodesNextMap[n];
+      }
+      this.glossaries.push(glossary);
+    }
+    var temp3 = json.gTexts;
+    for(var i = 0; i<temp3.length; i++){
+      var gText = {"text":null, "target":null, "hidden": true, "page": null};
+      gText.page = temp3[i].page;
+      if(temp3[i].target.includes("nodes["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp3[i].target.split("nodes[")[1].split(']')[0]);
+      //  console.log(n);
+       gText.target = this.nodes[n];
+      }
+      if(temp3[i].target.includes("nodesNextMap["))
+      {
+        // console.log(temp[i]);
+       var n = parseInt(temp3[i].target.split("nodesNextMap[")[1].split(']')[0]);
+      //  console.log(n);
+       gText.target = this.nodesNextMap[n];
+      }
+      gText.text = temp3[i].text;
+      // console.log(gText);
+      this.gTexts.push(gText);
+    }
+    //  console.log(this.gTexts);
+
+
+ 
+    // console.log(this.nodes[0]);
   }
 
   title = 'KomTest';
@@ -53,113 +157,21 @@ export class Page1Component implements OnInit{
   mousedownNode = null;
   mouseupNode = null;
 
-  // store the nodes
-  nodes = [
-    { id: 0, text: 'computer science', x: 300, y: 70, reflexive: true },
-    { id: 1, text: 'algorithm', x: 210, y: 140, reflexive: true },
-    { id: 2, text: 'programming', x: 350, y: 160, reflexive: true },
-    { id: 3, text: 'problem solving', x: 120, y: 210, reflexive: true },
-    { id: 4, text: 'low-level language', x: 270, y: 230, reflexive: true },
-    { id: 5, text: 'high-level language', x: 410, y: 230, reflexive: true },
-    { id: 6, text: 'debugging', x: 480, y: 210, reflexive: true },
-    { id: 7, text: 'machine code', x: 230, y: 300, reflexive: false },
-    { id: 8, text: 'source code', x: 420, y: 300, reflexive: false },
-    { id: 9, text: 'bug', x: 550, y: 260, reflexive: false },
-    { id: 10, text: 'logic error', x: 510, y: 320, reflexive: false },
-    { id: 11, text: 'compile-time error', x: 670, y: 320, reflexive: false },
-    { id: 12, text: 'run-time error', x: 590, y: 320, reflexive: false },
-    { id: 13, text: 'intepreter', x: 340, y: 360, reflexive: false },
-    { id: 14, text: 'compiler', x: 480, y: 360, reflexive: false },
-  ];
+ // store the nodes
+ nodes = [];
 
-  nodesNextMap = [
-    
-  ];
+nodesNextMap = [];
 
-   // store the link words
-   linkwords = [
-     {id: 0, text: 'is science of', x: 255, y: 105, reflexive: false},
-     {id: 1, text: 'for', x: 165, y: 175, reflexive: false},
-     {id: 2, text: 'is about', x: 328, y: 120, reflexive: false},
-     {id: 3, text: 'has', x: 350, y: 195, reflexive: false},
-     {id: 4, text: 'uses', x: 415, y: 185, reflexive: false},
-     {id: 5, text: 'is called', x: 250, y: 265, reflexive: false},
-     {id: 6, text: 'is called', x: 415, y: 265, reflexive: false},
-     {id: 7, text: 'to find', x: 515, y: 235, reflexive: false},
-     {id: 8, text: 'in', x: 485, y: 280, reflexive: false},
-     {id: 9, text: 'includes', x: 570, y: 290, reflexive: false},
-     {id: 10, text: 'into', x: 285, y: 330, reflexive: false},
-     {id: 11, text: 'is translated with', x: 410, y: 335, reflexive: false},
-   ];
+ // store the link words
+ linkwords =  [];
 
-  // store the links
-  links = [
-    { source: this.nodes[0], target: this.linkwords[0], left: false, right: false },
-    { source: this.linkwords[0], target: this.nodes[1], left: false, right: true },
-    { source: this.nodes[1], target: this.linkwords[1], left: false, right: false },
-    { source: this.linkwords[1], target: this.nodes[3], left: false, right: true },
-    { source: this.nodes[0], target: this.linkwords[2], left: false, right: false },
-    { source: this.linkwords[2], target: this.nodes[2], left: false, right: true },
-    { source: this.nodes[2], target: this.linkwords[3], left: false, right: false },
-    { source: this.linkwords[3], target: this.nodes[4], left: false, right: true },
-    { source: this.linkwords[3], target: this.nodes[5], left: false, right: true },
-    { source: this.nodes[2], target: this.linkwords[4], left: false, right: false },
-    { source: this.linkwords[4], target: this.nodes[6], left: false, right: true },
-    { source: this.nodes[4], target: this.linkwords[5], left: false, right: false },
-    { source: this.linkwords[5], target: this.nodes[7], left: false, right: true },
-    { source: this.nodes[5], target: this.linkwords[6], left: false, right: false },
-    { source: this.linkwords[6], target: this.nodes[8], left: false, right: true },
-    { source: this.nodes[6], target: this.linkwords[7], left: false, right: false },
-    { source: this.linkwords[7], target: this.nodes[9], left: false, right: true },
-    { source: this.nodes[9], target: this.linkwords[8], left: false, right: false },
-    { source: this.linkwords[8], target: this.nodes[8], left: false, right: true },
-    { source: this.nodes[9], target: this.linkwords[9], left: false, right: false },
-    { source: this.linkwords[9], target: this.nodes[10], left: false, right: true },
-    { source: this.linkwords[9], target: this.nodes[11], left: false, right: true },
-    { source: this.linkwords[9], target: this.nodes[12], left: false, right: true },
-    { source: this.nodes[13], target: this.linkwords[10], left: false, right: false },
-    { source: this.linkwords[10], target: this.nodes[7], left: false, right: true },
-    { source: this.nodes[8], target: this.linkwords[11], left: false, right: false },
-    { source: this.linkwords[11], target: this.nodes[13], left: false, right: true },
-    { source: this.linkwords[11], target: this.nodes[14], left: false, right: true },    
-  ];
+// store the links
+links = [];
 
-  // store the white rectangulars as simulation for text fields
-  glossaries = [
-    { target: this.nodes[0], hidden: true, width: 60, height: 80},
-    { target: this.nodes[1], hidden: true, width: 60, height: 80},
-    { target: this.nodes[2], hidden: true, width: 60, height: 80},
-    { target: this.nodes[3], hidden: true, width: 60, height: 80},
-    { target: this.nodes[4], hidden: true, width: 60, height: 80},
-    { target: this.nodes[5], hidden: true, width: 60, height: 80},
-    { target: this.nodes[6], hidden: true, width: 60, height: 80},
-    { target: this.nodes[7], hidden: true, width: 60, height: 80},
-    { target: this.nodes[8], hidden: true, width: 60, height: 80},
-    { target: this.nodes[9], hidden: true, width: 60, height: 80},
-    { target: this.nodes[10], hidden: true, width: 60, height: 80},
-    { target: this.nodes[11], hidden: true, width: 60, height: 80},
-    { target: this.nodes[12], hidden: true, width: 60, height: 80},
-    { target: this.nodes[13], hidden: true, width: 60, height: 80},
-    { target: this.nodes[14], hidden: true, width: 60, height: 80},
-  ];
+// store the white rectangulars as simulation for text fields
+glossaries = [];
 
-  gTexts = [
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[0], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[1], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[2], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[3], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[4], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[5], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[6], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[7], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[8], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[9], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[10], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[11], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[12], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[13], hidden: true},
-    {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[14], hidden: true},
-  ];
+gTexts = [];
 
 
   ngAfterContentInit() {
@@ -185,6 +197,65 @@ export class Page1Component implements OnInit{
   this.circleNextMap = svgArray[8];
   this.toNextMapRect = svgArray[9];
   this.gButton = svgArray[10];
+
+
+  this.svg.append("polygon")
+  .attr('class', 'cluster')
+  .attr("points", "380,5 250,30 80,100 0,160 250,450 500,450 1100,450 1050,200")
+  .style("fill", "lightgreen")
+  .style('opacity', '0.6')
+  .style("stroke", "black")
+  .style("strokeWidth", "10px")
+  .attr('visibility', 'hidden')
+  .on('mousedown', (d)=>{
+    this.svg.append('rect')
+    .attr('class', 'progress')
+    .attr('x', '400')
+    .attr('y', '200')
+    .attr('width', '100')
+    .attr('height', '60')
+    .attr('rx', '5')
+    .attr('ry', '5')
+    .style('fill', 'blue')
+    .style('opacity', '0.8');
+
+    this.svg.append('text')
+    .attr('class', 'progress')
+    .attr('x', '450')
+    .attr('y', '210')
+    .attr('fill', 'white')
+    .attr('font-size', '5')
+    .attr('text-anchor', 'middle')
+    .text('progress : 0%')
+  })
+  ;
+
+  this.svg.append('circle')
+  .attr('class', 'activateCluster')
+  .attr('cx', '50')
+  .attr('cy', '420')
+  .attr('r', 10)
+  .attr('fill','orange')
+  .attr('cursor', 'pointer')
+  .on('mousedown', (d)=>{
+    this.svg.selectAll('polygon').attr('visibility', this.svg.selectAll('polygon').attr('visibility')==='hidden'?'visible':'hidden')
+  })
+  .on('mouseup', (d)=>{
+    if(this.svg.selectAll('polygon').attr('visibility')==='hidden'){
+      this.svg.selectAll('rect.progress').remove();
+      this.svg.selectAll('text.progress').remove();
+    }
+
+  })
+
+  var button = this.svg.append("foreignObject")
+  .attr("width", 80)
+  .attr("height", 40)
+  .attr('x', '550')
+  .attr('y', '10')
+  .append('xhtml:div')
+  .attr('class','button')
+  .html('<a href="http://localhost:4200/page1/modify1" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
 
@@ -253,6 +324,8 @@ export class Page1Component implements OnInit{
 // refresh function
   restart() {  
 var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, 0);
+
+this.pageNumber = this.svg.attr("page");
 
 this.svg  = buildMap[0];
 
