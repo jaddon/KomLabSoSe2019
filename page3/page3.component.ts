@@ -5,6 +5,7 @@ import {style} from '@angular/animations';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import json from './page3.json';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -19,7 +20,26 @@ export class Page3Component implements OnInit{
 
   pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
 
-  constructor(private buildMapService: BuildMapService, private router: Router){
+  constructor(private buildMapService: BuildMapService, private router: Router, private http: HttpClient){
+  }
+
+  callServer() {
+    const headers = new HttpHeaders()
+          .set('Authorization', 'my-auth-token')
+          .set('Content-Type', 'application/json');
+
+    this.http.post('http://127.0.0.1:3000/post', JSON.stringify(this.nodes), {
+      headers: headers
+    })
+    .subscribe(data => {
+      console.log(data);
+    });
+    this.http.post('http://127.0.0.1:3000/post', JSON.stringify(this.links), {
+      headers: headers
+    })
+    .subscribe(data => {
+      console.log(data);
+    });
   }
 
   ngOnInit(){
@@ -122,6 +142,8 @@ export class Page3Component implements OnInit{
  
   
      // console.log(this.nodes[0]);
+
+ 
   }
 
   title = 'KomTest';
@@ -265,6 +287,20 @@ export class Page3Component implements OnInit{
   .html('<a href="http://localhost:4200/page3/modify3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
+  // post the json data to server
+  var postButton = this.svg.append("foreignObject")
+  .attr('class','post')
+  .attr("width", 80)
+  .attr("height", 40)
+  .attr('x', '650')
+  .attr('y', '10')
+  .append('xhtml:div')
+  .attr('class','button')
+  .html('<button type="button" class="btn btn-primary btn-sm active btn-block">Post</button>');
+
+  this.svg.select('foreignObject.post').on('click',(d)=>{
+    this.callServer();
+  })
 
 
 // refresh after each mousedown and mouseup
