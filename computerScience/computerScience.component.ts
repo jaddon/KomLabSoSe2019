@@ -4,15 +4,15 @@ import {style} from '@angular/animations';
 // import { svg } from 'd3';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
-import json from './page1.json';
+import json from '../data.json';
 
 @Component({
-  selector: 'app-page1',
-  templateUrl: './page1.component.html',
-  styleUrls: ['./page1.component.css'],
+  selector: 'app-computerScience',
+  templateUrl: './computerScience.component.html',
+  styleUrls: ['./computerScience.component.css'],
   providers: [BuildMapService],
 })
-export class Page1Component implements OnInit{
+export class ComputerScienceComponent implements OnInit{
 
 
   pageNumber : number = 5;
@@ -24,12 +24,12 @@ export class Page1Component implements OnInit{
 
   ngOnInit(){
     // console.log(json.nodes);
-    this.nodes = json.nodes;
-    this.nodesNextMap = json.nodesNextMap;
-    this.linkwords = json.linkwords;
+    this.nodes = json.nodes1;
+    this.nodesNextMap = json.nodesNextMap1;
+    this.linkwords = json.linkwords1;
 
 
-    var temp = json.links;
+    var temp = json.links1;
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true};
       if(temp[i].source.includes("nodes["))
@@ -75,7 +75,7 @@ export class Page1Component implements OnInit{
       this.links.push(link);
     }
 
-    var temp2 = json.glossaries;
+    var temp2 = json.glossaries1;
     for(var i = 0; i<temp2.length; i++){
       var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
       glossary.page = temp2[i].page;
@@ -95,7 +95,7 @@ export class Page1Component implements OnInit{
       }
       this.glossaries.push(glossary);
     }
-    var temp3 = json.gTexts;
+    var temp3 = json.gTexts1;
     for(var i = 0; i<temp3.length; i++){
       var gText = {"text":null, "target":null, "hidden": true, "page": null};
       gText.page = temp3[i].page;
@@ -255,7 +255,7 @@ gTexts = [];
   .attr('y', '10')
   .append('xhtml:div')
   .attr('class','button')
-  .html('<a href="http://localhost:4200/page1/modify1" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
+  .html('<a href="http://localhost:4200/computerScience/modify1" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
 

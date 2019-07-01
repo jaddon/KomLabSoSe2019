@@ -5,7 +5,7 @@ import {style} from '@angular/animations';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './modify3.json';
+import json from '../../data.json';
 import { ModifyMapService } from '../../modifyMap.service';
 
 
@@ -32,12 +32,12 @@ export class Modify3Component implements OnInit{
   
    
    // console.log(json.nodes);
-    this.nodes = json.nodes;
-    this.nodesNextMap = json.nodesNextMap;
-    this.linkwords = json.linkwords;
+    this.nodes = json.nodes3;
+    this.nodesNextMap = json.nodesNextMap3;
+    this.linkwords = json.linkwords3;
 
 
-    var temp = json.links;
+    var temp = json.links3;
     // console.log(temp);
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
@@ -85,7 +85,7 @@ export class Modify3Component implements OnInit{
       this.links.push(link);
     }
 
-    var temp2 = json.glossaries;
+    var temp2 = json.glossaries3;
     for(var i = 0; i<temp2.length; i++){
       var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null, 'id': null};
       glossary.page = temp2[i].page;
@@ -106,7 +106,7 @@ export class Modify3Component implements OnInit{
       }
       this.glossaries.push(glossary);
     }
-    var temp3 = json.gTexts;
+    var temp3 = json.gTexts3;
     for(var i = 0; i<temp3.length; i++){
       var gText = {"text":null, "target":null, "hidden": true, "page": null, 'id': null};
       gText.page = temp3[i].page;

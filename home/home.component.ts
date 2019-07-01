@@ -168,7 +168,10 @@ export class HomeComponent implements OnInit{
     this.svg.selectAll('ellipse').remove();
     this.svg.selectAll('path').remove();
     this.svg.selectAll('text').remove();
-    this.router.navigate(['/page'+id]);
+    if(id === 1) {this.router.navigate(['/computerScience']);}
+    else if(id === 2) {this.router.navigate(['/program']);}
+    else if(id === 3) {this.router.navigate(['/variable']);}
+    // this.router.navigate(['/page'+id]);
     //  this.router.navigate(['test/singleChoice']);
     // this.router.navigate(['/micro-basic']);
   }
@@ -264,8 +267,8 @@ const g = this.circle.enter().append('svg:g');
 // create ellipses
 g.append('svg:ellipse')
 .attr('class', 'node')
-.attr('rx', 34)
-.attr('ry', 16)
+.attr('rx', 55)
+.attr('ry', 20)
 .attr('cx', (d) => d.x)
 .attr('cy', (d) => d.y)
 // .attr('fill',(d) => d.id===0? 'red': 'black')
@@ -285,18 +288,7 @@ g.append('svg:ellipse')
   this.centered = this.centered !== d ? d : null;
   this.clickOnNode = true;
 
-  // for (let i = 0; i < this.infos.length; i++) {
-  //   this.infos[i].hidden = true;
-  // }
-
   this.svg.selectAll('rect').remove();
-
-
-  // if (this.k === 3) {
-  //   this.infos[d.id].hidden = false;
-  // }
-
-  // this.restart();
 
   this.svg.transition()
   .duration(750)
@@ -306,8 +298,21 @@ g.append('svg:ellipse')
     setTimeout(() => { this.toMicro(d.id); }, 700);
     // this.toMicro(d.id);
   }
-
-
+ 
+})
+.on('mouseover', (d)=>{
+  d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+    return a['id']===d.id;
+  })
+  .style('stroke', (d) => 'black')
+  .style('stroke-width', '3px')
+})
+.on('mouseout', (d)=>{
+  d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+    return a['id']===d.id;
+  })
+  .style('stroke', (d) => 'white')
+  .style('stroke-width', '1.5px')
 });
 
 
@@ -324,10 +329,5 @@ g.append('svg:text')
 .text((d) => d.text);
 
 this.circle = g.merge(this.circle);
-
-
-// for (let i = 0; i < this.infos.length; i++) {
-//   this.infos[i].hidden = true;
-// }
   }
 }

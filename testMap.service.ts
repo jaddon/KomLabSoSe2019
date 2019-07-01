@@ -144,7 +144,7 @@ export class TestMapService{
       }
     )
     .on('mousedown', (d)=>{
-      svg.select('text.toNext').attr('routerLink', '/page3');
+      svg.select('text.toNext').attr('routerLink', '/variable');
    })
     ;
 

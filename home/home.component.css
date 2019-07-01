@@ -21,7 +21,7 @@
   }
 
   ::ng-deep text{
-    font: 6px sans-serif;
+    font: 10px sans-serif;
     pointer-events: none;
   }
 

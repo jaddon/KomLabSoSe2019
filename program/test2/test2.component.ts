@@ -6,7 +6,7 @@ import { TestMapService } from '../../testMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './test2.json';
+import json from '../../data.json';
 
 
 @Component({
@@ -29,12 +29,12 @@ export class Test2Component implements OnInit{
   
    
    // console.log(json.nodes);
-    this.nodes = json.nodes;
-    this.nodesNextMap = json.nodesNextMap;
-    this.linkwords = json.linkwords;
+    this.nodes = json.nodes2;
+    this.nodesNextMap = json.nodesNextMap2;
+    this.linkwords = json.linkwords2;
 
 
-    var temp = json.links;
+    var temp = json.links2;
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true};
       if(temp[i].source.includes("nodes["))

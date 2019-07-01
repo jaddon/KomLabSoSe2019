@@ -5,17 +5,17 @@ import {style} from '@angular/animations';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './modify2.json';
+import json from '../../data.json';
 import { ModifyMapService } from '../../modifyMap.service';
 
 
 @Component({
-  selector: 'app-modify2',
-  templateUrl: './modify2.component.html',
-  styleUrls: ['./modify2.component.css'],
+  selector: 'app-modify1',
+  templateUrl: './modify1.component.html',
+  styleUrls: ['./modify1.component.css'],
   providers: [ModifyMapService],
 })
-export class Modify2Component implements OnInit{
+export class Modify1Component implements OnInit{
 
   pageNumber : number = 5;
 
@@ -32,12 +32,12 @@ export class Modify2Component implements OnInit{
   
    
    // console.log(json.nodes);
-    this.nodes = json.nodes;
-    this.nodesNextMap = json.nodesNextMap;
-    this.linkwords = json.linkwords;
+    this.nodes = json.nodes1;
+    this.nodesNextMap = json.nodesNextMap1;
+    this.linkwords = json.linkwords1;
 
 
-    var temp = json.links;
+    var temp = json.links1;
     // console.log(temp);
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
@@ -85,7 +85,7 @@ export class Modify2Component implements OnInit{
       this.links.push(link);
     }
 
-    var temp2 = json.glossaries;
+    var temp2 = json.glossaries1;
     for(var i = 0; i<temp2.length; i++){
       var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null, 'id': null};
       glossary.page = temp2[i].page;
@@ -106,7 +106,7 @@ export class Modify2Component implements OnInit{
       }
       this.glossaries.push(glossary);
     }
-    var temp3 = json.gTexts;
+    var temp3 = json.gTexts1;
     for(var i = 0; i<temp3.length; i++){
       var gText = {"text":null, "target":null, "hidden": true, "page": null, 'id': null};
       gText.page = temp3[i].page;
@@ -169,28 +169,21 @@ export class Modify2Component implements OnInit{
   mousedownNode = null;
   mouseupNode = null;
 
-  // store the nodes
-  nodes = [
-  ];
+ // store the nodes
+ nodes = [];
 
-  nodesNextMap = [
-  ];
+nodesNextMap = [];
 
+ // store the link words
+ linkwords =  [];
 
-   // store the link words
-   linkwords = [
-   ];
+// store the links
+links = [];
 
-  // store the links
-  links = [
-  ];
+// store the white rectangulars as simulation for text fields
+glossaries = [];
 
-  // store the white rectangulars as simulation for text fields
-  glossaries = [
-  ];
-
-  gTexts = [
-  ];
+gTexts = [];
 
 
   ngAfterContentInit() {
@@ -331,31 +324,31 @@ if(this.routerLink!=null){
   
   this.svg.selectAll('ellipse').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('text.eText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('text.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('path.link').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('ellipse.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('rect.gRect').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('text.gText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('image.gImage').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
   this.svg.selectAll('text.eTextNextMap').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -900  + ',' + 0 + ')');
+  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
 
 
 

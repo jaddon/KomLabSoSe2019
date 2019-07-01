@@ -4,17 +4,17 @@ import {style} from '@angular/animations';
 // import { svg } from 'd3';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
-import json from './page3.json';
+import json from '../data.json';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
-  selector: 'app-page3',
-  templateUrl: './page3.component.html',
-  styleUrls: ['./page3.component.css'],
+  selector: 'app-variable',
+  templateUrl: './variable.component.html',
+  styleUrls: ['./variable.component.css'],
   providers: [BuildMapService],
 })
-export class Page3Component implements OnInit{
+export class VariableComponent implements OnInit{
 
   pageNumber : number = 5;
 
@@ -44,12 +44,12 @@ export class Page3Component implements OnInit{
 
   ngOnInit(){
      // console.log(json.nodes);
-     this.nodes = json.nodes;
-     this.nodesNextMap = json.nodesNextMap;
-     this.linkwords = json.linkwords;
+     this.nodes = json.nodes3;
+     this.nodesNextMap = json.nodesNextMap3;
+     this.linkwords = json.linkwords3;
  
  
-     var temp = json.links;
+     var temp = json.links3;
      for(var i = 0; i<temp.length; i++){
        var link = {"source":null, "target":null, "left": false, "right": true};
        if(temp[i].source.includes("nodes["))
@@ -95,7 +95,7 @@ export class Page3Component implements OnInit{
        this.links.push(link);
      }
  
-     var temp2 = json.glossaries;
+     var temp2 = json.glossaries3;
      for(var i = 0; i<temp2.length; i++){
        var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
        glossary.page = temp2[i].page;
@@ -115,7 +115,7 @@ export class Page3Component implements OnInit{
        }
        this.glossaries.push(glossary);
      }
-     var temp3 = json.gTexts;
+     var temp3 = json.gTexts3;
      for(var i = 0; i<temp3.length; i++){
        var gText = {"text":null, "target":null, "hidden": true, "page": null};
        gText.page = temp3[i].page;
@@ -284,7 +284,7 @@ export class Page3Component implements OnInit{
   .attr('y', '10')
   .append('xhtml:div')
   .attr('class','button')
-  .html('<a href="http://localhost:4200/page3/modify3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
+  .html('<a href="http://localhost:4200/variable/modify3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
   // post the json data to server

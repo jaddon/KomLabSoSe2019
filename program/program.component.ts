@@ -6,16 +6,16 @@ import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
-import json from './page2.json';
+import json from '../data.json';
 
 
 @Component({
-  selector: 'app-page2',
-  templateUrl: './page2.component.html',
-  styleUrls: ['./page2.component.css'],
+  selector: 'app-program',
+  templateUrl: './program.component.html',
+  styleUrls: ['./program.component.css'],
   providers: [BuildMapService],
 })
-export class Page2Component implements OnInit{
+export class ProgramComponent implements OnInit{
 
   pageNumber : number = 5;
 
@@ -32,12 +32,12 @@ export class Page2Component implements OnInit{
   
    
    // console.log(json.nodes);
-    this.nodes = json.nodes;
-    this.nodesNextMap = json.nodesNextMap;
-    this.linkwords = json.linkwords;
+    this.nodes = json.nodes2;
+    this.nodesNextMap = json.nodesNextMap2;
+    this.linkwords = json.linkwords2;
 
 
-    var temp = json.links;
+    var temp = json.links2;
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true};
       if(temp[i].source.includes("nodes["))
@@ -83,7 +83,7 @@ export class Page2Component implements OnInit{
       this.links.push(link);
     }
 
-    var temp2 = json.glossaries;
+    var temp2 = json.glossaries2;
     for(var i = 0; i<temp2.length; i++){
       var glossary = {"target":null, "hidden":true, "width": 60, "height": 80, "page": null};
       glossary.page = temp2[i].page;
@@ -103,7 +103,7 @@ export class Page2Component implements OnInit{
       }
       this.glossaries.push(glossary);
     }
-    var temp3 = json.gTexts;
+    var temp3 = json.gTexts2;
     for(var i = 0; i<temp3.length; i++){
       var gText = {"text":null, "target":null, "hidden": true, "page": null};
       gText.page = temp3[i].page;
@@ -434,22 +434,6 @@ export class Page2Component implements OnInit{
     //   this.svg.selectAll('rect.progress').remove();
     // }
     this.svg.selectAll('polygon').attr('visibility', this.svg.selectAll('polygon').attr('visibility')==='hidden'?'visible':'hidden')
-    
-// just for decoration
-
-    if(this.svg.select('circle.rotate').attr('cy')==='0'){
-      this.svg.select('circle.rotate')
-      .transition()
-      .duration(1000)
-      .attr('transform', 'rotate(90, 0, 0)');
-      
-    }
-    else{
-      this.svg.select('circle.rotate')
-      .transition()
-      .duration(1000)
-      .attr('transform', 'rotate(-90, 0, 0)');
-    }
 
   })
   .on('mouseup', (d)=>{
@@ -459,27 +443,6 @@ export class Page2Component implements OnInit{
     }
 
   })
-
-
-  this.svg.append('circle')
-  .attr('class', 'rotate1')
-  .attr('cx', '0')
-  .attr('cy', '0')
-  .attr('r', 50)
-  .attr('fill','red')
-  .on('mousedown', (d)=>{  
-  })
-  .on('mouseup', (d)=>{
-  })
-  ;
-
-  this.svg.append('circle')
-    .attr('class', 'rotate')
-    .attr('cx', '40')
-    .attr('cy', '0')
-    .attr('r', 10)
-    .attr('fill','white')
-    ;
 
     // this part works with normal html element
 
@@ -517,7 +480,7 @@ export class Page2Component implements OnInit{
     .attr('y', '10')
     .append('xhtml:div')
     .attr('class','button')
-    .html('<a href="http://localhost:4200/page2/modify2" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
+    .html('<a href="http://localhost:4200/program/modify2" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
 
