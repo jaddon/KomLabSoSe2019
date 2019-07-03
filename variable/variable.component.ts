@@ -28,18 +28,38 @@ export class VariableComponent implements OnInit{
           .set('Authorization', 'my-auth-token')
           .set('Content-Type', 'application/json');
 
-    this.http.post('http://127.0.0.1:3000/post', JSON.stringify(this.nodes), {
-      headers: headers
-    })
-    .subscribe(data => {
-      console.log(data);
-    });
-    this.http.post('http://127.0.0.1:3000/post', JSON.stringify(this.links), {
-      headers: headers
-    })
-    .subscribe(data => {
-      console.log(data);
-    });
+    var resultNew = [{nodes0true: 0, nodes0false: 1, nodes1true: 1, nodes1false: 0}]
+
+    
+    this.http.get('http://127.0.0.1:3000/get').subscribe(
+      data => {
+      // console.log("get: "+data);
+      
+      resultNew[0]['nodes0true'] += parseInt(data[0]['nodes0true'])
+      resultNew[0]['nodes0false'] += parseInt(data[0]['nodes0false'])
+      resultNew[0]['nodes1true'] += parseInt(data[0]['nodes1true'])
+      resultNew[0]['nodes1false'] += parseInt(data[0]['nodes1false'])
+      // resultNew.push({nodes2true: 1});
+
+      console.log("get: "+JSON.stringify(data));
+      console.log("success");
+
+      console.log(JSON.stringify(resultNew));
+
+      this.http.post('http://127.0.0.1:3000/post', JSON.stringify(resultNew), {
+        headers: headers
+      })
+      .subscribe(data => {
+        console.log(JSON.stringify(resultNew));
+        console.log("send: "+JSON.stringify(data));
+      });
+
+      
+    },
+    err => {
+      console.log("Error occured."+JSON.stringify(err));
+    }
+  );
   }
 
   ngOnInit(){

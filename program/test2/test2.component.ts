@@ -23,7 +23,6 @@ export class Test2Component implements OnInit{
 
 
 
-
   ngOnInit(){
 
   
@@ -98,7 +97,7 @@ export class Test2Component implements OnInit{
   toNextMapRect: any;
   routerLink: any;
   toNextMapButton: any;
-  
+  randomItem:number[] = [];
  
 
   selectedNode = null;
@@ -106,6 +105,7 @@ export class Test2Component implements OnInit{
   mousedownLink = null;
   mousedownNode = null;
   mouseupNode = null;
+
 
   // store the nodes
   nodes = [
@@ -137,9 +137,21 @@ export class Test2Component implements OnInit{
   this.linkword = svgArray[3];
   this.circleNextMap = svgArray[4];
   this.toNextMapRect = svgArray[5];
+  this.randomItem = this.testMapService.random_item(this.nodes.length)
 
-
-
+    for(let i=0; i<this.randomItem.length;i++){
+      this.svg.append('foreignObject')
+        .attr('width',110)
+        .attr('height',70)
+        .attr('x',this.nodes[this.randomItem[i]].x-55)
+        .attr('y',this.nodes[this.randomItem[i]].y-8)
+        .append('xhtml:input')
+        .attr('type','text')
+        .attr('class','form-control')
+        .style('height','10px')
+        .style('font-size','1px')
+        .attr('id',i.toString());
+    };
 // refresh after each mousedown and mouseup
     this.svg.on('mousedown', (dataItem, value, source) => this.mousedown(dataItem, value, source));
     this.restart();
@@ -162,7 +174,25 @@ export class Test2Component implements OnInit{
     this.svg.classed('active', false);
     }
 
-
+  submitAnswer(){
+    var resultAnswer = {};
+    for(let i=0; i < this.randomItem.length; i++){
+      if( document.getElementById(i.toString()).value === this.nodes[this.randomItem[i]].text)
+      {
+        resultAnswer['node'+this.randomItem[i].toString()] = "true";
+        document.getElementById(i.toString()).style.backgroundColor = 'aquamarine';
+      }
+      else {
+        resultAnswer['node'+this.randomItem[i].toString()] = "false";
+        document.getElementById(i.toString()).style.backgroundColor= 'lightSalmon';
+      }
+    }
+    for(var key in resultAnswer){
+      console.log(resultAnswer[key])
+    }
+    (<HTMLInputElement>document.getElementById('submitBlock')).disabled = true;
+    this.testMapService.callServer('program',resultAnswer, "blocktest");
+  }
 
 delayNavigation() {
   this.router.navigate([this.routerLink]);

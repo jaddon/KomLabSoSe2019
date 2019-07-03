@@ -3,7 +3,6 @@ import {Routes, RouterModule} from '@angular/router';
 // import page
 import { HomeComponent } from './home/home.component';
 import { MicroMapBasicComponent } from './micro-map-basic/micro-map-basic.component';
-import { SingleChoiceComponent } from './test/singleChoice/singleChoice.component';
 import { Modify2Component } from './program/modify2/modify2.component';
 import { Test2Component } from './program/test2/test2.component';
 import { Modify1Component } from './computerScience/modify1/modify1.component';
@@ -11,6 +10,7 @@ import { Modify3Component } from './variable/modify3/modify3.component';
 import { VariableComponent } from './variable/variable.component';
 import { ComputerScienceComponent } from './computerScience/computerScience.component';
 import { ProgramComponent } from './program/program.component';
+import { SingleChoiceComponent } from './program/singleChoice/singleChoice.component';
 
 // Create Path Here
 const routes: Routes = [
@@ -31,7 +31,7 @@ const routes: Routes = [
     
     {path: 'variable', component: VariableComponent},
     {path: 'micro-basic', component: MicroMapBasicComponent},
-    {path: 'test/singleChoice', component: SingleChoiceComponent},
+    {path: 'program/singleChoice', component: SingleChoiceComponent},
 
 ];
 

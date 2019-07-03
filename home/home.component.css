@@ -15,7 +15,7 @@
 
   ::ng-deep path.link {
     fill: none;
-    stroke: #000;
+    stroke: rgb(0, 0, 0);
     stroke-width: 4px;
     cursor: default;
   }

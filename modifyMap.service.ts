@@ -1,8 +1,9 @@
 import * as d3 from 'd3';
 import { RouterLink } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { Injectable } from '@angular/core';
 
-
+@Injectable()
 export class ModifyMapService{
 
 // // store the numbers of ellipse, when create one new node then add one (ignore deleting)

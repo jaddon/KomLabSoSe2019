@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import example from '../assets/example.json';
 import json from '../data.json';
+import { TestMapService } from '../testMap.service';
+import { rgb } from 'd3';
 
 
 @Component({
   selector: 'app-program',
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.css'],
-  providers: [BuildMapService],
+  providers: [BuildMapService, TestMapService],
 })
 export class ProgramComponent implements OnInit{
 
@@ -21,15 +23,13 @@ export class ProgramComponent implements OnInit{
 
   pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
 
-  constructor(private buildMapService: BuildMapService, private router: Router){
+  constructor(private buildMapService: BuildMapService, private router: Router, private testMapService: TestMapService){
   }
 
 
 
 
-  ngOnInit(){
-
-  
+  ngOnInit(){  
    
    // console.log(json.nodes);
     this.nodes = json.nodes2;
@@ -125,11 +125,6 @@ export class ProgramComponent implements OnInit{
       // console.log(gText);
       this.gTexts.push(gText);
     }
-    //  console.log(this.gTexts);
-
-
- 
-    // console.log(this.nodes[0]);
   }
 
   title = 'KomTest';
@@ -158,6 +153,8 @@ export class ProgramComponent implements OnInit{
   toNextMapRect: any;
   routerLink: any;
   toNextMapButton: any;
+
+  fullResult : any;
   
  
 
@@ -167,173 +164,28 @@ export class ProgramComponent implements OnInit{
   mousedownNode = null;
   mouseupNode = null;
 
-  // store the nodes
-  nodes = [
-    // { id: 0, text: 'program', x: 400, y: 70, reflexive: true },
-    // { id: 1, text: 'statement', x: 400, y: 140, reflexive: true },
-    // { id: 2, text: 'conditional statement', x: 200, y: 160, reflexive: true },
-    // { id: 3, text: 'chaining', x: 100, y: 140, reflexive: true },
-    // { id: 4, text: 'nesting', x: 70, y: 180, reflexive: true },
-    // { id: 5, text: 'relational operator', x: 150, y: 220, reflexive: true },
-    // { id: 6, text: 'logical operator', x: 250, y: 220, reflexive: true },
-    // { id: 7, text: 'assignment', x: 310, y: 200, reflexive: true },
-    // { id: 8, text: 'declaration', x: 400, y: 200, reflexive: true },
-    // { id: 9, text: 'initialization', x: 490, y: 200, reflexive: true },
-    // { id: 10, text: 'print statement', x: 620, y: 200, reflexive: true },
-    // { id: 11, text: 'input', x: 520, y: 300, reflexive: false },
-    // { id: 12, text: 'output', x: 590, y: 300, reflexive: false },
-    // { id: 13, text: 'Scanner class', x: 450, y: 380, reflexive: false },
-    // { id: 14, text: 'System class', x: 590, y: 380, reflexive: false },
-    // { id: 15, text: 'loop', x: 280, y: 330, reflexive: false },
-    // { id: 16, text: 'loop body', x: 180, y: 360, reflexive: false },
-    // { id: 17, text: 'loop variable', x: 240, y: 380, reflexive: false },
-    // { id: 18, text: 'increment loop', x: 290, y: 420, reflexive: false },
-    // { id: 19, text: 'pretest loop', x: 360, y: 420, reflexive: false },
-    // { id: 20, text: 'posttest loop', x: 430, y: 420, reflexive: false },
+ // store the nodes
+ nodes = [
+];
 
-    // // { id: 21, text: 'value', x: 620, y: 100, reflexive: false },
-    // // { id: 22, text: 'variable', x: 750, y: 150, reflexive: false },
-  ];
-
-  nodesNextMap = [
-    // { id: 0, text: 'value', x: 870, y: 100, reflexive: false },
-    // { id: 1, text: 'variable', x: 1130, y: 300, reflexive: false },
-    // { id: 2, text: 'constant', x: 930, y: 300, reflexive: false },
-    // { id: 3, text: 'instance variable', x: 980, y: 380, reflexive: false },
-    // { id: 4, text: 'local variable', x: 1100, y: 380, reflexive: false },
-    // { id: 5, text: 'class variable', x: 1200, y: 380, reflexive: false },
-    
-  ];
+nodesNextMap = [
+];
 
 
-   // store the link words
-   linkwords = [
-    //  {id: 0, text: 'has', x: 400, y: 100, reflexive: false},
-    //  {id: 1, text: 'put', x: 350, y: 100, reflexive: false},
-    //  {id: 2, text: 'has type', x: 400, y: 165, reflexive: false},
-    //  {id: 3, text: 'has', x: 150, y: 150, reflexive: false},
-    //  {id: 4, text: 'may use', x: 135, y: 170, reflexive: false},
-    //  {id: 5, text: 'can have', x: 210, y: 190, reflexive: false},
-    //  {id: 6, text: 'put first', x: 480, y: 140, reflexive: false},
-    //  {id: 7, text: 'has', x: 550, y: 160, reflexive: false},
-    //  {id: 8, text: 'create', x: 680, y: 160, reflexive: false},
-    //  {id: 9, text: 'shows', x: 605, y: 250, reflexive: false},
-    //  {id: 10, text: 'by', x: 510, y: 340, reflexive: false},
-    //  {id: 11, text: 'by', x: 590, y: 340, reflexive: false},
-    //  {id: 12, text: 'contains', x: 230, y: 345, reflexive: false},
-    //  {id: 13, text: 'has type', x: 300, y: 380, reflexive: false},
-    //  {id: 14, text: 'can be repeated in', x: 330, y: 270, reflexive: false},
-    //  {id: 15, text: 'into', x: 950, y: 160, reflexive: false},
-    //  {id: 16, text: 'declared with final type', x: 1025, y: 300, reflexive: false},
-    //  {id: 17, text: 'has type', x: 1100, y: 340, reflexive: false},
-   ];
+ // store the link words
+ linkwords = [
+ ];
 
-  // store the links
-  links = [
-    // { source: this.nodes[0], target: this.linkwords[0], left: false, right: false },
-    // { source: this.nodes[0], target: this.linkwords[7], left: false, right: false },
-    // { source: this.linkwords[0], target: this.nodes[1], left: false, right: true },
-    // { source: this.nodes[1], target: this.linkwords[2], left: false, right: false },
-    // { source: this.linkwords[2], target: this.nodes[7], left: false, right: true },
-    // { source: this.linkwords[2], target: this.nodes[8], left: false, right: true },
-    // { source: this.linkwords[2], target: this.nodes[9], left: false, right: true },
-    // { source: this.linkwords[2], target: this.nodes[10], left: false, right: true },
-    // { source: this.nodes[2], target: this.linkwords[3], left: false, right: false },
-    // { source: this.nodes[2], target: this.linkwords[4], left: false, right: false },
-    // { source: this.nodes[2], target: this.linkwords[5], left: false, right: false },
-    // { source: this.linkwords[3], target: this.nodes[3], left: false, right: true },
-    // { source: this.linkwords[4], target: this.nodes[4], left: false, right: true },
-    // { source: this.linkwords[5], target: this.nodes[5], left: false, right: true },
-    // { source: this.linkwords[5], target: this.nodes[6], left: false, right: true },
-    // { source: this.nodes[7], target: this.linkwords[1], left: false, right: false },
-    // { source: this.nodes[8], target: this.linkwords[6], left: false, right: false },
-    // { source: this.nodes[9], target: this.linkwords[8], left: false, right: false },
-    // { source: this.linkwords[7], target: this.nodes[11], left: false, right: true },
-    // { source: this.linkwords[7], target: this.nodes[12], left: false, right: true },
-    // { source: this.nodes[12], target: this.linkwords[9], left: false, right: false },
-    // { source: this.linkwords[9], target: this.nodes[10], left: false, right: true },
-    // { source: this.nodes[11], target: this.linkwords[10], left: false, right: false },
-    // { source: this.linkwords[10], target: this.nodes[13], left: false, right: true },
-    // { source: this.nodes[12], target: this.linkwords[11], left: false, right: false },
-    // { source: this.linkwords[11], target: this.nodes[14], left: false, right: true },
-    // { source: this.nodes[1], target: this.linkwords[14], left: false, right: false },
-    // { source: this.linkwords[14], target: this.nodes[15], left: false, right: true },
-    // { source: this.nodes[15], target: this.linkwords[12], left: false, right: false },
-    // { source: this.nodes[15], target: this.linkwords[13], left: false, right: false },
-    // { source: this.linkwords[12], target: this.nodes[16], left: false, right: true },
-    // { source: this.linkwords[12], target: this.nodes[17], left: false, right: true },
-    // { source: this.linkwords[13], target: this.nodes[18], left: false, right: true },
-    // { source: this.linkwords[13], target: this.nodes[19], left: false, right: true },
-    // { source: this.linkwords[13], target: this.nodes[20], left: false, right: true },
+// store the links
+links = [
+];
 
-    // { source: this.linkwords[1], target: this.nodesNextMap[0], left: false, right: true },
-    // { source: this.linkwords[6], target: this.nodesNextMap[0], left: false, right: true },
-    // { source: this.linkwords[8], target: this.nodesNextMap[1], left: false, right: true },
-    // { source: this.nodesNextMap[0], target: this.linkwords[15], left: false, right: false },
-    // { source: this.linkwords[15], target: this.nodesNextMap[1], left: false, right: true },
-    // { source: this.nodesNextMap[1], target: this.linkwords[16], left: false, right: false },
-    // { source: this.linkwords[16], target: this.nodesNextMap[2], left: false, right: true },
-    // { source: this.nodesNextMap[1], target: this.linkwords[17], left: false, right: false },
-    // { source: this.linkwords[17], target: this.nodesNextMap[3], left: false, right: true },
-    // { source: this.linkwords[17], target: this.nodesNextMap[4], left: false, right: true },
-    // { source: this.linkwords[17], target: this.nodesNextMap[5], left: false, right: true },
+// store the white rectangulars as simulation for text fields
+glossaries = [
+];
 
-   
-  ];
-
-  // store the white rectangulars as simulation for text fields
-  glossaries = [
-    // { target: this.nodes[0], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[1], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[2], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[3], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[4], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[5], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[6], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[7], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[8], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[9], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[10], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[11], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[12], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[13], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[14], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[15], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[16], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[17], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[18], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[19], hidden: true, width: 60, height: 80},
-    // { target: this.nodes[20], hidden: true, width: 60, height: 80},
-
-    // { target: this.nodesNextMap[0], hidden: true, width: 60, height: 80},
-    // { target: this.nodesNextMap[1], hidden: true, width: 60, height: 80},
-  ];
-
-  gTexts = [
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[0], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[1], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[2], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[3], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[4], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[5], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[6], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[7], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[8], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[9], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[10], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[11], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[12], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[13], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[14], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[15], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[16], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[17], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[18], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[19], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodes[20], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodesNextMap[0], hidden: true},
-    // {text: 'this is only a text for test, later we will put the glossary here. For now the width will be adjusted automatically according to the size of rectangular.', target: this.nodesNextMap[1], hidden: true},
-  ];
+gTexts = [
+];
 
 
   ngAfterContentInit() {
@@ -371,9 +223,9 @@ export class ProgramComponent implements OnInit{
   .on('mousedown', (d)=>{
     this.svg.append('rect')
     .attr('class', 'progress')
-    .attr('x', '400')
+    .attr('x', '250')
     .attr('y', '200')
-    .attr('width', '100')
+    .attr('width', '400')
     .attr('height', '60')
     .attr('rx', '5')
     .attr('ry', '5')
@@ -387,9 +239,16 @@ export class ProgramComponent implements OnInit{
     .attr('fill', 'white')
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
-    .text('progress : 0%')
+
+
+     this.testMapService.callServerTest().subscribe(data=>{
+
+      var resultChoicetest = parseInt(data['program']['choicetest']['true']) / (parseInt(data['program']['choicetest']['true'])+parseInt(data['program']['choicetest']['false']));
+      var resultBlocktest = parseInt(data['program']['blocktest']['total']['true']) / (parseInt(data['program']['blocktest']['total']['true'])+parseInt(data['program']['blocktest']['total']['false']));
+      this.svg.select('text.progress').text('choiceTest: '+resultChoicetest+'% blockTest: '+resultBlocktest+'%');
   })
   ;
+  });
 
   this.svg.append("polygon")
   .attr('class', 'clusterNextMap')
@@ -400,25 +259,6 @@ export class ProgramComponent implements OnInit{
   .style("strokeWidth", "10px")
   .attr('visibility', 'hidden')
   .on('mousedown', (d)=>{
-    this.svg.append('rect')
-    .attr('class', 'progress')
-    .attr('x', '1100')
-    .attr('y', '200')
-    .attr('width', '100')
-    .attr('height', '60')
-    .attr('rx', '5')
-    .attr('ry', '5')
-    .style('fill', 'blue')
-    .style('opacity', '0.8');
-
-    this.svg.append('text')
-    .attr('class', 'progress')
-    .attr('x', '1150')
-    .attr('y', '210')
-    .attr('fill', 'white')
-    .attr('font-size', '5')
-    .attr('text-anchor', 'middle')
-    .text('progress : 0%')
   })
   ;
 
@@ -563,6 +403,7 @@ delayNavigation() {
 // refresh function
   restart() {  
 
+
 var offset = 0;
 
 var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
@@ -589,6 +430,36 @@ this.circleNextMap = buildMap[7];
 this.circleNextMap.merge(this.circleNextMap);
 this.gButton = buildMap[9];
 this.gButton.merge(this.gButton);
+
+
+
+this.testMapService.callServerTest().subscribe(data=>{
+  for(var t = 0; t<this.nodes.length; t++){
+
+
+    if (this.svg.selectAll('ellipse.node').filter(function(a,i){
+      return a['id']===t;
+    }).attr('locked')==='false'){
+
+      this.svg.selectAll('ellipse.node').filter(function(a,i){
+        return a['id']===t;
+      })
+      .style('fill',(d)=>{
+        var correct = parseInt(data['program']['blocktest']['node'+t]['true']);
+        var wrong = parseInt(data['program']['blocktest']['node'+t]['false']);
+
+        // console.log(255*(wrong/(correct+wrong+1)));
+
+        if(correct===0&&wrong===0){
+          return rgb(255,0,0);
+        }
+        else{
+          return rgb(255*(wrong/(correct+wrong+1)),255*(correct/(correct+wrong+1)) ,0);
+        }
+      })
+    }
+  }
+})
 
 
 this.routerLink = buildMap[8];

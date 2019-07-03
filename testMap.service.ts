@@ -1,16 +1,24 @@
 import * as d3 from 'd3';
 import { RouterLink } from '@angular/router';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {compareNumbers} from '@angular/compiler-cli/src/diagnostics/typescript_version';
+import { Injectable } from '@angular/core';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 
+@Injectable()
+export class TestMapService {
+  constructor(private http: HttpClient) {}
+  private resultChoicetest:any;
+  private resultBlocktest:any;
+  private fullResult: any;
 
-export class TestMapService{
-
-  initSvg(svg, width, height, path, circle, linkword, circleNextMap, toNextMapRect, linkwords, toNextMapButton) : any[]{
+  initSvg(svg, width, height, path, circle, linkword, circleNextMap, toNextMapRect, linkwords, toNextMapButton): any[] {
     svg = d3.select('svg')
     .attr('oncontextmenu', 'return false;')
     .attr('width', width)
     .attr('height', height)
-    .attr('ready', false)
-  
+    .attr('ready', false);
+
 
   // arrow styles
     svg.append('svg:defs').append('svg:marker')
@@ -51,13 +59,13 @@ export class TestMapService{
 
 
 
-// link word should only be created once, therefore moved into ngAfterInit 
+// link word should only be created once, therefore moved into ngAfterInit
        // create link words
-       linkword = linkword.data(linkwords, (d) => d.id);
-       linkword.exit().remove();
+    linkword = linkword.data(linkwords, (d) => d.id);
+    linkword.exit().remove();
        // const g1 = linkword.enter().append('svg:g');
-      
-       linkword = linkword.enter()
+
+    linkword = linkword.enter()
        .append('svg:g')
        .attr('class', 'linkword')
        .attr('x', (d) => d.x)
@@ -65,18 +73,18 @@ export class TestMapService{
        .attr('length', (d) => d.text.length)
        .merge(linkword)
        ;
-   
-       svg.selectAll('g.linkword')
+
+    svg.selectAll('g.linkword')
        .append('svg:ellipse')
        .attr('class', 'linkword')
        .attr('cx', (d) => d.x )
-       .attr('cy', (d) => d.y-1 )
+       .attr('cy', (d) => d.y - 1 )
        .attr('rx', '10')
        .attr('ry', '10')
        .attr('fill', 'lightgrey')
        ;
-      
-       svg.selectAll('g.linkword')
+
+    svg.selectAll('g.linkword')
        .append('svg:text')
        .attr('class', 'linkword')
        .attr('x', (d) => d.x)
@@ -88,13 +96,13 @@ export class TestMapService{
        ;
 
 
-     console.log(linkwords.length);
-    for(var id = 0;id<parseInt(linkwords.length);id++){
-      var textLength = svg.selectAll('g.linkword').filter(function(a,i){
-       return i===id}).attr('length');
+    console.log(linkwords.length);
+    for (let id = 0; id < parseInt(linkwords.length); id++) {
+      let textLength = svg.selectAll('g.linkword').filter(function(a, i) {
+       return i === id; }).attr('length');
       //  console.log(parseInt(textLength)+1);
-       svg.selectAll('ellipse.linkword').filter(function(a,i){
-        return i===id;}).attr('rx', parseInt(textLength)*2.5+8)
+      svg.selectAll('ellipse.linkword').filter(function(a, i) {
+        return i === id; }).attr('rx', parseInt(textLength) * 2.5 + 8);
     }
 
 
@@ -123,7 +131,7 @@ export class TestMapService{
     .attr('text-anchor', 'left')
     .attr('fill', 'purple')
     .text('Go to next map?')
-    .attr('visibility', (d)=>{
+    .attr('visibility', (d) => {
         return svg.select('rect.toNext').attr('visibility');
       }
     )
@@ -139,11 +147,11 @@ export class TestMapService{
     .attr('ry', '5')
     .style('opacity', '0.9')
     .attr('fill', 'green')
-    .attr('visibility', (d)=>{
+    .attr('visibility', (d) => {
         return svg.select('rect.toNext').attr('visibility');
       }
     )
-    .on('mousedown', (d)=>{
+    .on('mousedown', (d) => {
       svg.select('text.toNext').attr('routerLink', '/variable');
    })
     ;
@@ -158,11 +166,11 @@ export class TestMapService{
     .attr('ry', '5')
     .style('opacity', '0.9')
     .attr('fill', 'red')
-    .attr('visibility', (d)=>{
+    .attr('visibility', (d) => {
         return svg.select('rect.toNext').attr('visibility');
       }
     )
-    .on('mousedown',(d)=>{
+    .on('mousedown', (d) => {
       svg.select('rect.toNext').attr('visibility', 'hidden');
       svg.select('text.toNext').attr('visibility', 'hidden');
       svg.selectAll('rect.button').attr('visibility', 'hidden');
@@ -174,26 +182,26 @@ export class TestMapService{
 
 
     return [svg, path, circle, linkword, circleNextMap, toNextMapRect];
-    
+
   }
 
 
-  buildMicroMap(svg, path, links, circle, nodes, linkword, linkwords,  nodesNextMap, circleNextMap, offset) : any[]{
-    
+  buildMicroMap(svg, path, links, circle, nodes, linkword, linkwords,  nodesNextMap, circleNextMap, offset): any[] {
+
     // svg.select('text.toNext').attr('font-size', '30px')
     // .attr('visibility', (d)=>{
     //   return svg.select('rect.toNext').attr('visibility');
     // });
-    
-    
+
+
     // bind the paths with data
     path = path.data(links);
     // bind the white rectangulars with data
-    
-        path.exit().remove();
-    
+
+    path.exit().remove();
+
       // create paths
-      path = path
+    path = path
       .enter()
       .append('svg:path')
       .attr('class', 'link')
@@ -205,15 +213,15 @@ export class TestMapService{
         const normY = deltaY / dist;
         const xy = Math.abs(deltaX / deltaY);
         let sourcePadding = 8;
-    
+
         let targetPadding = 0;
 
 
         targetPadding = 0;
         sourcePadding = 0;
-        
-    
-    
+
+
+
         // const targetPadding = d.right ? 27-0.5*(2-xy) : 17-0.5*(2-xy);
         const sourceX = d.source.x + (sourcePadding * normX);
         const sourceY = d.source.y + (sourcePadding * normY);
@@ -226,15 +234,15 @@ export class TestMapService{
       .style('marker-start', (d) => d.left ? 'url(#start-arrow)' : '')
       .style('marker-end', (d) => d.right ? 'url(#end-arrow)' : '')
       .merge(path);
-    
-   
-    // bind the circle with data
-      circle = circle.data(nodes, (d) => d.id);
-      circle.exit().remove();
 
-      circleNextMap = circleNextMap.data(nodesNextMap, (d) => d.id);
-      circleNextMap.exit().remove();
-    
+
+    // bind the circle with data
+    circle = circle.data(nodes, (d) => d.id);
+    circle.exit().remove();
+
+    circleNextMap = circleNextMap.data(nodesNextMap, (d) => d.id);
+    circleNextMap.exit().remove();
+
     // for each node create a g element
     const g = circle.enter().append('svg:g');
 
@@ -252,14 +260,14 @@ export class TestMapService{
     .style('fill', (d) => 'grey')
     .style('opacity', '0.9')
     .style('stroke', 'white')
-    .on('mousedown', (d)=>{
+    .on('mousedown', (d) => {
       svg.select('rect.toNext').attr('visibility', 'visible');
       svg.select('text.toNext').attr('visibility', 'visible');
       svg.selectAll('rect.button').attr('visibility', 'visible');
     })
     ;
-    
-    
+
+
     // create ellipses
     g.append('svg:ellipse')
     .attr('class', 'node')
@@ -268,22 +276,20 @@ export class TestMapService{
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
-    .style('fill', (d) => 
-    {
+    .style('fill', (d) => {
       return 'green';
     }
     )
     .style('stroke', (d) => (!d.reflexive) ? 'black' : 'white')
     .on('mousedown', (d) => {
-    
+
       // this code is needed for initialize the mousedown function before dragging the slider bar
-      if(parseInt(svg.select('circle.ball').attr('cx'))===900){
-        window.alert("Node locked");
+      if (parseInt(svg.select('circle.ball').attr('cx')) === 900) {
+        window.alert('Node locked');
+      } else {
       }
-      else{    
-      }
-      
-      })
+
+      });
       // .on('mouseover', (d)=>{
       //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
       //     return a['id']===d.id;
@@ -296,8 +302,8 @@ export class TestMapService{
       //   })
       //   .style('fill','green');
       // });
-    
- 
+
+
     // create texts
     g.append('svg:text')
     .attr('class', 'eText')
@@ -316,24 +322,94 @@ export class TestMapService{
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
     .text((d) => d.text);
-    
+
     circleNextMap = gNextMap.merge(circleNextMap);
     circleNextMap.exit().remove();
 
 
     circle = g.merge(circle);
-    circle.exit().remove(); 
-    
-    
+    circle.exit().remove();
 
-    var routerLink = svg.select('text.toNext').attr('routerLink');
+
+
+    let routerLink = svg.select('text.toNext').attr('routerLink');
     // console.log(routerLink);
 
     return [svg, circle, path, linkword, circleNextMap, routerLink];
-    
-    
+
+
       }
+
+  random_item(length) {
+    let randomitem: number[] = [];
+    while (randomitem.length <= (length / 4)) {
+      let i = Math.floor(Math.random() * Math.floor(length));
+      if (!randomitem.includes(i)) {
+        randomitem.push(i);
+      }
+    }
+    console.log(randomitem);
+    return randomitem;
   }
+
+  callServer(mapName, resultAnswer, testMode) {
+    const headers = new HttpHeaders()
+      .set('Authorization', 'my-auth-token')
+      .set('Content-Type', 'application/json');
+
+
+    this.http.get('http://127.0.0.1:3000/get').subscribe(
+      data => {
+        console.log('origin' + JSON.stringify(data));
+
+        if ( testMode === 'blocktest') {
+          for (let key in resultAnswer) {
+            data[mapName][testMode][key][resultAnswer[key]] = parseInt(data[mapName].blocktest[key][resultAnswer[key]]) + 1;
+            data[mapName][testMode].total[resultAnswer[key]] = parseInt(data[mapName].blocktest.total[resultAnswer[key]]) + 1;
+          }
+        } else if( testMode === 'choicetest'){
+          for (let key in resultAnswer) {
+            data[mapName][testMode][key] = parseInt(data[mapName][testMode][key]) + parseInt(resultAnswer[key]);
+          }
+        }else{
+            this.resultChoicetest= parseInt(data[mapName]['choicetest']['true']) / (parseInt(data[mapName]['choicetest']['true'])+parseInt(data[mapName]['choicetest']['false']));
+            this.resultBlocktest = parseInt(data[mapName]['blocktest']['total']['true']) / (parseInt(data[mapName]['blocktest']['total']['true'])+parseInt(data[mapName]['blocktest']['total']['false']));
+        }
+        console.log('get: ' + JSON.stringify(data[mapName]['choicetest']));
+        console.log('success');
+
+
+        this.http.post('http://127.0.0.1:3000/post', JSON.stringify(data), {
+          headers
+        })
+          .subscribe(data => {
+            // console.log('send: ' + JSON.stringify(data));
+
+          });
+      },
+      err => {
+        console.log('Error occured.' + JSON.stringify(err));
+      }
+    );
+    if(testMode === 'getresult'){
+      return 'Choice Test result: '+this.resultChoicetest.toString() + '%          \nBlock Test result: ' + this.resultBlocktest + "%";
+    }
+
+  }
+
+
+  callServerTest(){
+    return this.http.get('http://127.0.0.1:3000/get').pipe(map(res => {
+        return res;
+      }));
+  }
+
+}
+
+
+
+
+
 
 
 

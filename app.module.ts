@@ -8,7 +8,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ComputerScienceComponent } from './computerScience/computerScience.component';
 import { HomeComponent } from './home/home.component';
 import { MicroMapBasicComponent } from './micro-map-basic/micro-map-basic.component';
-import { SingleChoiceComponent } from './test/singleChoice/singleChoice.component';
 import { ProgramComponent } from './program/program.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Modify2Component } from './program/modify2/modify2.component';
@@ -17,6 +16,10 @@ import { Modify1Component } from './computerScience/modify1/modify1.component';
 import { Modify3Component } from './variable/modify3/modify3.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VariableComponent } from './variable/variable.component';
+import { SingleChoiceComponent } from './program/singleChoice/singleChoice.component';
+import { ModifyMapService } from './modifyMap.service';
+import { BuildMapService } from './buildMap.service';
+import { TestMapService } from './testMap.service';
 
 
 
@@ -44,7 +47,7 @@ import { VariableComponent } from './variable/variable.component';
     HttpClientModule
     
   ],
-  providers: [],
+  providers: [BuildMapService, ModifyMapService, TestMapService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,9 @@
 import * as d3 from 'd3';
 import { RouterLink } from '@angular/router';
+import { Injectable } from '@angular/core';
 
 
+@Injectable()
 export class BuildMapService{
 
     // wrap function for automatically breaking lines to fit the text field
@@ -269,7 +271,7 @@ export class BuildMapService{
     //   return svg.select('rect.toNext').attr('visibility');
     // });
     
-    console.log(nodes)
+
     // bind the paths with data
     path = path.data(links);
     // bind the white rectangulars with data
@@ -386,6 +388,7 @@ export class BuildMapService{
     }
     )
     .style('stroke', (d) => (!d.reflexive) ? 'black' : 'white')
+    .attr('locked','true')
     .on('mousedown', (d) => {
     
       // this code is needed for initialize the mousedown function before dragging the slider bar
@@ -636,7 +639,7 @@ export class BuildMapService{
             if(cx===900){
               d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
-              d3.select('svg').selectAll('ellipse.node').style('fill','grey')
+              d3.select('svg').selectAll('ellipse.node').style('fill','grey').attr('locked','true')
               .on('mousedown', (d)=> window.alert("Node locked"));
             }
             else if(cx===1000){
@@ -644,7 +647,7 @@ export class BuildMapService{
     
               d3.select('svg').attr('clickOnNode', 'false');
     
-              d3.select('svg').selectAll('ellipse.node').style('fill','green');
+              d3.select('svg').selectAll('ellipse.node').style('fill','green').attr('locked', 'false');
 
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
               // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
@@ -720,7 +723,7 @@ export class BuildMapService{
     
     
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
-                return d['level']>1}).style('fill','grey');
+                return d['level']>1}).style('fill','grey').attr('locked','true');
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
                 return d['level']>1}).on('mousedown', (d)=> window.alert("Node locked"))
             }
@@ -729,7 +732,7 @@ export class BuildMapService{
     
               d3.select('svg').attr('clickOnNode', 'false');
     
-              d3.select('svg').selectAll('ellipse.node').style('fill','green');
+              d3.select('svg').selectAll('ellipse.node').style('fill','green').attr('locked','false');
 
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
               // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
@@ -805,7 +808,7 @@ export class BuildMapService{
     
     
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
-                return d['level']>2}).style('fill','grey');
+                return d['level']>2}).style('fill','grey').attr('locked','true');
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
                 return d['level']>2}).on('mousedown', (d)=> window.alert("Node locked"))
             }
@@ -819,7 +822,8 @@ export class BuildMapService{
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('foreignObject.gButton').attr('visibility', 'hidden');
-              d3.select('svg').selectAll('ellipse.node').style('fill','green').on('mousedown', 
+              d3.select('svg').selectAll('ellipse.node').style('fill','green').attr('locked', 'false')
+              .on('mousedown', 
               (d)=> {           
                 
                 
