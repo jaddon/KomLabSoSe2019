@@ -1,8 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS } from '@angular/common/http';
+
+// used to create fake backend
+import { fakeBackendProvider } from './helpers/fake-backend';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ErrorInterceptor } from '@/helpers/error.interceptor';
+import { JwtInterceptor } from '@/helpers/jwt.interceptor';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ComputerScienceComponent } from './computerScience/computerScience.component';
@@ -17,6 +23,12 @@ import { Modify1Component } from './computerScience/modify1/modify1.component';
 import { Modify3Component } from './variable/modify3/modify3.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VariableComponent } from './variable/variable.component';
+import { AlertComponent } from './alert/alert.component';
+import { RegisterComponent } from './register/register.component';
+import { UserlistComponent } from './userlist/userlist.component';
+import { LoginComponent } from './login/login.component';
+import { ClassmicromapComponent } from './classmicromap/classmicromap.component';
+
 
 
 
@@ -35,16 +47,27 @@ import { VariableComponent } from './variable/variable.component';
     Test2Component,
     Modify1Component,
     Modify3Component,
+    AlertComponent,
+    RegisterComponent,
+    UserlistComponent,
+    LoginComponent,
+    ClassmicromapComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     PdfViewerModule,
-    HttpClientModule
-    
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+        // provider used to create fake backend
+        fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

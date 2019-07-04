@@ -11,13 +11,19 @@ import { Modify3Component } from './variable/modify3/modify3.component';
 import { VariableComponent } from './variable/variable.component';
 import { ComputerScienceComponent } from './computerScience/computerScience.component';
 import { ProgramComponent } from './program/program.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './helpers/auth.guard';
 
 // Create Path Here
 const routes: Routes = [
-    {path: '', component: HomeComponent},
+
+    {path: '', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
     {path: 'home', component: HomeComponent},
     {path: 'computerScience', component: ComputerScienceComponent},
-    {path: 'program', component: ProgramComponent}, 
+    {path: 'program', component: ProgramComponent},
     // don't use children here because svg will be covered by the parent svg
     // children: [
     //   {
@@ -25,13 +31,15 @@ const routes: Routes = [
     //   }]
     {path: 'program/modify2', component: Modify2Component},
     {path: 'program/test2', component: Test2Component},
-    {path: 'computerScience/modify1', component:Modify1Component},
-    {path: 'variable/modify3', component:Modify3Component},
+    {path: 'computerScience/modify1', component: Modify1Component},
+    {path: 'variable/modify3', component: Modify3Component},
 
-    
+
     {path: 'variable', component: VariableComponent},
     {path: 'micro-basic', component: MicroMapBasicComponent},
     {path: 'test/singleChoice', component: SingleChoiceComponent},
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
 
 ];
 

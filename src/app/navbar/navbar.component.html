@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" *ngIf="currentUser">
   <a class="navbar-brand col-sm-2" href="#">
     <img src="/src/assets/icon.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
     ICM
@@ -10,6 +10,8 @@
     </form>
   </div>
   <a class="nav-link text-right" href="#">Muster Mann</a>
+  <a class="nav-item nav-link" routerLink="/">Home</a>
+  <a class="nav-item nav-link" (click)="logout()">Logout</a>
   <div class="col-sm-1 text-right">
     <button type="button" class="btn btn-sm btn-outline-info">Login</button>
   </div>

@@ -120,13 +120,13 @@ export class ComputerScienceComponent implements OnInit{
     //  console.log(this.gTexts);
 
 
- 
+
     // console.log(this.nodes[0]);
   }
 
   title = 'KomTest';
 
-  @ViewChild('graphContainer', {static: true}) graphContainer: ElementRef;
+  @ViewChild('graphContainer', {static:true}) graphContainer: ElementRef;
 
   width = 1240;
   height = 480;
@@ -149,7 +149,7 @@ export class ComputerScienceComponent implements OnInit{
   routerLink: any;
   toNextMapButton: any;
   gButton: any;
- 
+
 
   selectedNode = null;
   selectedLink = null;
@@ -176,9 +176,9 @@ gTexts = [];
 
   ngAfterContentInit() {
 
-    
+
     // document.getElementById('slider').style.color = 'black';
-    
+
     // (<HTMLInputElement>document.getElementById('slider')).onchange = this.restart;
 
 
@@ -186,7 +186,7 @@ gTexts = [];
 
   //  this.svg = this.buildMapService.initSvg(this.svg, this.width, this.height)
   this.svg = svgArray[0];
-  // add the svg<g> element to group svg shapes together  
+  // add the svg<g> element to group svg shapes together
   this.path = svgArray[1];
   this.circle = svgArray[2];
   this.linkword = svgArray[3];
@@ -271,7 +271,7 @@ gTexts = [];
   mousedown(dataItem: any, value: any, source: any) {
     // when mouse down set this.svg as active
     this.svg.classed('active', true);
-    
+
 
     if (this.svg.attr('clickOnNode')==='false') {
         // if click on the same node once again or click on the background, then not zooming
@@ -282,7 +282,7 @@ gTexts = [];
          this.k = 1;
 
 
-         
+
          this.svg.transition()
         .duration(750)
         .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
@@ -322,7 +322,7 @@ gTexts = [];
 
 
 // refresh function
-  restart() {  
+  restart() {
 var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, 0);
 
 this.pageNumber = this.svg.attr("page");
