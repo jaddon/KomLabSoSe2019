@@ -309,5 +309,98 @@
         {"id":"2","text":"Variables declared as final are called constants. By convention, names for constants are all uppercase, with the underscore character (_) between words.  ","target":"nodes[2]","hidden":true,"page":"38"},
         {"id":"3","text":"Attributes are also called instance variables, because each instance has its own variables (as opposed to class variables, coming up in Section 12.3). ","target":"nodes[3]","hidden":true,"page":"172"},
         {"id":"4","text":"Because variables only exist inside the methods where they are defined, they are often called local variables. ","target":"nodes[4]","hidden":true,"page":"56"},
-        {"id":"5","text":"Like instance variables, class variables are defined in a class definition, before the method definitions. Butthey are identified by the keyword static. ","target":"nodes[5]","hidden":true,"page":"193"}]
+        {"id":"5","text":"Like instance variables, class variables are defined in a class definition, before the method definitions. Butthey are identified by the keyword static. ","target":"nodes[5]","hidden":true,"page":"193"}],
+
+  "nodes4" : [
+    { "id": 0, "text": "primitive type", "x": 450, "y": 50,  "reflexive": true, "level":1  },
+    { "id": 1, "text": "wrapper class", "x": 200, "y": 220,  "reflexive": true, "level":2  },
+    { "id": 2, "text": "floating point","x": 350, "y": 220,  "reflexive": true, "level":2  },
+    { "id": 3, "text": "boolean", "x": 550, "y": 220,  "reflexive": true, "level": 2 },
+    { "id": 4, "text": "type cast", "x": 700, "y": 220,  "reflexive": true, "level": 2  }
+  ],
+  "nodesNextMap4" : [],
+  "linkwords4" : [
+
+    {"id": 0,  "text" : "can be transformed with", "x": 250, "y": 120 },
+    {"id": 1,  "text" : "has type", "x": 450, "y": 120 },
+    {"id": 2,  "text" : "can be changed with", "x": 600, "y": 120 }
+  ],
+  "links4" : [
+    { "id": "a0 b0", "source": "nodes[0]", "target": "linkwords[0]"},
+    { "id": "a0 b1", "source": "nodes[0]", "target": "linkwords[1]"},
+    { "id": "a0 b2", "source": "nodes[0]", "target": "linkwords[2]"},
+    { "id": "b0 a1", "source": "linkwords[0]", "target": "nodes[1]"},
+    { "id": "b1 a2", "source": "linkwords[1]", "target": "nodes[2]"},
+    { "id": "b1 a3", "source": "linkwords[1]", "target": "nodes[3]"},
+    { "id": "b2 a4", "source": "linkwords[2]", "target": "nodes[4]"}
+    ],
+  "glossaries4" : [
+    { "id": "0", "target": "nodes[0]", "hidden": true, "width": 60, "height": 80, "page": "139"},
+    { "id": "1", "target": "nodes[1]", "hidden": true, "width": 60, "height": 80, "page": "146"},
+    { "id": "2", "target": "nodes[2]", "hidden": true, "width": 60, "height": 80, "page": "21"},
+    { "id": "3", "target": "nodes[3]", "hidden": true, "width": 60, "height": 80, "page": "67"},
+    { "id": "4", "target": "nodes[4]", "hidden": true, "width": 60, "height": 80, "page": "40"}
+  ],
+  "gTexts4" : [
+    {"id": "0", "text": "Not everything in Java is an object: int, double, and boolean are so-called primitive types.", "target": "nodes[0]", "hidden": true, "page": "139"},
+    {"id": "1", "text": "For each primitive type, there is a corresponding class in the Java library,called a wrapper class.", "target": "nodes[1]", "hidden": true, "page": "146"},
+    {"id": "2", "text": "Floating-point numbers can represent fractions as well as integers.", "target": "nodes[2]", "hidden": true, "page": "21"},
+    {"id": "3", "text": " Boolean, operators for expressing logic, and if statements", "target": "nodes[3]", "hidden": true, "page": "67"},
+    {"id": "4", "text": "The simplest way to convert a floating-point value to an integer is to use a type cast", "target": "nodes[4]", "hidden": true, "page": "40"}
+    ],
+
+
+
+    "nodes5" : [
+    { "id": 0, "text": "object", "x": 400, "y": 200,  "reflexive": true, "level": 1 },
+    { "id": 1, "text": "new operator", "x": 450, "y": 100,  "reflexive": true, "level": 2 },
+    { "id": 2, "text": "garbage collection","x": 650, "y": 200,  "reflexive": true, "level": 2 },
+    { "id": 3, "text": "array", "x": 300, "y": 300,  "reflexive": true, "level": 2 },
+    { "id": 4, "text": "string", "x": 500, "y": 300,  "reflexive": true, "level": 2 },
+    { "id": 5, "text": "index", "x": 180, "y": 400,  "reflexive": true, "level": 3 },
+    { "id": 6, "text": "element", "x": 400, "y": 400,  "reflexive": true, "level": 3 }
+  ],
+  "nodesNextMap5" : [],
+  "linkwords5" : [
+
+    {"id": 0,  "text" : "created by", "x": 420, "y": 150 },
+    {"id": 1,  "text" : "can be reclaimed by", "x": 520, "y": 200 },
+    {"id": 2,  "text" : "has", "x": 400, "y": 250 },
+    {"id": 3,  "text" : "contains", "x": 300, "y": 350 },
+    {"id": 4, "text": "indicated by", "x": 300 ,"y": 400 }
+  ],
+  "links5" : [
+    { "id": "a0 b0", "source": "nodes[0]", "target": "linkwords[0]"},
+    { "id": "a0 b1", "source": "nodes[0]", "target": "linkwords[1]"},
+    { "id": "a0 b2", "source": "nodes[0]", "target": "linkwords[2]"},
+    { "id": "b0 a1", "source": "linkwords[0]", "target": "nodes[1]"},
+    { "id": "b1 a2", "source": "linkwords[1]", "target": "nodes[2]"},
+    { "id": "b2 a3", "source": "linkwords[2]", "target": "nodes[3]"},
+    { "id": "b2 a4", "source": "linkwords[2]", "target": "nodes[4]"},
+    { "id": "a3 b3", "source": "nodes[3]", "target": "linkwords[3]"},
+    { "id": "b3 a5", "source": "linkwords[3]", "target": "nodes[5]"},
+    { "id": "b3 a6", "source": "linkwords[3]", "target": "nodes[6]"},
+    { "id": "a6 b4", "source": "nodes[6]", "target": "linkwords[4]"},
+    { "id": "b4 a5", "source": "linkwords[4]", "target": "nodes[5]"}
+  ],
+  "glossaries5" : [
+    { "id": "0", "target": "nodes[0]", "hidden": true, "width": 60, "height": 80, "page": "139"},
+    { "id": "1", "target": "nodes[1]", "hidden": true, "width": 60, "height": 80, "page": "156"},
+    { "id": "2", "target": "nodes[2]", "hidden": true, "width": 60, "height": 80, "page": "162"},
+    { "id": "3", "target": "nodes[3]", "hidden": true, "width": 60, "height": 80, "page": "123"},
+    { "id": "4", "target": "nodes[4]", "hidden": true, "width": 60, "height": 80, "page": "6"},
+    { "id": "5", "target": "nodes[5]", "hidden": true, "width": 60, "height": 80, "page": "124"},
+    { "id": "6", "target": "nodes[6]", "hidden": true, "width": 60, "height": 80, "page": "123"}
+  ],
+  "gTexts5" : [
+    {"id": "0", "text": "An object is a collection of data\nthat provides a set of methods.", "target": "nodes[0]", "hidden": true, "page": "139"},
+    {"id": "1", "text": "The result of the new operator is a reference to the new object.", "target": "nodes[1]", "hidden": true, "page": "156"},
+    {"id": "2", "text": "The system automatically looks for stranded objects and reclaims them; then the space can be reused for new objects. This process is called garbage collection", "target": "nodes[2]", "hidden": true, "page": "162"},
+    {"id": "3", "text": " An array is a sequence of values.", "target": "nodes[3]", "hidden": true, "page": "123"},
+    {"id": "4", "text": "Phrases that appear in quotation marks are called strings.", "target": "nodes[4]", "hidden": true, "page": "6"},
+    {"id": "5", "text": "The small numbers outside the boxes are the indexes (or indices) used to identify each location in the array", "target": "nodes[5]", "hidden": true, "page": "124"},
+    {"id": "6", "text": "The values in the array are called elements", "target": "nodes[6]", "hidden": true, "page": "123"}
+  ]
+
+
     }

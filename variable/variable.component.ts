@@ -210,16 +210,23 @@ export class VariableComponent implements OnInit{
   this.gButton = svgArray[10];
 
 
-  this.svg.append("polygon")
+
+  var polygon =  this.svg.append("polygon")
   .attr('class', 'cluster')
   .attr("points", "380,5 250,30 80,100 0,160 480,450 500,450 950,450 800,200")
   .style("fill", "lightgreen")
   .style('opacity', '0.6')
   .style("stroke", "black")
   .style("strokeWidth", "10px")
-  .attr('visibility', 'hidden')
-  .on('mousedown', (d)=>{
-    this.svg.append('rect')
+  .attr('visibility', 'hidden');
+
+
+  var gProgress = this.svg.append('svg:g')
+  .attr('class', 'progress')
+  .attr('visibility', 'hidden');
+
+
+  gProgress.append('rect')
     .attr('class', 'progress')
     .attr('x', '250')
     .attr('y', '200')
@@ -228,16 +235,21 @@ export class VariableComponent implements OnInit{
     .attr('rx', '5')
     .attr('ry', '5')
     .style('fill', 'blue')
-    .style('opacity', '0.8');
+    .style('opacity', '0.8')
 
-    this.svg.append('text')
-    .attr('class', 'progress')
-    .attr('x', '450')
-    .attr('y', '210')
-    .attr('fill', 'white')
-    .attr('font-size', '5')
-    .attr('text-anchor', 'middle')
+ gProgress.append('text')
+ .attr('class', 'progress')
+ .attr('x', '450')
+ .attr('y', '210')
+ .attr('fill', 'white')
+ .attr('font-size', '5')
+ .attr('text-anchor', 'middle')
+  
 
+
+   polygon.on('mousedown', (d)=>{
+
+    this.svg.select('g.progress').attr('visibility', (d)=>(this.svg.select('g.progress').attr('visibility')==='hidden')?'visible':'hidden')
 
     this.testMapService.callServerTest().subscribe(data=>{
 
@@ -251,12 +263,13 @@ export class VariableComponent implements OnInit{
       if((parseInt(data['variable']['blocktest']['total']['true'])+parseInt(data['variable']['blocktest']['total']['false'])!==0)){
         resultBlocktest = parseInt(data['variable']['blocktest']['total']['true']) / (parseInt(data['variable']['blocktest']['total']['true'])+parseInt(data['variable']['blocktest']['total']['false']));
       }
-
+      
       this.svg.select('text.progress').text('choiceTest: '+resultChoicetest+'% blockTest: '+resultBlocktest+'%');
   })
-
+  ;
   })
   ;
+
 
   this.svg.append('circle')
   .attr('class', 'activateCluster')

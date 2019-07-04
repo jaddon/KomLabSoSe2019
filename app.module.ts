@@ -22,6 +22,8 @@ import { BuildMapService } from './buildMap.service';
 import { TestMapService } from './testMap.service';
 import { Test1Component } from './computerScience/test1/test1.component';
 import { Test3Component } from './variable/test3/test3.component';
+import { ObjectComponent } from './object/object.component';
+import { PrimitiveTypeComponent } from './primitive-type/primitive-type.component';
 
 
 
@@ -42,6 +44,8 @@ import { Test3Component } from './variable/test3/test3.component';
     Modify3Component,
     Test1Component,
     Test3Component,
+    ObjectComponent,
+    PrimitiveTypeComponent,
   ],
   imports: [
     BrowserModule,

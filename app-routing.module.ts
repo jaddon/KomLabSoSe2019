@@ -13,6 +13,8 @@ import { ProgramComponent } from './program/program.component';
 import { SingleChoiceComponent } from './program/singleChoice/singleChoice.component';
 import { Test3Component } from './variable/test3/test3.component';
 import { Test1Component } from './computerScience/test1/test1.component';
+import { ObjectComponent } from './object/object.component';
+import { PrimitiveTypeComponent } from './primitive-type/primitive-type.component';
 
 // Create Path Here
 const routes: Routes = [
@@ -20,6 +22,9 @@ const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'computerScience', component: ComputerScienceComponent},
     {path: 'program', component: ProgramComponent}, 
+    {path: 'variable', component: VariableComponent},
+    {path: 'object', component: ObjectComponent},
+    {path: 'primitiveType', component: PrimitiveTypeComponent},
     // don't use children here because svg will be covered by the parent svg
     // children: [
     //   {
@@ -30,10 +35,12 @@ const routes: Routes = [
     {path: 'computerScience/modify1', component:Modify1Component},
     {path: 'computerScience/test1', component:Test1Component},
     {path: 'variable/modify3', component:Modify3Component},
-    {path: 'variable/test3', component:Test3Component},
+    {path: 'variable/test3', component:Test3Component},    
 
-    
-    {path: 'variable', component: VariableComponent},
+
+
+
+
     {path: 'micro-basic', component: MicroMapBasicComponent},
     {path: 'program/singleChoice', component: SingleChoiceComponent},
 

@@ -171,6 +171,8 @@ export class HomeComponent implements OnInit{
     if(id === 1) {this.router.navigate(['/computerScience']);}
     else if(id === 2) {this.router.navigate(['/program']);}
     else if(id === 3) {this.router.navigate(['/variable']);}
+    else if(id === 4) {this.router.navigate(['/primitiveType']);}
+    else if(id === 5) {this.router.navigate(['/object']);}
     // this.router.navigate(['/page'+id]);
     //  this.router.navigate(['test/singleChoice']);
     // this.router.navigate(['/micro-basic']);
@@ -294,7 +296,7 @@ g.append('svg:ellipse')
   .duration(750)
   .attr('transform', 'translate(' + this.width * this.k / 2  + ',' + this.height * this.k / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
 
-  if(d.id===1||d.id===2||d.id===3){
+  if(d.id<=5){
     setTimeout(() => { this.toMicro(d.id); }, 700);
     // this.toMicro(d.id);
   }

@@ -199,17 +199,24 @@ gTexts = [];
   this.toNextMapRect = svgArray[9];
   this.gButton = svgArray[10];
 
+  
 
-  this.svg.append("polygon")
+  var polygon = this.svg.append("polygon")
   .attr('class', 'cluster')
   .attr("points", "380,5 250,30 80,100 0,160 250,450 500,450 1100,450 1050,200")
   .style("fill", "lightgreen")
   .style('opacity', '0.6')
   .style("stroke", "black")
   .style("strokeWidth", "10px")
-  .attr('visibility', 'hidden')
-  .on('mousedown', (d)=>{
-    this.svg.append('rect')
+  .attr('visibility', 'hidden');
+
+
+  var gProgress = this.svg.append('svg:g')
+  .attr('class', 'progress')
+  .attr('visibility', 'hidden');
+
+
+  gProgress.append('rect')
     .attr('class', 'progress')
     .attr('x', '250')
     .attr('y', '200')
@@ -218,16 +225,21 @@ gTexts = [];
     .attr('rx', '5')
     .attr('ry', '5')
     .style('fill', 'blue')
-    .style('opacity', '0.8');
+    .style('opacity', '0.8')
 
-    this.svg.append('text')
-    .attr('class', 'progress')
-    .attr('x', '450')
-    .attr('y', '210')
-    .attr('fill', 'white')
-    .attr('font-size', '5')
-    .attr('text-anchor', 'middle')
+ gProgress.append('text')
+ .attr('class', 'progress')
+ .attr('x', '450')
+ .attr('y', '210')
+ .attr('fill', 'white')
+ .attr('font-size', '5')
+ .attr('text-anchor', 'middle')
+  
 
+
+   polygon.on('mousedown', (d)=>{
+
+    this.svg.select('g.progress').attr('visibility', (d)=>(this.svg.select('g.progress').attr('visibility')==='hidden')?'visible':'hidden')
 
     this.testMapService.callServerTest().subscribe(data=>{
 
