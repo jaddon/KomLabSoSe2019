@@ -18,15 +18,15 @@ export class ModifyMapService{
         word,
         line = [],
         lineNumber = 0,
-        
+
         // this should be set manually, otherwise problem when continuelly click on different nodes
         lineHeight = 5,
         // lineHeight = text.node().getBoundingClientRect().height,
         x = +text.attr('x'),
         y = +text.attr('y'),
-        
+
         tspan = text.text(null).append('tspan').attr('x', x).attr('y', y);
-  
+
       while (word = words.pop()) {
         line.push(word);
         const dash = lineNumber > 0 ? '-' : '';
@@ -38,7 +38,7 @@ export class ModifyMapService{
           tspan = text.append('tspan').attr('x', x).attr('y', ++lineNumber * lineHeight + y).text(word);
         }
       }
-      
+
     }
     );
   }
@@ -60,7 +60,7 @@ export class ModifyMapService{
         text=nodes[i]['text'];
       }
     }
-  
+
     // remove connected links
     for(var i = 0;i<links.length;i++){
 
@@ -78,7 +78,7 @@ export class ModifyMapService{
 
           if((links[j]['id'].split(' ')[0].includes('a'))&&(links[j]['source']['id']===id)
             ||(links[j]['id'].split(' ')[1].includes('a'))&&(links[j]['target']['id']===id)
-        ){   
+        ){
             links.splice(j,1);
           }
         }
@@ -87,8 +87,8 @@ export class ModifyMapService{
 
 
 // remove node
-    for(var i = 0;i<nodes.length;i++){
-      if(parseInt(nodes[i]['id'])===id){
+    for( var i = 0;i < nodes.length;i++) {
+      if( parseInt( nodes[i]['id'] ) === id) {
         nodes.splice(i,1);
       }
     }
@@ -125,7 +125,7 @@ export class ModifyMapService{
       }
     }
 
-   
+
     var g = d3.select('svg').append('svg:g')
     .attr('class', 'modify')
     .attr('x',x)
@@ -161,7 +161,7 @@ export class ModifyMapService{
 
     inputButton.on('mousedown',(d)=>{
       // get input value from input field, warning could be ignored
-      var textNew = document.getElementById('100').value;
+      var textNew = (<HTMLInputElement>document.getElementById('100')).value;
 
       document.querySelectorAll('[id^="eText'+id.toString()+'"]')[0].textContent=textNew;
 
@@ -185,7 +185,7 @@ export class ModifyMapService{
 
 
     })
-   
+
     d3.select('g.dropdown').attr('visibility', 'hidden');
 
   }
@@ -230,7 +230,7 @@ export class ModifyMapService{
       var dOld = document.querySelectorAll('[id$="a'+id.toString())[i].getAttribute('d');
       var dNew = dOld.split('L')[0]+'L'+d3.event.x+','+(d3.event.y-110);
       document.querySelectorAll('[id$="a'+id.toString())[i].setAttribute('d',dNew)
-    }  
+    }
 
 
 
@@ -279,7 +279,7 @@ export class ModifyMapService{
       w.on("mousemove", null).on("mouseup", null);
 
       console.log('x'+d3.event.x+' '+'y'+(d3.event.y-110));
-      
+
     })
   }
 
@@ -296,7 +296,7 @@ export class ModifyMapService{
       }
     }
 
-   
+
     var g = d3.select('svg').append('svg:g')
     .attr('class', 'modify')
     .attr('x',x)
@@ -348,8 +348,8 @@ export class ModifyMapService{
 
     inputButton.on('mousedown',(d)=>{
       // get input value from input field, warning could be ignored
-      var textNew = document.getElementById('300').value;
-      var pageNew = document.getElementById('400').value;
+      var textNew = (<HTMLInputElement>document.getElementById('300')).value;
+      var pageNew = (<HTMLInputElement>document.getElementById('400')).value;
 
       for(var i = 0;i<gTexts.length;i++){
         if(parseInt(gTexts[i]['id'])===id){
@@ -387,7 +387,7 @@ export class ModifyMapService{
 
 
     })
-   
+
     d3.select('g.dropdown').attr('visibility', 'hidden');
 
   }
@@ -400,7 +400,7 @@ export class ModifyMapService{
 
     var x = ellipse['cx']['baseVal']['value'];
     var y = ellipse['cy']['baseVal']['value'];
-  
+
     // remove connected links
     for(var i = 0;i<links.length;i++){
 
@@ -418,7 +418,7 @@ export class ModifyMapService{
 
           if((links[j]['id'].split(' ')[0].includes('b'))&&(links[j]['source']['id']===id)
             ||(links[j]['id'].split(' ')[1].includes('b'))&&(links[j]['target']['id']===id)
-        ){   
+        ){
             links.splice(j,1);
           }
         }
@@ -455,7 +455,7 @@ export class ModifyMapService{
 
     console.log(x)
 
-   
+
     var g = d3.select('svg').append('svg:g')
     .attr('class', 'modify')
     .attr('x',x)
@@ -490,7 +490,7 @@ export class ModifyMapService{
 
     inputButton.on('mousedown',(d)=>{
       // get input value from input field, warning could be ignored
-      var textNew = document.getElementById('200').value;
+      var textNew = (<HTMLInputElement>document.getElementById('200')).value;
 
       document.querySelectorAll('[id^="lText'+id.toString()+'"]')[0].textContent=textNew;
 
@@ -510,7 +510,7 @@ export class ModifyMapService{
      d3.select('svg').select('g.modify').remove();
 
     })
-   
+
     d3.select('g.dropdown').attr('visibility', 'hidden');
 
   }
@@ -550,7 +550,7 @@ export class ModifyMapService{
       var dOld = document.querySelectorAll('[id$="b'+id.toString())[i].getAttribute('d');
       var dNew = dOld.split('L')[0]+'L'+d3.event.x+','+(d3.event.y-110);
       document.querySelectorAll('[id$="b'+id.toString())[i].setAttribute('d',dNew)
-    }  
+    }
 
 
 
@@ -590,7 +590,7 @@ export class ModifyMapService{
       w.on("mousemove", null).on("mouseup", null);
 
       console.log('x'+d3.event.x+' '+'y'+(d3.event.y-110));
-      
+
     })
   }
 
@@ -612,7 +612,7 @@ export class ModifyMapService{
      svg.select('foreignObject.pdf').attr('visibility', 'hidden');
 
 
- 
+
 
   // arrow styles
     svg.append('svg:defs').append('svg:marker')
@@ -781,7 +781,7 @@ export class ModifyMapService{
   .attr("height", 35)
   .attr('x', '0')
   .attr('y', '0')
-  
+
 
   button4.append('xhtml:div')
   .attr('class','button')
@@ -818,7 +818,7 @@ export class ModifyMapService{
     .html('<button type="button" class="btn btn-primary btn-sm active btn-block">Save</button>');
 
     return [svg, path, circle, linkword, glossary, gText, gImage, circleNextMap, toNextMapRect];
-    
+
   }
 
 
@@ -889,29 +889,29 @@ export class ModifyMapService{
     d3.select('svg').attr('nodeTotalNumber',(d)=>{
       return nodes.length;
     })
-    
+
     // svg.select('text.toNext').attr('font-size', '30px')
     // .attr('visibility', (d)=>{
     //   return svg.select('rect.toNext').attr('visibility');
     // });
-    
-    
+
+
     // bind the paths with data
      path = path.data(links,(d)=>d.id);
     // bind the white rectangulars with data
         glossary = glossary.data(glossaries,(d)=>d.id);
-    
+
         gText = gText.data(gTexts,(d)=>d.id);
-    
+
         gImage = gImage.data(gTexts,(d)=>d.id);
-    
+
         linkword = linkword.data(linkwords,(d)=>d.id);
 
         path.exit().remove();
 
 
         const gPath = path.enter().append('svg:g');
-    
+
       // create paths
       gPath
       .append('svg:path')
@@ -924,7 +924,7 @@ export class ModifyMapService{
       .attr('sourceY',(d)=>d.source.y)
       .attr('targetX',(d)=>d.target.x)
       .attr('targetY',(d)=>d.target.y)
-      .attr('d', (d) => {     
+      .attr('d', (d) => {
     // calculate the d attribute for path
         return `M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`;
       })
@@ -932,19 +932,19 @@ export class ModifyMapService{
       .style('marker-start', (d) => d.left ? 'url(#start-arrow)' : '')
       .style('marker-end', (d) => d.right ? 'url(#end-arrow)' : '')
       // .merge(path);
-    
+
       path = gPath.merge(path);
       path.exit().remove();
 
 
-   
+
     // bind the circle with data
       circle = circle.data(nodes, (d) => d.id);
       circle.exit().remove();
 
       circleNextMap = circleNextMap.data(nodesNextMap, (d) => d.id);
       circleNextMap.exit().remove();
-    
+
     // for each node create a g element
     const g = circle.enter().append('svg:g');
 
@@ -968,8 +968,8 @@ export class ModifyMapService{
       d3.selectAll('foreignObject.toNext').attr('visibility', 'visible');
     })
     ;
-    
-    
+
+
     // create ellipses
     g.append('svg:ellipse')
     .attr('class', 'node')
@@ -979,7 +979,7 @@ export class ModifyMapService{
     .attr('cy', (d) => d.y)
     .attr('id', (d)=> d.id)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
-    .style('fill', (d) => 
+    .style('fill', (d) =>
     {
       return 'green';
     }
@@ -1014,7 +1014,7 @@ export class ModifyMapService{
 
         // console.log("clicked lock")
       }
-      else{    
+      else{
       }
         }
   })
@@ -1031,11 +1031,11 @@ export class ModifyMapService{
     .attr('sourceY',(d)=>d3.event.y)
     .attr('targetX',(d)=>d3.event.x)
     .attr('targetY',(d)=>d3.event.y)
-    .attr('d', (d) => {     
+    .attr('d', (d) => {
   // calculate the d attribute for path
       return `M${d3.event.x},${(d3.event.y)}L${d3.event.x},${d3.event.y}`;
     })
-    
+
     // d3.select('svg').attr('drag',true);
 
     d3.select('svg').attr('startNodeId',this.id);
@@ -1047,7 +1047,7 @@ export class ModifyMapService{
     .attr('sourceY',(d)=>d3.select(this).attr('cy'))
     .attr('targetX',(d)=>d3.event.x)
     .attr('targetY',(d)=>d3.event.y)
-    .attr('d', (d) => {     
+    .attr('d', (d) => {
       // calculate the d attribute for path
           return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${d3.event.x},${d3.event.y}`;
         })
@@ -1072,12 +1072,12 @@ export class ModifyMapService{
     if(parseInt(d3.select('svg').attr('startNodeId'))===targetNodeId) {
       d3.selectAll('path.dragLine').remove();
       return;
-    } 
+    }
 
     if(targetLinkwordId===undefined&&targetNodeId===undefined){
       d3.selectAll('path.dragLine').remove();
       return;
-    } 
+    }
 
     var sourceNode;
     for(var i = 0;i<nodes.length;i++){
@@ -1119,13 +1119,13 @@ export class ModifyMapService{
     .attr('sourceY',(d)=>d3.select(this).attr('cy'))
     .attr('targetX',(d)=>endLinkword['x'])
     .attr('targetY',(d)=>endLinkword['y'])
-    .attr('d', (d) => {     
+    .attr('d', (d) => {
       // calculate the d attribute for path
           return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endLinkword['x']},${endLinkword['y']}`;
         })
       // set arrow style
       .style('marker-end', 'url(#end-arrow)');
- 
+
     }
     else{
       var endNode;
@@ -1158,23 +1158,23 @@ export class ModifyMapService{
     .attr('sourceY',(d)=>d3.select(this).attr('cy'))
     .attr('targetX',(d)=>endNode['x'])
     .attr('targetY',(d)=>endNode['y'])
-    .attr('d', (d) => {     
+    .attr('d', (d) => {
       // calculate the d attribute for path
           return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endNode['x']},${endNode['y']}`;
         })
       // set arrow style
       .style('marker-end', 'url(#end-arrow)');
     }
-    
+
 
 
     d3.selectAll('path.dragLine').remove();
-    
+
  })
  )
  ;
-    
- 
+
+
     // create texts
     g.append('svg:text')
     .attr('class', 'eText')
@@ -1195,19 +1195,19 @@ export class ModifyMapService{
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
     .text((d) => d.text);
-    
+
     circleNextMap = gNextMap.merge(circleNextMap);
     circleNextMap.exit().remove();
 
 
     circle = g.merge(circle);
     circle.exit().remove();
-    
+
     glossary.exit().remove();
 
     const gGlossary = glossary.enter().append('svg:g');
-    
-    
+
+
         gGlossary
           .append('svg:rect')
           .attr('class', 'gRect')
@@ -1231,7 +1231,7 @@ export class ModifyMapService{
           .attr('id',(d)=>d.id)
           .attr('stroke', 'black')
           .on('mousedown', (d)=>{
-   
+
             if(d3.event.button === 0){
 
                 d3.select('svg').attr('clickOnNode', 'true');
@@ -1242,10 +1242,10 @@ export class ModifyMapService{
                 .transition()
                 .duration(0)
                 .attr('transform', 'translate('+ (d.target.x-180) + ", 0)");
-    
+
                 // make sure that the pdf view will be fixed on the top of page
                 //   svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
-                
+
                 // make sure the pdf could be fully shown even if click on node on the left border
                 if(d.target.x<150){
                   svg.select('foreignObject.pdf')
@@ -1254,28 +1254,28 @@ export class ModifyMapService{
                   .duration(0)
                   .attr('transform', 'translate('+ (d.target.x-65) + ", 0)");
                 }
-    
+
                 svg.attr('page', parseInt(d.page)+18);
                 console.log(d.page)
                 // console.log("current page: " + d.page);
 
             }
-            
 
-            
+
+
           })
           // .merge(glossary)
           ;
 
           glossary = gGlossary.merge(glossary)
-          
+
           gText.exit().remove();
-    
+
           gImage.exit().remove();
-    
-    
-    
-    
+
+
+
+
     gText = gText
     .enter()
     .append('svg:text')
@@ -1304,7 +1304,7 @@ export class ModifyMapService{
     })
     .merge(gText);
     ;
-    
+
     gImage = gImage
     .enter()
     .append('svg:image')
@@ -1331,7 +1331,7 @@ export class ModifyMapService{
 
     //todo
 
-// link word should only be created once, therefore moved into ngAfterInit 
+// link word should only be created once, therefore moved into ngAfterInit
        // create link words
       //  linkword.exit().remove();
        // const g1 = linkword.enter().append('svg:g');
@@ -1349,7 +1349,7 @@ export class ModifyMapService{
        .attr('length', (d) => d.text.length)
 
        linkword = gLinkWord.merge(linkword);
-   
+
        gLinkWord
        .append('svg:ellipse')
        .attr('class', 'linkword')
@@ -1359,7 +1359,7 @@ export class ModifyMapService{
        .attr('rx', '10')
        .attr('ry', '10')
        .attr('fill', 'lightgrey')
-       .on('mouseover', (d)=>{ 
+       .on('mouseover', (d)=>{
            d3.selectAll('ellipse.linkword')
            .filter(function(a,i){
              return a['id']===d.id;
@@ -1376,7 +1376,7 @@ export class ModifyMapService{
         d3.event.sourceEvent.stopPropagation();
         d3.select(this)
         .classed("dragging", true);
-    
+
         d3.select('svg')
         .append('svg:path')
         .attr('class', 'dragLine')
@@ -1384,15 +1384,15 @@ export class ModifyMapService{
         .attr('sourceY',(d)=>d3.event.y)
         .attr('targetX',(d)=>d3.event.x)
         .attr('targetY',(d)=>d3.event.y)
-        .attr('d', (d) => {     
+        .attr('d', (d) => {
       // calculate the d attribute for path
           return `M${d3.event.x},${(d3.event.y)}L${d3.event.x},${d3.event.y}`;
         })
-        
+
         // d3.select('svg').attr('drag',true);
-    
+
         d3.select('svg').attr('startLinkwordId',this.id);
-    
+
       })
       .on('drag',function(d) {
         d3.select('path.dragLine')
@@ -1400,18 +1400,18 @@ export class ModifyMapService{
         .attr('sourceY',(d)=>d3.select(this).attr('cy'))
         .attr('targetX',(d)=>d3.event.x)
         .attr('targetY',(d)=>d3.event.y)
-        .attr('d', (d) => {     
+        .attr('d', (d) => {
           // calculate the d attribute for path
               return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${d3.event.x},${d3.event.y}`;
             })
           // set arrow style
           .style('marker-end', 'url(#end-arrow)');
-    
-    
+
+
       })
       .on('end', function(d) {
         d3.select(this).classed("dragging", false);
-    
+
         var targetNodeId;
         var targetLinkwordId;
         if(d3.select('svg').attr('endNodeId')!==null){
@@ -1420,18 +1420,18 @@ export class ModifyMapService{
         if(d3.select('svg').attr('endLinkwordId')!==null){
           targetLinkwordId = parseInt(d3.select('svg').attr('endLinkwordId'));
         }
-    
+
         // avoid create path to itself
         if(parseInt(d3.select('svg').attr('startLinkwordId'))===targetLinkwordId) {
           d3.selectAll('path.dragLine').remove();
           return;
-        } 
-    
+        }
+
         if(targetLinkwordId===undefined&&targetNodeId===undefined){
           d3.selectAll('path.dragLine').remove();
           return;
-        } 
-    
+        }
+
         var sourceLinkword;
         for(var i = 0;i<linkwords.length;i++){
           if(linkwords[i]['id']===parseInt(this.id)){
@@ -1445,7 +1445,7 @@ export class ModifyMapService{
             endLinkword = linkwords[i];
           }
         }
-    
+
         //don't create duplicated link
         var duplicated=false;
         for(var i=0;i<links.length;i++){
@@ -1461,9 +1461,9 @@ export class ModifyMapService{
           left: false,
           right: true,
           id: 'b'+this.id+' b'+targetLinkwordId
-    
+
         })
-    
+
         // append a temporaty path because the path generated from data will be shown by next click
         d3.select('svg')
         .append('svg:path')
@@ -1472,13 +1472,13 @@ export class ModifyMapService{
         .attr('sourceY',(d)=>d3.select(this).attr('cy'))
         .attr('targetX',(d)=>endLinkword['x'])
         .attr('targetY',(d)=>endLinkword['y'])
-        .attr('d', (d) => {     
+        .attr('d', (d) => {
           // calculate the d attribute for path
               return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endLinkword['x']},${endLinkword['y']}`;
             })
           // set arrow style
           .style('marker-end', 'url(#end-arrow)');
-     
+
         }
         else{
           var endNode;
@@ -1511,7 +1511,7 @@ export class ModifyMapService{
         .attr('sourceY',(d)=>d3.select(this).attr('cy'))
         .attr('targetX',(d)=>endNode['x'])
         .attr('targetY',(d)=>endNode['y'])
-        .attr('d', (d) => {     
+        .attr('d', (d) => {
           // calculate the d attribute for path
               return `M${d3.select(this).attr('cx')},${d3.select(this).attr('cy')}L${endNode['x']},${endNode['y']}`;
             })
@@ -1520,10 +1520,10 @@ export class ModifyMapService{
         }
 
         d3.selectAll('path.dragLine').remove();
-        
+
      }))
      .on('contextmenu', (d)=>{
-            
+
       // right click
       if(d3.event.button===2){
          svg.select('g.dropdown').attr('visibility','visible')
@@ -1549,7 +1549,7 @@ export class ModifyMapService{
                var id = parseInt(d3.select('foreignObject.dropdown3').attr('linkwordId'));
                this.removeLinkword(id, linkwords, links);
              }
-             
+
              // if click on modify
              else if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown2').attr('y'))){
                // console.log('modify')
@@ -1570,7 +1570,7 @@ export class ModifyMapService{
          }
      }
 })
-      
+
        gLinkWord
        .append('svg:text')
        .attr('class', 'linkword')
@@ -1592,26 +1592,26 @@ export class ModifyMapService{
         return i===id;}).attr('rx', parseInt(textLength)*2.5+8)
     }
 
-    
-    
+
+
 // start state
 // d3.select('svg').attr('clickOnNode', 'false');
-    
+
             //   d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
             //     d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
             //     d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
-              d3.select('svg').selectAll('ellipse.node').on('click', 
-              (d)=> {      
-                  
+              d3.select('svg').selectAll('ellipse.node').on('click',
+              (d)=> {
+
                 var id = d['id'];
 
                 //  important: in modification mode svg will return to start state after dragging slider
-                
+
 
                 if(d3.event.button === 0 && d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
                     return parseInt(a['id'])===id}).style('fill')!=='grey'){
 
-     
+
                 if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return parseInt(a['id'])===id}).attr('visibility')==='hidden'){
                     d3.select('svg').attr('clickOnNode', 'true');
@@ -1619,43 +1619,43 @@ export class ModifyMapService{
                   else{
                     d3.select('svg').attr('clickOnNode', 'false');
                   }
-    
-    
+
+
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                    return parseInt(a['id'])===id}).attr('visibility', 
+                    return parseInt(a['id'])===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return parseInt(a['id'])===id}).attr('visibility')==='hidden'?'visible':'hidden'
                     );
                   d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                      return parseInt(a['id'])===id}).attr('visibility', 
+                      return parseInt(a['id'])===id}).attr('visibility',
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                        return parseInt(a['id'])===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                        return parseInt(a['id'])===id}).attr('visibility')==='hidden'?'hidden':'visible'
                     );
                   d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                      return parseInt(a['id'])===id}).attr('visibility', 
+                      return parseInt(a['id'])===id}).attr('visibility',
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                        return parseInt(a['id'])===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                        return parseInt(a['id'])===id}).attr('visibility')==='hidden'?'hidden':'visible'
                     );
 
-      
+
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return parseInt(a['id'])!==id}).attr('visibility', 
+                      return parseInt(a['id'])!==id}).attr('visibility',
                       'hidden'
                       );
                     d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                        return parseInt(a['id'])!==id}).attr('visibility', 
+                        return parseInt(a['id'])!==id}).attr('visibility',
                         'hidden'
                         );
                     d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                          return parseInt(a['id'])!==id}).attr('visibility', 
+                          return parseInt(a['id'])!==id}).attr('visibility',
                           'hidden'
                           );
                 }
 
-          
+
         })
         .on('contextmenu', (d)=>{
-            
+
                  // right click
                  if(d3.event.button===2){
                     svg.select('g.dropdown').attr('visibility','visible')
@@ -1697,7 +1697,7 @@ export class ModifyMapService{
 
                           this.removeNode(id, nodes, links, glossaries, gTexts);
                         }
-                        
+
                         // if click on modify
                         else if(parseInt(d3.event['path'][2]['y']['baseVal']['value'])===parseInt(d3.select('foreignObject.dropdown2').attr('y'))){
                           // console.log('modify')
@@ -1719,20 +1719,20 @@ export class ModifyMapService{
                 }
         })
 
-    
+
               d3.select('svg').attr('clickOnNode', 'false');
-    
+
               d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
-              d3.select('svg').selectAll('ellipse.node').style('fill','green').on('mousedown', 
-              (d)=> {      
-                
-                
+              d3.select('svg').selectAll('ellipse.node').style('fill','green').on('mousedown',
+              (d)=> {
+
+
                 if(d3.event.button===0){
-                
+
                     var id = d['id'];
-    
+
                     if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return i===id}).attr('visibility')==='hidden'){
                         d3.select('svg').attr('clickOnNode', 'true');
@@ -1740,57 +1740,57 @@ export class ModifyMapService{
                       else{
                         d3.select('svg').attr('clickOnNode', 'false');
                       }
-        
-        
+
+
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                        return i===id}).attr('visibility', 
+                        return i===id}).attr('visibility',
                         d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                           return i===id}).attr('visibility')==='hidden'?'visible':'hidden'
                         );
                       d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                          return i===id}).attr('visibility', 
+                          return i===id}).attr('visibility',
                           d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                            return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                            return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                         );
                       d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                          return i===id}).attr('visibility', 
+                          return i===id}).attr('visibility',
                           d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                            return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                            return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                         );
-    
-          
+
+
                         d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                          return i!==id}).attr('visibility', 
+                          return i!==id}).attr('visibility',
                           'hidden'
                           );
                         d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                            return i!==id}).attr('visibility', 
+                            return i!==id}).attr('visibility',
                             'hidden'
                             );
                         d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                              return i!==id}).attr('visibility', 
+                              return i!==id}).attr('visibility',
                               'hidden'
                               );
-        
-        
+
+
                         var k = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                           return i===id}).attr('visibility')==='hidden')?1:3;
-                
+
                           var x = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                             return i===id}).attr('visibility')==='hidden')?620:d['x'];
-                
+
                           var y = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                               return i===id}).attr('visibility')==='hidden')?240:d['y'];
-                
+
                         //  d3.select('svg').transition()
                         // .duration(750)
-                        // .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');  
+                        // .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
 
                 }
 
-     
+
                 });
-    
+
     for (let i = 0; i < glossaries.length; i++) {
       glossaries[i].hidden = true;
       gTexts[i].hidden = true;
@@ -1869,7 +1869,11 @@ export class ModifyMapService{
             var idLinkWord = parseInt(linkwords.length);
 
             linkwords.push({id: parseInt(linkwords.length), text: "default", x: parseInt(d3.select('foreignObject.create1')
+<<<<<<< Updated upstream:src/app/modifyMap.service.ts
             .attr('x')), 
+=======
+            .attr('x')),
+>>>>>>> Stashed changes:modifyMap.service.ts
             y: parseInt(d3.select('foreignObject.create1')
             .attr('y'))});
 
@@ -1880,14 +1884,14 @@ export class ModifyMapService{
 
           }
         )
-          
+
       }
-      
+
     })
 
     return [svg, circle, path, glossary, gText, gImage, linkword, circleNextMap, routerLink];
-    
-    
+
+
       }
   }
 

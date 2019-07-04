@@ -14,16 +14,16 @@ export class BuildMapService{
         word,
         line = [],
         lineNumber = 0,
-        
+
         // this should be set manually, otherwise problem when continuelly click on different nodes
         lineHeight = 5,
         // lineHeight = text.node().getBoundingClientRect().height,
         x = +text.attr('x'),
         y = +text.attr('y'),
-        
+
         tspan = text.text(null).append('tspan').attr('x', x).attr('y', y);
-  
-        
+
+
       while (word = words.pop()) {
         line.push(word);
         const dash = lineNumber > 0 ? '-' : '';
@@ -35,7 +35,7 @@ export class BuildMapService{
           tspan = text.append('tspan').attr('x', x).attr('y', ++lineNumber * lineHeight + y).text(word);
         }
       }
-      
+
     }
     );
   }
@@ -50,7 +50,7 @@ export class BuildMapService{
       // var logo = svg. append('image') . attr('xlink:href', 'assets/icon.jpg') . attr('width', 100) . attr('height', 50);
 
     svg.select('foreignObject.pdf').attr('visibility', 'hidden');
-  
+
 
   // arrow styles
     svg.append('svg:defs').append('svg:marker')
@@ -97,12 +97,12 @@ export class BuildMapService{
 
 
 
-// link word should only be created once, therefore moved into ngAfterInit 
+// link word should only be created once, therefore moved into ngAfterInit
        // create link words
        linkword = linkword.data(linkwords, (d) => d.id);
        linkword.exit().remove();
        // const g1 = linkword.enter().append('svg:g');
-      
+
        linkword = linkword.enter()
        .append('svg:g')
        .attr('class', 'linkword')
@@ -111,7 +111,7 @@ export class BuildMapService{
        .attr('length', (d) => d.text.length)
        .merge(linkword)
        ;
-   
+
        svg.selectAll('g.linkword')
        .append('svg:ellipse')
        .attr('class', 'linkword')
@@ -121,7 +121,7 @@ export class BuildMapService{
        .attr('ry', '10')
        .attr('fill', 'lightgrey')
        ;
-      
+
        svg.selectAll('g.linkword')
        .append('svg:text')
        .attr('class', 'linkword')
@@ -258,10 +258,11 @@ export class BuildMapService{
 
 
     return [svg, path, circle, linkword, glossary, gText, gImage, sliderCircle, circleNextMap, toNextMapRect, gButton];
-    
+
   }
 
 
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
   buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, gButton, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset) : any[]{
     
     // svg.select('text.toNext').attr('font-size', '30px')
@@ -270,20 +271,27 @@ export class BuildMapService{
     // });
     
     console.log(nodes)
+=======
+  buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, gButton, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset, mapName) : any[]{
+
+
+
+
+>>>>>>> Stashed changes:buildMap.service.ts
     // bind the paths with data
     path = path.data(links);
     // bind the white rectangulars with data
         glossary = glossary.data(glossaries);
-    
+
         gText = gText.data(gTexts);
-    
+
         gImage = gImage.data(gTexts);
 
         gButton =gButton.data(gTexts);
-    
-    
+
+
         path.exit().remove();
-    
+
       // create paths
       path = path
       .enter()
@@ -297,7 +305,7 @@ export class BuildMapService{
         const normY = deltaY / dist;
         const xy = Math.abs(deltaX / deltaY);
         let sourcePadding = 8;
-    
+
         let targetPadding = 0;
     
     
@@ -323,9 +331,9 @@ export class BuildMapService{
 
         targetPadding = 0;
         sourcePadding = 0;
-        
-    
-    
+
+
+
         // const targetPadding = d.right ? 27-0.5*(2-xy) : 17-0.5*(2-xy);
         const sourceX = d.source.x + (sourcePadding * normX);
         const sourceY = d.source.y + (sourcePadding * normY);
@@ -338,15 +346,15 @@ export class BuildMapService{
       .style('marker-start', (d) => d.left ? 'url(#start-arrow)' : '')
       .style('marker-end', (d) => d.right ? 'url(#end-arrow)' : '')
       .merge(path);
-    
-   
+
+
     // bind the circle with data
       circle = circle.data(nodes, (d) => d.id);
       circle.exit().remove();
 
       circleNextMap = circleNextMap.data(nodesNextMap, (d) => d.id);
       circleNextMap.exit().remove();
-    
+
     // for each node create a g element
     const g = circle.enter().append('svg:g');
 
@@ -370,8 +378,8 @@ export class BuildMapService{
       svg.selectAll('foreignObject.toNext').attr('visibility', 'visible');
     })
     ;
-    
-    
+
+
     // create ellipses
     g.append('svg:ellipse')
     .attr('class', 'node')
@@ -380,21 +388,21 @@ export class BuildMapService{
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
-    .style('fill', (d) => 
+    .style('fill', (d) =>
     {
       return 'grey';
     }
     )
     .style('stroke', (d) => (!d.reflexive) ? 'black' : 'white')
     .on('mousedown', (d) => {
-    
+
       // this code is needed for initialize the mousedown function before dragging the slider bar
       if(parseInt(svg.select('circle.ball').attr('cx'))===900){
         window.alert("Node locked");
       }
-      else{    
+      else{
       }
-      
+
       })
       .on('mouseover', (d)=>{
         d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
@@ -410,8 +418,8 @@ export class BuildMapService{
         .style('stroke', (d) => 'white')
         .style('stroke-width', '1.5px')
       });
-    
- 
+
+
     // create texts
     g.append('svg:text')
     .attr('class', 'eText')
@@ -430,17 +438,17 @@ export class BuildMapService{
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
     .text((d) => d.text);
-    
+
     circleNextMap = gNextMap.merge(circleNextMap);
     circleNextMap.exit().remove();
 
 
     circle = g.merge(circle);
     circle.exit().remove();
-    
+
     glossary.exit().remove();
-    
-    
+
+
         glossary = glossary
           .enter()
           .append('svg:rect')
@@ -473,7 +481,7 @@ export class BuildMapService{
 
           //   // make sure that the pdf view will be fixed on the top of page
           //     svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
-            
+
           //   // make sure the pdf could be fully shown even if click on node on the left border
           //   if(d.target.x<150){
           //     svg.select('foreignObject.pdf')
@@ -486,18 +494,18 @@ export class BuildMapService{
 
           //   svg.attr('page', parseInt(d.page)+18);
           //   console.log("current page: " + d.page);
-            
+
           // })
           .merge(glossary)
           ;
-          
+
           gText.exit().remove();
-    
+
           gImage.exit().remove();
-    
-    
-    
-    
+
+
+
+
     gText = gText
     .enter()
     .append('svg:text')
@@ -525,7 +533,7 @@ export class BuildMapService{
     })
     .merge(gText);
     ;
-    
+
     gImage = gImage
     .enter()
     .append('svg:image')
@@ -548,8 +556,8 @@ export class BuildMapService{
     .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
     .merge(gImage)
     ;
-    
-    
+
+
 
     gButton = gButton
     .enter()
@@ -580,7 +588,7 @@ export class BuildMapService{
 
       // make sure that the pdf view will be fixed on the top of page
         svg.transition().duration(0).attr('transform','translate(' + (1240 + 2*offset) * 3 / 2  + ',' + (310+d.target.y*2) * 3 / 2 + ')scale(' + 3 + ')translate(' + -d.target.x + ',' + -d.target.y + ')');
-      
+
       // make sure the pdf could be fully shown even if click on node on the left border
       if(d.target.x<150){
         svg.select('foreignObject.pdf')
@@ -593,13 +601,14 @@ export class BuildMapService{
 
       svg.attr('page', parseInt(d.page)+18);
       console.log("current page: " + d.page);
-      
+
     })
      .append('xhtml:div')
      .attr('class','button')
      .html('<button type="button" class="btn btn-link btn-sm">Book</button>')
      .merge(gButton)
     ;
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
     
     
     
@@ -607,6 +616,17 @@ export class BuildMapService{
     
   
     
+=======
+
+
+
+
+
+    var testMapService = this.testMapService;
+
+
+
+>>>>>>> Stashed changes:buildMap.service.ts
         sliderCircle.call(d3.drag()
          .on('start', function(d) {
           d3.event.sourceEvent.stopPropagation();
@@ -614,7 +634,7 @@ export class BuildMapService{
             .classed("dragging", true);
          })
          .on('drag', function(d) {
-          d3.select(this).attr("cx", 
+          d3.select(this).attr("cx",
           (d)=>{
             // console.log(this);
             if(d3.event.x<950){
@@ -631,7 +651,7 @@ export class BuildMapService{
             }
           })
           d3.select(this).attr("cy", 10);
-    
+
           var cx = parseInt(d3.select(this).attr('cx'));
             if(cx===900){
               d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
@@ -640,17 +660,55 @@ export class BuildMapService{
               .on('mousedown', (d)=> window.alert("Node locked"));
             }
             else if(cx===1000){
-    
-    
+
+
               d3.select('svg').attr('clickOnNode', 'false');
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
     
               d3.select('svg').selectAll('ellipse.node').style('fill','green');
+=======
+
+              d3.select('svg').selectAll('ellipse.node').attr('locked', 'false');
+
+              testMapService.callServerTest().subscribe(data=>{
+                for(var t = 0; t<nodes.length; t++){
+
+
+                  if (d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                    return a['id']===t;
+                  }).attr('locked')==='false'){
+
+                    d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                      return a['id']===t;
+                    })
+                    .style('fill',(d)=>{
+                      var correct = parseInt(data[mapName]['blocktest']['node'+t]['true']);
+                      var wrong = parseInt(data[mapName]['blocktest']['node'+t]['false']);
+
+                      if(correct===0&&wrong===0){
+                        return rgb(125,0,0).toString();
+                      }
+                      else if(correct===wrong){
+                        return rgb(125,125,0).toString();
+                      }
+                      else if(correct>wrong){
+                        return rgb(125*wrong/correct,125,0).toString();
+                      }
+                      else{
+                        return rgb(125,125*correct/wrong,0).toString();
+                      }
+                    })
+                  }
+                }
+              })
+
+>>>>>>> Stashed changes:buildMap.service.ts
 
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
               // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
                 var id = d['id'];
-    
-    
+
+
                 if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return i===id}).attr('visibility')==='hidden'){
                     d3.select('svg').attr('clickOnNode', 'true');
@@ -658,84 +716,121 @@ export class BuildMapService{
                   else{
                     d3.select('svg').attr('clickOnNode', 'false');
                   }
-    
-    
-    
+
+
+
                 d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                  return i===id}).attr('visibility', 
+                  return i===id}).attr('visibility',
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                     return i===id}).attr('visibility')==='hidden'?'visible':'hidden'
                   );
                 d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                   );
                   d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                   );
 
                   d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                   );
-    
+
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                    return i!==id}).attr('visibility', 
+                    return i!==id}).attr('visibility',
                     'hidden'
                     );
                   d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                      return i!==id}).attr('visibility', 
+                      return i!==id}).attr('visibility',
                       'hidden'
                       );
                   d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                        return i!==id}).attr('visibility', 
+                        return i!==id}).attr('visibility',
                         'hidden'
                         );
                   d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
-                        return i!==id}).attr('visibility', 
+                        return i!==id}).attr('visibility',
                         'hidden'
                         );
-    
+
             var k = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
               return i===id}).attr('visibility')==='hidden')?1:3;
 
               // console.log(k);
-    
+
               var x = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                 return i===id}).attr('visibility')==='hidden')?620:d['x'];
-    
+
               var y = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return i===id}).attr('visibility')==='hidden')?240:d['y'];
-    
+
                   d3.select('svg').transition()
                   .duration(750)
                   .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
-    
-    
+
+
            })
-    
-    
+
+
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
                 return d['level']>1}).style('fill','grey');
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
                 return d['level']>1}).on('mousedown', (d)=> window.alert("Node locked"))
             }
             else if(cx===1100){
-    
-    
+
+
               d3.select('svg').attr('clickOnNode', 'false');
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
     
               d3.select('svg').selectAll('ellipse.node').style('fill','green');
+=======
+
+              d3.select('svg').selectAll('ellipse.node').attr('locked','false');
+
+              testMapService.callServerTest().subscribe(data=>{
+                for(var t = 0; t<nodes.length; t++){
+
+
+                  if (d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                    return a['id']===t;
+                  }).attr('locked')==='false'){
+
+                    d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                      return a['id']===t;
+                    })
+                    .style('fill',(d)=>{
+                      var correct = parseInt(data[mapName]['blocktest']['node'+t]['true']);
+                      var wrong = parseInt(data[mapName]['blocktest']['node'+t]['false']);
+
+                      if(correct===0&&wrong===0){
+                        return rgb(125,0,0).toString();
+                      }
+                      else if(correct===wrong){
+                        return rgb(125,125,0).toString();
+                      }
+                      else if(correct>wrong){
+                        return rgb(125*wrong/correct,125,0).toString();
+                      }
+                      else{
+                        return rgb(125,125*correct/wrong,0).toString();
+                      }
+                    })
+                  }
+                }
+              })
+>>>>>>> Stashed changes:buildMap.service.ts
 
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
               // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
                 var id = d['id'];
-    
-    
+
+
                 if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return i===id}).attr('visibility')==='hidden'){
                     d3.select('svg').attr('clickOnNode', 'true');
@@ -743,67 +838,67 @@ export class BuildMapService{
                   else{
                     d3.select('svg').attr('clickOnNode', 'false');
                   }
-    
-    
-    
+
+
+
                 d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                  return i===id}).attr('visibility', 
+                  return i===id}).attr('visibility',
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                     return i===id}).attr('visibility')==='hidden'?'visible':'hidden'
                   );
                 d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                   );
                   d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                   );
 
                   d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                      return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                   );
-    
+
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                    return i!==id}).attr('visibility', 
+                    return i!==id}).attr('visibility',
                     'hidden'
                     );
                   d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                      return i!==id}).attr('visibility', 
+                      return i!==id}).attr('visibility',
                       'hidden'
                       );
                   d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                        return i!==id}).attr('visibility', 
+                        return i!==id}).attr('visibility',
                         'hidden'
                         );
                   d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
-                        return i!==id}).attr('visibility', 
+                        return i!==id}).attr('visibility',
                         'hidden'
                         );
-    
+
             var k = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
               return i===id}).attr('visibility')==='hidden')?1:3;
 
               // console.log(k);
-    
+
               var x = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                 return i===id}).attr('visibility')==='hidden')?620:d['x'];
-    
+
               var y = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return i===id}).attr('visibility')==='hidden')?240:d['y'];
-    
+
                   d3.select('svg').transition()
                   .duration(750)
                   .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
-    
-    
+
+
            })
-    
-    
+
+
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
                 return d['level']>2}).style('fill','grey');
               d3.select('svg').selectAll('ellipse.node').filter(function(d, i){
@@ -811,20 +906,28 @@ export class BuildMapService{
             }
 
             else {
-    
-    
+
+
               d3.select('svg').attr('clickOnNode', 'false');
-    
+
               d3.select('svg').selectAll('rect.gRect').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('foreignObject.gButton').attr('visibility', 'hidden');
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
               d3.select('svg').selectAll('ellipse.node').style('fill','green').on('mousedown', 
               (d)=> {           
                 
                 
+=======
+              d3.select('svg').selectAll('ellipse.node').attr('locked', 'false')
+              .on('mousedown',
+              (d)=> {
+
+
+>>>>>>> Stashed changes:buildMap.service.ts
                 var id = d['id'];
-    
+
                 if(d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                   return i===id}).attr('visibility')==='hidden'){
                     d3.select('svg').attr('clickOnNode', 'true');
@@ -832,84 +935,124 @@ export class BuildMapService{
                   else{
                     d3.select('svg').attr('clickOnNode', 'false');
                   }
-    
-    
+
+
                   d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                    return i===id}).attr('visibility', 
+                    return i===id}).attr('visibility',
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return i===id}).attr('visibility')==='hidden'?'visible':'hidden'
                     );
                   d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                      return i===id}).attr('visibility', 
+                      return i===id}).attr('visibility',
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                     );
                   d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                      return i===id}).attr('visibility', 
+                      return i===id}).attr('visibility',
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                     );
 
                   d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
-                      return i===id}).attr('visibility', 
+                      return i===id}).attr('visibility',
                       d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'              
+                        return i===id}).attr('visibility')==='hidden'?'hidden':'visible'
                     );
 
-      
+
                     d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
-                      return i!==id}).attr('visibility', 
+                      return i!==id}).attr('visibility',
                       'hidden'
                       );
                     d3.select('svg').selectAll('text.gText').filter(function(a,i){
-                        return i!==id}).attr('visibility', 
+                        return i!==id}).attr('visibility',
                         'hidden'
                         );
                     d3.select('svg').selectAll('image.gImage').filter(function(a,i){
-                          return i!==id}).attr('visibility', 
+                          return i!==id}).attr('visibility',
                           'hidden'
                           );
 
                     d3.select('svg').selectAll('foreignObject.gButton').filter(function(a,i){
-                          return i!==id}).attr('visibility', 
+                          return i!==id}).attr('visibility',
                           'hidden'
                           );
-    
-    
+
+
                     var k = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                       return i===id}).attr('visibility')==='hidden')?1:3;
-            
+
                       var x = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                         return i===id}).attr('visibility')==='hidden')?620:d['x'];
-            
+
                       var y = (d3.select('svg').selectAll('rect.gRect').filter(function(a,i){
                           return i===id}).attr('visibility')==='hidden')?240:d['y'];
-            
+
                      d3.select('svg').transition()
                     .duration(750)
                     .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
-                
+
                 });
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
+=======
+
+                testMapService.callServerTest().subscribe(data=>{
+                  for(var t = 0; t<nodes.length; t++){
+
+
+                    if (d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                      return a['id']===t;
+                    }).attr('locked')==='false'){
+
+                      d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                        return a['id']===t;
+                      })
+                      .style('fill',(d)=>{
+                        var correct = parseInt(data[mapName]['blocktest']['node'+t]['true']);
+                        var wrong = parseInt(data[mapName]['blocktest']['node'+t]['false']);
+
+                        if(correct===0&&wrong===0){
+                          return rgb(125,0,0).toString();
+                        }
+                        else if(correct===wrong){
+                          return rgb(125,125,0).toString();
+                        }
+                        else if(correct>wrong){
+                          return rgb(125*wrong/correct,125,0).toString();
+                        }
+                        else{
+                          return rgb(125,125*correct/wrong,0).toString();
+                        }
+                      })
+                    }
+                  }
+                })
+>>>>>>> Stashed changes:buildMap.service.ts
             }
-          
+
          })
          .on('end', function(d) {
              d3.select(this).classed("dragging", false);
-         })    
+         })
     )
     ;
-    
+
     for (let i = 0; i < glossaries.length; i++) {
       glossaries[i].hidden = true;
       gTexts[i].hidden = true;
     }
 
+<<<<<<< Updated upstream:src/app/buildMap.service.ts
+=======
+
+
+>>>>>>> Stashed changes:buildMap.service.ts
     var routerLink = svg.select('text.toNext').attr('routerLink');
     // console.log(routerLink);
 
     return [svg, circle, path, glossary, gText, gImage, linkword, circleNextMap, routerLink, gButton];
-    
-    
+
+
       }
   }
 

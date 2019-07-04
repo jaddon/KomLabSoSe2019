@@ -335,6 +335,62 @@ export class TestMapService{
       }
   }
 
+<<<<<<< Updated upstream:src/app/testMap.service.ts
 
 
 
+=======
+  callServer(mapName, resultAnswer, testMode) {
+    const headers = new HttpHeaders()
+      .set('Authorization', 'my-auth-token')
+      .set('Content-Type', 'application/json');
+
+
+    this.http.get('http://127.0.0.1:3000/get').subscribe(
+      data => {
+        console.log('origin' + JSON.stringify(data));
+
+        if ( testMode === 'blocktest') {
+          for (let key in resultAnswer) {
+            data[mapName][testMode][key][resultAnswer[key]] = parseInt(data[mapName].blocktest[key][resultAnswer[key]]) + 1;
+            data[mapName][testMode].total[resultAnswer[key]] = parseInt(data[mapName].blocktest.total[resultAnswer[key]]) + 1;
+          }
+        } else if( testMode === 'choicetest'){
+          for (let key in resultAnswer) {
+            data[mapName][testMode][key] = parseInt(data[mapName][testMode][key]) + parseInt(resultAnswer[key]);
+          }
+        }else{
+            this.resultChoicetest= parseInt(data[mapName]['choicetest']['true']) / (parseInt(data[mapName]['choicetest']['true'])+parseInt(data[mapName]['choicetest']['false']));
+            this.resultBlocktest = parseInt(data[mapName]['blocktest']['total']['true']) / (parseInt(data[mapName]['blocktest']['total']['true'])+parseInt(data[mapName]['blocktest']['total']['false']));
+        }
+        console.log('get: ' + JSON.stringify(data[mapName]['choicetest']));
+        console.log('success');
+
+
+        this.http.post('http://127.0.0.1:3000/post', JSON.stringify(data), {
+          headers
+        })
+          .subscribe(data => {
+            // console.log('send: ' + JSON.stringify(data));
+
+          });
+      },
+      err => {
+        console.log('Error occured.' + JSON.stringify(err));
+      }
+    );
+    if(testMode === 'getresult'){
+      return 'Choice Test result: '+this.resultChoicetest.toString() + '%          \nBlock Test result: ' + this.resultBlocktest + "%";
+    }
+
+  }
+
+
+  callServerTest(){
+    return this.http.get('http://127.0.0.1:3000/get').pipe(map(res => {
+        return res;
+      }));
+  }
+
+}
+>>>>>>> Stashed changes:testMap.service.ts

@@ -1,0 +1,25 @@
+<h2> Single Choice Test</h2>
+
+<form autocomplete="off">
+  <fieldset align="center">
+    <legend>Question:{{questionPosition+1}}/{{questions.length}}<br/>{{questions[questionPosition].question}}</legend>
+    <div>
+      <input type="radio" value="A" id="A" name="item" [(ngModel)]="questions[questionPosition].userchoice" ><label for="A"  id='labelA' style="cursor:pointer">{{questions[questionPosition].items[0]}}</label><br/>
+      <input type="radio" value="B" id="B" name="item" [(ngModel)]="questions[questionPosition].userchoice"><label for="B"  id='labelB' style="cursor:pointer">{{questions[questionPosition].items[1]}}</label><br/>
+      <input type="radio" value="C" id="C" name="item" [(ngModel)]="questions[questionPosition].userchoice"> <label for="C" id='labelC'  style="cursor:pointer">{{questions[questionPosition].items[2]}}</label> <br/>
+      <input type="radio" value="D" id="D" name="item" [(ngModel)]="questions[questionPosition].userchoice"><label for="D" id='labelD' style="cursor:pointer">{{questions[questionPosition].items[3]}}</label><br/>
+    </div>
+  </fieldset>
+  <div align="center">
+  <button id = "previous" (click)="questionPrevious()">Previous</button>
+  <button id = "submit" (click)="submitAnswer()"  [disabled]="check()">Submit</button>
+  <button id = 'next'(click)="questionNext()" >Next</button>
+  </div>
+  <div align="center">
+    <textarea  id = "explanation"  readonly value={{textNow}}></textarea>
+  </div>
+</form>
+
+<nav>
+  <button routerLink="/program" style="nav-right:auto " routerLinkActive="active">Back</button>
+</nav>

@@ -1,26 +1,22 @@
 import { Component, ElementRef, ViewChild, OnInit, DoCheck } from '@angular/core';
 import * as d3 from 'd3';
-import {style} from '@angular/animations';
-// import { svg } from 'd3';
 import { TestMapService } from '../../testMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-// import example from '../assets/example.json';
 import json from '../../data.json';
 
 
 @Component({
-  selector: 'app-test2',
-  templateUrl: './test2.component.html',
-  styleUrls: ['./test2.component.css'],
+  selector: 'app-test3',
+  templateUrl: './test3.component.html',
+  styleUrls: ['./test3.component.css'],
   providers: [TestMapService],
 })
-export class Test2Component implements OnInit{
+export class Test3Component implements OnInit{
 
 
   constructor(private testMapService: TestMapService, private router: Router){
   }
-
 
 
 
@@ -29,12 +25,12 @@ export class Test2Component implements OnInit{
 
 
    // console.log(json.nodes);
-    this.nodes = json.nodes2;
-    this.nodesNextMap = json.nodesNextMap2;
-    this.linkwords = json.linkwords2;
+    this.nodes = json.nodes3;
+    this.nodesNextMap = json.nodesNextMap3;
+    this.linkwords = json.linkwords3;
 
 
-    var temp = json.links2;
+    var temp = json.links3;
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true};
       if(temp[i].source.includes("nodes["))
@@ -98,19 +94,15 @@ export class Test2Component implements OnInit{
   toNextMapRect: any;
   routerLink: any;
   toNextMapButton: any;
-<<<<<<< Updated upstream:src/app/program/test2/test2.component.ts
-  
- 
-=======
   randomItem:number[] = [];
 
->>>>>>> Stashed changes:program/test2/test2.component.ts
 
   selectedNode = null;
   selectedLink = null;
   mousedownLink = null;
   mousedownNode = null;
   mouseupNode = null;
+
 
   // store the nodes
   nodes = [
@@ -142,9 +134,21 @@ export class Test2Component implements OnInit{
   this.linkword = svgArray[3];
   this.circleNextMap = svgArray[4];
   this.toNextMapRect = svgArray[5];
+  this.randomItem = this.testMapService.random_item(this.nodes.length)
 
-
-
+    for(let i=0; i<this.randomItem.length;i++){
+      this.svg.append('foreignObject')
+        .attr('width',110)
+        .attr('height',70)
+        .attr('x',this.nodes[this.randomItem[i]].x-55)
+        .attr('y',this.nodes[this.randomItem[i]].y-8)
+        .append('xhtml:input')
+        .attr('type','text')
+        .attr('class','form-control')
+        .style('height','10px')
+        .style('font-size','1px')
+        .attr('id',i.toString());
+    };
 // refresh after each mousedown and mouseup
     this.svg.on('mousedown', (dataItem, value, source) => this.mousedown(dataItem, value, source));
     this.restart();
@@ -167,13 +171,10 @@ export class Test2Component implements OnInit{
     this.svg.classed('active', false);
     }
 
-<<<<<<< Updated upstream:src/app/program/test2/test2.component.ts
-
-=======
   submitAnswer(){
     var resultAnswer = {};
     for(let i=0; i < this.randomItem.length; i++){
-      if( (<HTMLInputElement>document.getElementById(i.toString())).value === this.nodes[this.randomItem[i]].text)
+      if((<HTMLInputElement>document.getElementById(i.toString())).value === this.nodes[this.randomItem[i]].text)
       {
         resultAnswer['node'+this.randomItem[i].toString()] = "true";
         document.getElementById(i.toString()).style.backgroundColor = 'aquamarine';
@@ -187,9 +188,8 @@ export class Test2Component implements OnInit{
       console.log(resultAnswer[key])
     }
     (<HTMLInputElement>document.getElementById('submitBlock')).disabled = true;
-    this.testMapService.callServer('program',resultAnswer, "blocktest");
+    this.testMapService.callServer('variable',resultAnswer, "blocktest");
   }
->>>>>>> Stashed changes:program/test2/test2.component.ts
 
 delayNavigation() {
   this.router.navigate([this.routerLink]);
@@ -273,4 +273,5 @@ if(this.routerLink!=null){
 
   }
 }
+
 

@@ -14,6 +14,14 @@ import { ProgramComponent } from './program/program.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './helpers/auth.guard';
+<<<<<<< Updated upstream:src/app/app-routing.module.ts
+=======
+import { SingleChoiceComponent } from './program/singleChoice/singleChoice.component';
+import { Test3Component } from './variable/test3/test3.component';
+import { Test1Component } from './computerScience/test1/test1.component';
+import { ObjectComponent } from './object/object.component';
+import { PrimitiveTypeComponent } from './primitive-type/primitive-type.component';
+>>>>>>> Stashed changes:app-routing.module.ts
 
 // Create Path Here
 const routes: Routes = [
@@ -24,6 +32,12 @@ const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'computerScience', component: ComputerScienceComponent},
     {path: 'program', component: ProgramComponent},
+<<<<<<< Updated upstream:src/app/app-routing.module.ts
+=======
+	{path: 'variable', component: VariableComponent},
+	{path: 'object', component: ObjectComponent},
+    {path: 'primitiveType', component: PrimitiveTypeComponent},
+>>>>>>> Stashed changes:app-routing.module.ts
     // don't use children here because svg will be covered by the parent svg
     // children: [
     //   {
@@ -32,12 +46,20 @@ const routes: Routes = [
     {path: 'program/modify2', component: Modify2Component},
     {path: 'program/test2', component: Test2Component},
     {path: 'computerScience/modify1', component: Modify1Component},
+<<<<<<< Updated upstream:src/app/app-routing.module.ts
     {path: 'variable/modify3', component: Modify3Component},
 
 
     {path: 'variable', component: VariableComponent},
     {path: 'micro-basic', component: MicroMapBasicComponent},
     {path: 'test/singleChoice', component: SingleChoiceComponent},
+=======
+	{path: 'computerScience/test1', component:Test1Component},
+    {path: 'variable/modify3', component: Modify3Component},
+	{path: 'variable/test3', component:Test3Component}, 
+    {path: 'micro-basic', component: MicroMapBasicComponent},
+    {path: 'program/singleChoice', component: SingleChoiceComponent},
+>>>>>>> Stashed changes:app-routing.module.ts
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 
