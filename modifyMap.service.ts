@@ -116,6 +116,8 @@ export class ModifyMapService{
 
   modifyNode(id: number, nodes: any, gTexts: any, glossaries: any){
 
+    console.log(id)
+
     var x;
     var y;
 
@@ -1838,7 +1840,7 @@ export class ModifyMapService{
 
             var id = parseInt(nodes.length);
 
-            nodes.push({id: parseInt(nodes.length), text: "", x: d3.select('foreignObject.create1')
+            nodes.push({id: parseInt(nodes[nodes.length-1]['id']+1), text: "", x: d3.select('foreignObject.create1')
             .attr('x'), y: d3.select('foreignObject.create1')
             .attr('y'), reflexive: true});
 
@@ -1860,7 +1862,7 @@ export class ModifyMapService{
             d3.select('svg').select('g.create').attr('visibility','hidden')
 
             // input the text in created ellipse
-            this.modifyNode(id, nodes, gTexts, glossaries);
+            this.modifyNode(parseInt(nodes[nodes.length-1]['id']), nodes, gTexts, glossaries);
           })
 
 
@@ -1869,14 +1871,14 @@ export class ModifyMapService{
 
             var idLinkWord = parseInt(linkwords.length);
 
-            linkwords.push({id: parseInt(linkwords.length), text: "default", x: parseInt(d3.select('foreignObject.create1')
+            linkwords.push({id: parseInt(linkwords[linkwords.length-1]['id'])+1, text: "default", x: parseInt(d3.select('foreignObject.create1')
             .attr('x')), 
             y: parseInt(d3.select('foreignObject.create1')
             .attr('y'))});
 
             d3.select('svg').select('g.create').attr('visibility','hidden')
 
-            this.modifyLinkword(id, linkwords);
+            this.modifyLinkword(parseInt(linkwords[linkwords.length-1]['id']), linkwords);
 
 
           }
