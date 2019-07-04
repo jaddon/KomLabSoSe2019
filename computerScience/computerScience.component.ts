@@ -5,12 +5,13 @@ import {style} from '@angular/animations';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import json from '../data.json';
+import { TestMapService } from '../testMap.service';
 
 @Component({
   selector: 'app-computerScience',
   templateUrl: './computerScience.component.html',
   styleUrls: ['./computerScience.component.css'],
-  providers: [BuildMapService],
+  providers: [BuildMapService, TestMapService],
 })
 export class ComputerScienceComponent implements OnInit{
 
@@ -19,7 +20,7 @@ export class ComputerScienceComponent implements OnInit{
 
   pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
 
-  constructor(private buildMapService: BuildMapService, private router: Router){
+  constructor(private buildMapService: BuildMapService, private router: Router, private testMapService: TestMapService){
   }
 
   ngOnInit(){
@@ -210,9 +211,9 @@ gTexts = [];
   .on('mousedown', (d)=>{
     this.svg.append('rect')
     .attr('class', 'progress')
-    .attr('x', '400')
+    .attr('x', '250')
     .attr('y', '200')
-    .attr('width', '100')
+    .attr('width', '400')
     .attr('height', '60')
     .attr('rx', '5')
     .attr('ry', '5')
@@ -226,7 +227,24 @@ gTexts = [];
     .attr('fill', 'white')
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
-    .text('progress : 0%')
+
+
+    this.testMapService.callServerTest().subscribe(data=>{
+
+      var resultChoicetest = 0;
+      var resultBlocktest = 0;
+
+      if((parseInt(data['computer science']['choicetest']['true'])+parseInt(data['computer science']['choicetest']['false'])!==0)){
+        resultChoicetest = parseInt(data['computer science']['choicetest']['true']) / (parseInt(data['computer science']['choicetest']['true'])+parseInt(data['computer science']['choicetest']['false']));
+      }
+
+      if((parseInt(data['computer science']['blocktest']['total']['true'])+parseInt(data['computer science']['blocktest']['total']['false'])!==0)){
+        resultBlocktest = parseInt(data['computer science']['blocktest']['total']['true']) / (parseInt(data['computer science']['blocktest']['total']['true'])+parseInt(data['computer science']['blocktest']['total']['false']));
+      }
+
+      this.svg.select('text.progress').text('choiceTest: '+resultChoicetest+'% blockTest: '+resultBlocktest+'%');
+  })
+  ;
   })
   ;
 
@@ -256,6 +274,15 @@ gTexts = [];
   .append('xhtml:div')
   .attr('class','button')
   .html('<a href="http://localhost:4200/computerScience/modify1" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
+
+  var button1 = this.svg.append("foreignObject")
+  .attr("width", 80)
+  .attr("height", 40)
+  .attr('x', '640')
+  .attr('y', '10')
+  .append('xhtml:div')
+  .attr('class','button')
+  .html('<a href="http://localhost:4200/computerScience/test1" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Test</a>');
 
 
 
@@ -323,7 +350,7 @@ gTexts = [];
 
 // refresh function
   restart() {  
-var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, 0);
+var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, 0, 'computer science');
 
 this.pageNumber = this.svg.attr("page");
 

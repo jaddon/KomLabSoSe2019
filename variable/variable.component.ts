@@ -5,14 +5,14 @@ import {style} from '@angular/animations';
 import { BuildMapService } from '../buildMap.service';
 import { Router } from '@angular/router';
 import json from '../data.json';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TestMapService } from '../testMap.service';
 
 
 @Component({
   selector: 'app-variable',
   templateUrl: './variable.component.html',
   styleUrls: ['./variable.component.css'],
-  providers: [BuildMapService],
+  providers: [BuildMapService, TestMapService],
 })
 export class VariableComponent implements OnInit{
 
@@ -20,47 +20,9 @@ export class VariableComponent implements OnInit{
 
   pdfSrc = "https://cors-anywhere.herokuapp.com/http://greenteapress.com/thinkjava6/thinkjava.pdf";
 
-  constructor(private buildMapService: BuildMapService, private router: Router, private http: HttpClient){
+  constructor(private buildMapService: BuildMapService, private router: Router, private testMapService: TestMapService){
   }
 
-  callServer() {
-    const headers = new HttpHeaders()
-          .set('Authorization', 'my-auth-token')
-          .set('Content-Type', 'application/json');
-
-    var resultNew = [{nodes0true: 0, nodes0false: 1, nodes1true: 1, nodes1false: 0}]
-
-    
-    this.http.get('http://127.0.0.1:3000/get').subscribe(
-      data => {
-      // console.log("get: "+data);
-      
-      resultNew[0]['nodes0true'] += parseInt(data[0]['nodes0true'])
-      resultNew[0]['nodes0false'] += parseInt(data[0]['nodes0false'])
-      resultNew[0]['nodes1true'] += parseInt(data[0]['nodes1true'])
-      resultNew[0]['nodes1false'] += parseInt(data[0]['nodes1false'])
-      // resultNew.push({nodes2true: 1});
-
-      console.log("get: "+JSON.stringify(data));
-      console.log("success");
-
-      console.log(JSON.stringify(resultNew));
-
-      this.http.post('http://127.0.0.1:3000/post', JSON.stringify(resultNew), {
-        headers: headers
-      })
-      .subscribe(data => {
-        console.log(JSON.stringify(resultNew));
-        console.log("send: "+JSON.stringify(data));
-      });
-
-      
-    },
-    err => {
-      console.log("Error occured."+JSON.stringify(err));
-    }
-  );
-  }
 
   ngOnInit(){
      // console.log(json.nodes);
@@ -259,9 +221,9 @@ export class VariableComponent implements OnInit{
   .on('mousedown', (d)=>{
     this.svg.append('rect')
     .attr('class', 'progress')
-    .attr('x', '400')
+    .attr('x', '250')
     .attr('y', '200')
-    .attr('width', '100')
+    .attr('width', '400')
     .attr('height', '60')
     .attr('rx', '5')
     .attr('ry', '5')
@@ -275,7 +237,24 @@ export class VariableComponent implements OnInit{
     .attr('fill', 'white')
     .attr('font-size', '5')
     .attr('text-anchor', 'middle')
-    .text('progress : 0%')
+
+
+    this.testMapService.callServerTest().subscribe(data=>{
+
+      var resultChoicetest = 0;
+      var resultBlocktest = 0;
+
+      if((parseInt(data['variable']['choicetest']['true'])+parseInt(data['variable']['choicetest']['false'])!==0)){
+        resultChoicetest = parseInt(data['variable']['choicetest']['true']) / (parseInt(data['variable']['choicetest']['true'])+parseInt(data['variable']['choicetest']['false']));
+      }
+
+      if((parseInt(data['variable']['blocktest']['total']['true'])+parseInt(data['variable']['blocktest']['total']['false'])!==0)){
+        resultBlocktest = parseInt(data['variable']['blocktest']['total']['true']) / (parseInt(data['variable']['blocktest']['total']['true'])+parseInt(data['variable']['blocktest']['total']['false']));
+      }
+
+      this.svg.select('text.progress').text('choiceTest: '+resultChoicetest+'% blockTest: '+resultBlocktest+'%');
+  })
+
   })
   ;
 
@@ -307,20 +286,14 @@ export class VariableComponent implements OnInit{
   .html('<a href="http://localhost:4200/variable/modify3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
-  // post the json data to server
-  var postButton = this.svg.append("foreignObject")
-  .attr('class','post')
+  var button1 = this.svg.append("foreignObject")
   .attr("width", 80)
   .attr("height", 40)
-  .attr('x', '650')
+  .attr('x', '640')
   .attr('y', '10')
   .append('xhtml:div')
   .attr('class','button')
-  .html('<button type="button" class="btn btn-primary btn-sm active btn-block">Post</button>');
-
-  this.svg.select('foreignObject.post').on('click',(d)=>{
-    this.callServer();
-  })
+  .html('<a href="http://localhost:4200/variable/test3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Test</a>');
 
 
 // refresh after each mousedown and mouseup
@@ -389,7 +362,7 @@ export class VariableComponent implements OnInit{
 
 var offset = 0;
 
-var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset, 'variable');
 
 this.pageNumber = this.svg.attr("page");
 

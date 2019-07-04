@@ -20,6 +20,8 @@ import { SingleChoiceComponent } from './program/singleChoice/singleChoice.compo
 import { ModifyMapService } from './modifyMap.service';
 import { BuildMapService } from './buildMap.service';
 import { TestMapService } from './testMap.service';
+import { Test1Component } from './computerScience/test1/test1.component';
+import { Test3Component } from './variable/test3/test3.component';
 
 
 
@@ -38,6 +40,8 @@ import { TestMapService } from './testMap.service';
     Test2Component,
     Modify1Component,
     Modify3Component,
+    Test1Component,
+    Test3Component,
   ],
   imports: [
     BrowserModule,

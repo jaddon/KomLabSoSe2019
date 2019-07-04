@@ -243,8 +243,17 @@ gTexts = [
 
      this.testMapService.callServerTest().subscribe(data=>{
 
-      var resultChoicetest = parseInt(data['program']['choicetest']['true']) / (parseInt(data['program']['choicetest']['true'])+parseInt(data['program']['choicetest']['false']));
-      var resultBlocktest = parseInt(data['program']['blocktest']['total']['true']) / (parseInt(data['program']['blocktest']['total']['true'])+parseInt(data['program']['blocktest']['total']['false']));
+      var resultChoicetest = 0;
+      var resultBlocktest = 0;
+
+      if((parseInt(data['program']['choicetest']['true'])+parseInt(data['program']['choicetest']['false'])!==0)){
+        resultChoicetest = parseInt(data['program']['choicetest']['true']) / (parseInt(data['program']['choicetest']['true'])+parseInt(data['program']['choicetest']['false']));
+      }
+
+      if((parseInt(data['program']['blocktest']['total']['true'])+parseInt(data['program']['blocktest']['total']['false'])!==0)){
+        resultBlocktest = parseInt(data['program']['blocktest']['total']['true']) / (parseInt(data['program']['blocktest']['total']['true'])+parseInt(data['program']['blocktest']['total']['false']));
+      }
+
       this.svg.select('text.progress').text('choiceTest: '+resultChoicetest+'% blockTest: '+resultBlocktest+'%');
   })
   ;
@@ -321,6 +330,16 @@ gTexts = [
     .append('xhtml:div')
     .attr('class','button')
     .html('<a href="http://localhost:4200/program/modify2" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
+
+
+    var button1 = this.svg.append("foreignObject")
+    .attr("width", 80)
+    .attr("height", 40)
+    .attr('x', '640')
+    .attr('y', '10')
+    .append('xhtml:div')
+    .attr('class','button')
+    .html('<a href="http://localhost:4200/program/test2" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Test</a>');
 
 
 
@@ -406,7 +425,7 @@ delayNavigation() {
 
 var offset = 0;
 
-var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset);
+var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, offset, 'program');
 
 this.pageNumber = this.svg.attr("page");
 
@@ -433,33 +452,37 @@ this.gButton.merge(this.gButton);
 
 
 
-this.testMapService.callServerTest().subscribe(data=>{
-  for(var t = 0; t<this.nodes.length; t++){
+// this.testMapService.callServerTest().subscribe(data=>{
+//   for(var t = 0; t<this.nodes.length; t++){
 
 
-    if (this.svg.selectAll('ellipse.node').filter(function(a,i){
-      return a['id']===t;
-    }).attr('locked')==='false'){
+//     if (this.svg.selectAll('ellipse.node').filter(function(a,i){
+//       return a['id']===t;
+//     }).attr('locked')==='false'){
 
-      this.svg.selectAll('ellipse.node').filter(function(a,i){
-        return a['id']===t;
-      })
-      .style('fill',(d)=>{
-        var correct = parseInt(data['program']['blocktest']['node'+t]['true']);
-        var wrong = parseInt(data['program']['blocktest']['node'+t]['false']);
+//       this.svg.selectAll('ellipse.node').filter(function(a,i){
+//         return a['id']===t;
+//       })
+//       .style('fill',(d)=>{
+//         var correct = parseInt(data['program']['blocktest']['node'+t]['true']);
+//         var wrong = parseInt(data['program']['blocktest']['node'+t]['false']);
 
-        // console.log(255*(wrong/(correct+wrong+1)));
-
-        if(correct===0&&wrong===0){
-          return rgb(255,0,0);
-        }
-        else{
-          return rgb(255*(wrong/(correct+wrong+1)),255*(correct/(correct+wrong+1)) ,0);
-        }
-      })
-    }
-  }
-})
+//         if(correct===0&&wrong===0){
+//           return rgb(125,0,0);
+//         }
+//         else if(correct===wrong){
+//           return rgb(125,125,0);
+//         }
+//         else if(correct>wrong){
+//           return rgb(125*wrong/correct,125,0);
+//         }
+//         else{
+//           return rgb(125,125*correct/wrong,0)
+//         }
+//       })
+//     }
+//   }
+// })
 
 
 this.routerLink = buildMap[8];

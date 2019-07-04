@@ -1,10 +1,14 @@
 import * as d3 from 'd3';
 import { RouterLink } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { TestMapService } from './testMap.service';
+import { rgb } from 'd3';
 
 
 @Injectable()
 export class BuildMapService{
+
+  constructor(private testMapService: TestMapService){}
 
     // wrap function for automatically breaking lines to fit the text field
   wrap(text: any, width: number) {
@@ -264,12 +268,9 @@ export class BuildMapService{
   }
 
 
-  buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, gButton, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset) : any[]{
+  buildMicroMap(svg, path, links, glossary, glossaries, gText, gTexts, gImage, gButton, circle, nodes, linkword, linkwords, sliderCircle, nodesNextMap, circleNextMap, offset, mapName) : any[]{
     
-    // svg.select('text.toNext').attr('font-size', '30px')
-    // .attr('visibility', (d)=>{
-    //   return svg.select('rect.toNext').attr('visibility');
-    // });
+
     
 
     // bind the paths with data
@@ -301,27 +302,6 @@ export class BuildMapService{
         let sourcePadding = 8;
     
         let targetPadding = 0;
-    
-    
-        // if(d.target.reflexive){
-        //   if (Math.abs(d.source.x - d.target.x) > 10*Math.abs(d.source.y - d.target.y) || Math.abs(d.source.x - d.target.x) === 10*Math.abs(d.source.y - d.target.y)){
-          
-        //     targetPadding = d.right ? 27-0.25*(2-xy) : 17-0.25*(2-xy);
-        //     // targetPadding = d.right ? 27-800000*(2-xy)*Math.pow((dist/2310),5) : 17-400000*(2-xy)*Math.pow((dist/2310),5);
-        //   }
-      
-        //   else if (Math.abs(d.source.x - d.target.x) > 3*Math.abs(d.source.y - d.target.y) || (Math.abs(d.source.x - d.target.x) === 3*Math.abs(d.source.y - d.target.y))){
-        //     targetPadding = d.right ? 27-0.8*(2-xy) : 17-0.8*(2-xy);
-        //   }
-      
-        //   else if (Math.abs(d.source.x - d.target.x) < 3*Math.abs(d.source.y - d.target.y)){     
-        //     targetPadding = d.right ? 27-4*(2-xy) : 17-2*(2-xy);
-        //   }
-        // }
-        // else{
-        //   targetPadding = 8;
-        // }
-
 
         targetPadding = 0;
         sourcePadding = 0;
@@ -607,6 +587,8 @@ export class BuildMapService{
     
     
     
+
+    var testMapService = this.testMapService;
     
   
     
@@ -647,7 +629,40 @@ export class BuildMapService{
     
               d3.select('svg').attr('clickOnNode', 'false');
     
-              d3.select('svg').selectAll('ellipse.node').style('fill','green').attr('locked', 'false');
+              d3.select('svg').selectAll('ellipse.node').attr('locked', 'false');
+
+              testMapService.callServerTest().subscribe(data=>{
+                for(var t = 0; t<nodes.length; t++){
+              
+              
+                  if (d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                    return a['id']===t;
+                  }).attr('locked')==='false'){
+              
+                    d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                      return a['id']===t;
+                    })
+                    .style('fill',(d)=>{
+                      var correct = parseInt(data[mapName]['blocktest']['node'+t]['true']);
+                      var wrong = parseInt(data[mapName]['blocktest']['node'+t]['false']);
+              
+                      if(correct===0&&wrong===0){
+                        return rgb(125,0,0).toString();
+                      }
+                      else if(correct===wrong){
+                        return rgb(125,125,0).toString();
+                      }
+                      else if(correct>wrong){
+                        return rgb(125*wrong/correct,125,0).toString();
+                      }
+                      else{
+                        return rgb(125,125*correct/wrong,0).toString();
+                      }
+                    })
+                  }
+                }
+              })
+
 
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
               // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
@@ -732,7 +747,39 @@ export class BuildMapService{
     
               d3.select('svg').attr('clickOnNode', 'false');
     
-              d3.select('svg').selectAll('ellipse.node').style('fill','green').attr('locked','false');
+              d3.select('svg').selectAll('ellipse.node').attr('locked','false');
+
+              testMapService.callServerTest().subscribe(data=>{
+                for(var t = 0; t<nodes.length; t++){
+              
+              
+                  if (d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                    return a['id']===t;
+                  }).attr('locked')==='false'){
+              
+                    d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                      return a['id']===t;
+                    })
+                    .style('fill',(d)=>{
+                      var correct = parseInt(data[mapName]['blocktest']['node'+t]['true']);
+                      var wrong = parseInt(data[mapName]['blocktest']['node'+t]['false']);
+              
+                      if(correct===0&&wrong===0){
+                        return rgb(125,0,0).toString();
+                      }
+                      else if(correct===wrong){
+                        return rgb(125,125,0).toString();
+                      }
+                      else if(correct>wrong){
+                        return rgb(125*wrong/correct,125,0).toString();
+                      }
+                      else{
+                        return rgb(125,125*correct/wrong,0).toString();
+                      }
+                    })
+                  }
+                }
+              })
 
               d3.select('svg').selectAll('ellipse.node').on('mousedown', (d)=>{
               // d3.select('svg').selectAll('ellipse.node').on('click', (d)=>{
@@ -822,7 +869,7 @@ export class BuildMapService{
                 d3.select('svg').selectAll('text.gText').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('image.gImage').attr('visibility', 'hidden');
                 d3.select('svg').selectAll('foreignObject.gButton').attr('visibility', 'hidden');
-              d3.select('svg').selectAll('ellipse.node').style('fill','green').attr('locked', 'false')
+              d3.select('svg').selectAll('ellipse.node').attr('locked', 'false')
               .on('mousedown', 
               (d)=> {           
                 
@@ -894,6 +941,38 @@ export class BuildMapService{
                     .attr('transform', 'translate(' + (1240 + 2*offset) * k / 2  + ',' + 480 * k / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
                 
                 });
+
+                testMapService.callServerTest().subscribe(data=>{
+                  for(var t = 0; t<nodes.length; t++){
+                
+                
+                    if (d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                      return a['id']===t;
+                    }).attr('locked')==='false'){
+                
+                      d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
+                        return a['id']===t;
+                      })
+                      .style('fill',(d)=>{
+                        var correct = parseInt(data[mapName]['blocktest']['node'+t]['true']);
+                        var wrong = parseInt(data[mapName]['blocktest']['node'+t]['false']);
+                
+                        if(correct===0&&wrong===0){
+                          return rgb(125,0,0).toString();
+                        }
+                        else if(correct===wrong){
+                          return rgb(125,125,0).toString();
+                        }
+                        else if(correct>wrong){
+                          return rgb(125*wrong/correct,125,0).toString();
+                        }
+                        else{
+                          return rgb(125,125*correct/wrong,0).toString();
+                        }
+                      })
+                    }
+                  }
+                })
             }
           
          })
@@ -907,6 +986,8 @@ export class BuildMapService{
       glossaries[i].hidden = true;
       gTexts[i].hidden = true;
     }
+
+   
 
     var routerLink = svg.select('text.toNext').attr('routerLink');
     // console.log(routerLink);

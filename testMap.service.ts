@@ -290,18 +290,7 @@ export class TestMapService {
       }
 
       });
-      // .on('mouseover', (d)=>{
-      //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-      //     return a['id']===d.id;
-      //   })
-      //   .style('fill','lightgreen')
-      // })
-      // .on('mouseout', (d)=>{
-      //   d3.select('svg').selectAll('ellipse.node').filter(function(a,i){
-      //     return a['id']===d.id;
-      //   })
-      //   .style('fill','green');
-      // });
+
 
 
     // create texts

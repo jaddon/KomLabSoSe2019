@@ -11,6 +11,8 @@ import { VariableComponent } from './variable/variable.component';
 import { ComputerScienceComponent } from './computerScience/computerScience.component';
 import { ProgramComponent } from './program/program.component';
 import { SingleChoiceComponent } from './program/singleChoice/singleChoice.component';
+import { Test3Component } from './variable/test3/test3.component';
+import { Test1Component } from './computerScience/test1/test1.component';
 
 // Create Path Here
 const routes: Routes = [
@@ -26,7 +28,9 @@ const routes: Routes = [
     {path: 'program/modify2', component: Modify2Component},
     {path: 'program/test2', component: Test2Component},
     {path: 'computerScience/modify1', component:Modify1Component},
+    {path: 'computerScience/test1', component:Test1Component},
     {path: 'variable/modify3', component:Modify3Component},
+    {path: 'variable/test3', component:Test3Component},
 
     
     {path: 'variable', component: VariableComponent},
