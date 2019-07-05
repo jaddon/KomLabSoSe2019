@@ -696,7 +696,7 @@ export class ModifyMapService{
     }
   )
   .on('mousedown', (d)=>{
-    svg.select('text.toNext').attr('routerLink', '/variable');
+    svg.select('text.toNext').attr('routerLink', d3.select('rect.toNext').attr('link'));
  })
   ;
     ;
@@ -961,12 +961,14 @@ export class ModifyMapService{
     .attr('ry', 20)
     .attr('cx', (d) => d.x)
     .attr('cy', (d) => d.y)
+    .attr('link', (d)=>d.link)
     // .attr('fill',(d) => d.id===0? 'red': 'black')
     .style('fill', (d) => 'grey')
     .style('opacity', '0.9')
     .style('stroke', 'white')
-    .on('mousedown', (d)=>{
+    .on('mousedown', function(){
       svg.select('rect.toNext').attr('visibility', 'visible');
+      svg.select('rect.toNext').attr('link',d3.select(this).attr('link'));
       svg.select('text.toNext').attr('visibility', 'visible');
       d3.selectAll('foreignObject.toNext').attr('visibility', 'visible');
     })

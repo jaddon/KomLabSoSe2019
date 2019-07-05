@@ -32,7 +32,8 @@ export class ObjectComponent implements OnInit{
 
     var temp = json.links5;
     for(var i = 0; i<temp.length; i++){
-      var link = {"source":null, "target":null, "left": false, "right": true};
+      var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
+      link.id = temp[i].id;
       if(temp[i].source.includes("nodes["))
       {
         // console.log(temp[i]);
@@ -203,8 +204,8 @@ gTexts = [];
 
   var polygon = this.svg.append("polygon")
   .attr('class', 'cluster')
-  .attr("points", "380,5 250,30 80,100 0,160 250,450 500,450 1100,450 1050,200")
-  .style("fill", "lightgreen")
+  .attr("points", "380,35 250,30 80,100 0,160 100,450 400,450 800,450 1150,200")
+  .style("fill", "white")
   .style('opacity', '0.6')
   .style("stroke", "black")
   .style("strokeWidth", "10px")
@@ -272,29 +273,49 @@ gTexts = [];
   })
   .on('mouseup', (d)=>{
     if(this.svg.selectAll('polygon').attr('visibility')==='hidden'){
-      this.svg.selectAll('rect.progress').remove();
-      this.svg.selectAll('text.progress').remove();
+      this.svg.select('g.progress').attr('visibility', 'hidden');
     }
 
   })
 
+
+  this.svg.append('text')
+  .attr('class', 'activateCluster')
+  .attr('x', '50')
+  .attr('y', '450')
+  .attr('fill', 'purple')
+  .attr('font-size', '5')
+  .attr('text-anchor', 'middle')
+  .text('activate cluster')
+
   var button = this.svg.append("foreignObject")
   .attr("width", 80)
   .attr("height", 40)
-  .attr('x', '550')
-  .attr('y', '10')
+  .attr('x', '640')
+  .attr('y', '5')
   .append('xhtml:div')
   .attr('class','button')
   .html('<a href="http://localhost:4200/object/modify5" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
+
   var button1 = this.svg.append("foreignObject")
-  .attr("width", 80)
+  .attr("width", 110)
   .attr("height", 40)
-  .attr('x', '640')
-  .attr('y', '10')
+  .attr('x', '520')
+  .attr('y', '25')
   .append('xhtml:div')
   .attr('class','button')
-  .html('<a href="http://localhost:4200/object/test5" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Test</a>');
+  .html('<a href="http://localhost:4200/object/test5" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Block Test</a>');
+
+  var button2 = this.svg.append("foreignObject")
+  .attr("width", 110)
+  .attr("height", 40)
+  .attr('x', '730')
+  .attr('y', '25')
+  .append('xhtml:div')
+  .attr('class','button')
+  .html('<a href="http://localhost:4200/object/singleChoice" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Choice Test</a>');
+
 
 
 
@@ -360,6 +381,11 @@ gTexts = [];
 }
 
 
+delayNavigation() {
+  this.router.navigate([this.routerLink]);
+}
+
+
 // refresh function
   restart() {  
 var buildMap = this.buildMapService.buildMicroMap(this.svg, this.path, this.links, this.glossary, this.glossaries, this.gText, this.gTexts, this.gImage, this.gButton, this.circle, this.nodes, this.linkword, this.linkwords, this.sliderCircle, this.nodesNextMap, this.circleNextMap, 0, 'object');
@@ -384,12 +410,140 @@ this.gButton = buildMap[9];
 this.gButton.merge(this.gButton);
 
 this.routerLink = buildMap[8];
-console.log(this.routerLink);
+if(this.routerLink==='/method'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+}
+else if(this.routerLink==='/variable'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+}
+else if(this.routerLink==='/class'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+}
+else if(this.routerLink==='/primitiveType'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+}
 
 
 
 
-this.router.navigate[this.routerLink];
+if(this.routerLink!==null){
+  setTimeout(function(){
+    d3.select('rect.toNext').attr('visibility', 'hidden');
+    d3.select('text.toNext').attr('visibility', 'hidden');
+    d3.selectAll('rect.button').attr('visibility', 'hidden');
+    d3.select('svg').attr('ready', true);
+  }, 750)
+
+  setTimeout(() => { this.delayNavigation(); }, 750);
+}
   }
 }
 

@@ -10,12 +10,12 @@ import json from '../../data.json';
 
 
 @Component({
-  selector: 'app-test2',
-  templateUrl: './test2.component.html',
-  styleUrls: ['./test2.component.css'],
+  selector: 'app-test5',
+  templateUrl: './test5.component.html',
+  styleUrls: ['./test5.component.css'],
   providers: [TestMapService],
 })
-export class Test2Component implements OnInit{
+export class Test5Component implements OnInit{
 
  
   constructor(private testMapService: TestMapService, private router: Router){
@@ -28,12 +28,12 @@ export class Test2Component implements OnInit{
   
    
    // console.log(json.nodes);
-    this.nodes = json.nodes2;
-    this.nodesNextMap = json.nodesNextMap2;
-    this.linkwords = json.linkwords2;
+    this.nodes = json.nodes5;
+    this.nodesNextMap = json.nodesNextMap5;
+    this.linkwords = json.linkwords5;
 
 
-    var temp = json.links2;
+    var temp = json.links5;
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true};
       if(temp[i].source.includes("nodes["))
@@ -226,39 +226,131 @@ this.circleNextMap.merge(this.circleNextMap);
 this.routerLink = buildMap[5];
 // console.log(this.routerLink);
 
-if(this.routerLink!=null){
+if(this.routerLink==='/method'){
   
   this.svg.selectAll('ellipse').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('text.eText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('text.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('path.link').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('ellipse.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('rect.gRect').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('text.gText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('image.gImage').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
   this.svg.selectAll('text.eTextNextMap').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  730  + ',' + 330 + ')');
+}
+else if(this.routerLink==='/variable'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  1100  + ',' + 0 + ')');
+}
+else if(this.routerLink==='/class'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + -395 + ')');
+}
+else if(this.routerLink==='/primitiveType'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1000  + ',' + 0 + ')');
+}
 
 
 
 
+if(this.routerLink!==null){
   setTimeout(function(){
     d3.select('rect.toNext').attr('visibility', 'hidden');
     d3.select('text.toNext').attr('visibility', 'hidden');
@@ -267,14 +359,7 @@ if(this.routerLink!=null){
   }, 750)
 
   setTimeout(() => { this.delayNavigation(); }, 750);
-
-
-
-  
 }
-
-
-
   }
 }
 

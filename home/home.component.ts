@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import {style} from '@angular/animations';
 import { Router } from '@angular/router';
 
 
@@ -22,7 +21,7 @@ export class HomeComponent implements OnInit{
   @ViewChild('graphContainer', {static: true}) graphContainer: ElementRef;
 
   width = 1240;
-  height = 570;
+  height = 480;
   k = 1;
   colors = d3.scaleOrdinal(d3.schemeCategory10);
   clickOnNode = false;
@@ -42,14 +41,14 @@ export class HomeComponent implements OnInit{
 
   // store the nodes
   nodes = [
-    { id: 0, text: 'java', x: 300, y: 70, reflexive: false },
+    { id: 0, text: 'java', x: 400, y: 70, reflexive: false },
     { id: 1, text: 'computer science', x: 150, y: 100, reflexive: false },
     { id: 2, text: 'program', x: 250, y: 300, reflexive: false },
-    { id: 3, text: 'variable', x: 350, y: 275, reflexive: false },
-    { id: 4, text: 'primitive type', x: 430, y: 240, reflexive: false },
-    { id: 5, text: 'object', x: 520, y: 180, reflexive: false },
-    { id: 6, text: 'class', x: 500, y: 120, reflexive: false },
-    { id: 7, text: 'method', x: 520, y: 50, reflexive: false },
+    { id: 3, text: 'variable', x: 350, y: 350, reflexive: false },
+    { id: 4, text: 'primitive type', x: 500, y: 340, reflexive: false },
+    { id: 5, text: 'object', x: 600, y: 260, reflexive: false },
+    { id: 6, text: 'class', x: 700, y: 120, reflexive: false },
+    { id: 7, text: 'method', x: 720, y: 50, reflexive: false },
   ];
 
   // store the links
@@ -173,6 +172,8 @@ export class HomeComponent implements OnInit{
     else if(id === 3) {this.router.navigate(['/variable']);}
     else if(id === 4) {this.router.navigate(['/primitiveType']);}
     else if(id === 5) {this.router.navigate(['/object']);}
+    else if(id === 6) {this.router.navigate(['/class']);}
+    else if(id === 7) {this.router.navigate(['/method']);}
     // this.router.navigate(['/page'+id]);
     //  this.router.navigate(['test/singleChoice']);
     // this.router.navigate(['/micro-basic']);
@@ -210,16 +211,16 @@ export class HomeComponent implements OnInit{
 
     if (Math.abs(d.source.x - d.target.x) > 10*Math.abs(d.source.y - d.target.y) || Math.abs(d.source.x - d.target.x) === 10*Math.abs(d.source.y - d.target.y)){
       
-      targetPadding = d.right ? 27-0.25*(2-xy) : 17-0.25*(2-xy);
+      targetPadding = d.right ? 55-0.25*(2-xy) : 20-0.25*(2-xy);
       // targetPadding = d.right ? 27-800000*(2-xy)*Math.pow((dist/2310),5) : 17-400000*(2-xy)*Math.pow((dist/2310),5);
     }
 
     else if (Math.abs(d.source.x - d.target.x) > 3*Math.abs(d.source.y - d.target.y) || (Math.abs(d.source.x - d.target.x) === 3*Math.abs(d.source.y - d.target.y))){
-      targetPadding = d.right ? 27-0.8*(2-xy) : 17-0.8*(2-xy);
+      targetPadding = d.right ? 50-0.8*(2-xy) : 20-0.8*(2-xy);
     }
 
     else if (Math.abs(d.source.x - d.target.x) < 3*Math.abs(d.source.y - d.target.y)){     
-      targetPadding = d.right ? 27-4*(2-xy) : 17-2*(2-xy);
+      targetPadding = d.right ? 30-4*(2-xy) : 20-2*(2-xy);
     }
 
 
@@ -254,10 +255,7 @@ export class HomeComponent implements OnInit{
 
 // bind the circle with data
   this.circle = this.circle.data(this.nodes, (d) => d.id);
-  // create ellipses
-  this.circle.selectAll('ellipse')
-  .style('fill', (d) => (d === this.selectedNode) ? d3.rgb(this.colors(d.id)).brighter().toString() : this.colors(d.id))
-  .style('stroke', (d) => (d === this.selectedNode) ? 'black' : 'white');
+
 
 
   this.circle.exit().remove();
@@ -274,11 +272,12 @@ g.append('svg:ellipse')
 .attr('cx', (d) => d.x)
 .attr('cy', (d) => d.y)
 // .attr('fill',(d) => d.id===0? 'red': 'black')
-.style('fill', (d) => (d === this.selectedNode) ? d3.rgb(this.colors(d.id)).brighter().toString() : this.colors(d.id))
+.style('fill', (d) => (d.id === 0) ? 'black' : 'blue')
 .style('stroke', (d) => (d === this.selectedNode) ? 'black' : 'white')
 .on('mousedown', (d) => {
 
-  // select node
+  if(d.id>0){
+      // select node
   this.mousedownNode = d;
   this.selectedNode = (this.mousedownNode === this.selectedNode) ? null : this.mousedownNode;
 
@@ -296,10 +295,13 @@ g.append('svg:ellipse')
   .duration(750)
   .attr('transform', 'translate(' + this.width * this.k / 2  + ',' + this.height * this.k / 2 + ')scale(' + this.k + ')translate(' + -this.centerx + ',' + -this.centery + ')');
 
-  if(d.id<=5){
+  if(d.id<=7&&d.id>0){
     setTimeout(() => { this.toMicro(d.id); }, 700);
-    // this.toMicro(d.id);
   }
+
+  }
+
+
  
 })
 .on('mouseover', (d)=>{

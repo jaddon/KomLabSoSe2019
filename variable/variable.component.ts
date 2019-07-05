@@ -33,7 +33,8 @@ export class VariableComponent implements OnInit{
  
      var temp = json.links3;
      for(var i = 0; i<temp.length; i++){
-       var link = {"source":null, "target":null, "left": false, "right": true};
+      var link = {"source":null, "target":null, "left": false, "right": true, "id":null};
+      link.id = temp[i].id;
        if(temp[i].source.includes("nodes["))
        {
          // console.log(temp[i]);
@@ -213,8 +214,8 @@ export class VariableComponent implements OnInit{
 
   var polygon =  this.svg.append("polygon")
   .attr('class', 'cluster')
-  .attr("points", "380,5 250,30 80,100 0,160 480,450 500,450 950,450 800,200")
-  .style("fill", "lightgreen")
+  .attr("points", "380,35 250,30 80,100 0,160 480,450 500,450 1100,450 1200,200")
+  .style("fill", "white")
   .style('opacity', '0.6')
   .style("stroke", "black")
   .style("strokeWidth", "10px")
@@ -283,31 +284,50 @@ export class VariableComponent implements OnInit{
   })
   .on('mouseup', (d)=>{
     if(this.svg.selectAll('polygon').attr('visibility')==='hidden'){
-      this.svg.selectAll('rect.progress').remove();
-      this.svg.selectAll('text.progress').remove();
+      this.svg.select('g.progress').attr('visibility', 'hidden');
     }
 
   })
 
+
+  this.svg.append('text')
+  .attr('class', 'activateCluster')
+  .attr('x', '50')
+  .attr('y', '450')
+  .attr('fill', 'purple')
+  .attr('font-size', '5')
+  .attr('text-anchor', 'middle')
+  .text('activate cluster')
+
+
   var button = this.svg.append("foreignObject")
   .attr("width", 80)
   .attr("height", 40)
-  .attr('x', '550')
-  .attr('y', '10')
+  .attr('x', '640')
+  .attr('y', '5')
   .append('xhtml:div')
   .attr('class','button')
   .html('<a href="http://localhost:4200/variable/modify3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Modify</a>');
 
 
   var button1 = this.svg.append("foreignObject")
-  .attr("width", 80)
+  .attr("width", 110)
   .attr("height", 40)
-  .attr('x', '640')
-  .attr('y', '10')
+  .attr('x', '520')
+  .attr('y', '25')
   .append('xhtml:div')
   .attr('class','button')
-  .html('<a href="http://localhost:4200/variable/test3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Test</a>');
+  .html('<a href="http://localhost:4200/variable/test3" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Block Test</a>');
 
+  var button2 = this.svg.append("foreignObject")
+  .attr("width", 110)
+  .attr("height", 40)
+  .attr('x', '730')
+  .attr('y', '25')
+  .append('xhtml:div')
+  .attr('class','button')
+  .html('<a href="http://localhost:4200/variable/singleChoice" class="btn btn-primary btn-sm active btn-block" role="button" aria-pressed="true">Choice Test</a>');
+  
 
 // refresh after each mousedown and mouseup
     this.svg.on('mousedown', (dataItem, value, source) => this.mousedown(dataItem, value, source));
@@ -369,6 +389,10 @@ export class VariableComponent implements OnInit{
     }
 }
 
+delayNavigation() {
+  this.router.navigate([this.routerLink]);
+}
+
 
 // refresh function
   restart() {  
@@ -400,39 +424,107 @@ this.gButton.merge(this.gButton);
 
 
 this.routerLink = buildMap[8];
-// console.log(this.routerLink);
 
-// this.svg.selectAll('ellipse').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('text.eText').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('text.linkword').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('path.link').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('ellipse.linkword').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('rect.gRect').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('text.gText').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('image.gImage').transition()
-// .duration(0)
-// .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
-// this.svg.selectAll('text.eTextNextMap').transition()
-//   .duration(0)
-//   .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+if(this.routerLink==='/program'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  900  + ',' + 0 + ')');
+}
+else if(this.routerLink==='/method'){
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  0  + ',' + 260 + ')');
+}
+else if(this.routerLink==='/object'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -1100  + ',' + 0 + ')');
+}
 
+if(this.routerLink!==null){
+  setTimeout(function(){
+    d3.select('rect.toNext').attr('visibility', 'hidden');
+    d3.select('text.toNext').attr('visibility', 'hidden');
+    d3.selectAll('rect.button').attr('visibility', 'hidden');
+    d3.select('svg').attr('ready', true);
+  }, 750)
 
-this.routerLink = buildMap[8];
-console.log(this.routerLink);
+  setTimeout(() => { this.delayNavigation(); }, 750);
+}
 
   }
 }

@@ -193,12 +193,12 @@
     {"id":"b17 c5","source":"linkwords[17]","target":"nodesNextMap[5]"}],
     
     
-    "nodesNextMap2":[{"id":0,"text":"value","x":1170,"y":100,"reflexive":true},
-    {"id":1,"text":"variable","x":1685,"y":300,"reflexive":true},
-    {"id":2,"text":"constant","x":1200,"y":300,"reflexive":true},
-    {"id":3,"text":"instance variable","x":1480,"y":380,"reflexive":true},
-    {"id":4,"text":"local variable","x":1600,"y":395,"reflexive":true},
-    {"id":5,"text":"class variable","x":1700,"y":380,"reflexive":true}],
+    "nodesNextMap2":[{"id":0,"text":"value","x":1170,"y":100,"reflexive":true, "link": "/variable"},
+    {"id":1,"text":"variable","x":1685,"y":300,"reflexive":true, "link": "/variable"},
+    {"id":2,"text":"constant","x":1200,"y":300,"reflexive":true, "link": "/variable"},
+    {"id":3,"text":"instance variable","x":1480,"y":380,"reflexive":true, "link": "/variable"},
+    {"id":4,"text":"local variable","x":1600,"y":395,"reflexive":true, "link": "/variable"},
+    {"id":5,"text":"class variable","x":1700,"y":380,"reflexive":true, "link": "/variable"}],
     
     
     "glossaries2":[{"id":"0","target":"nodes[0]","hidden":true,"width":60,"height":80,"page":"1"},
@@ -255,7 +255,7 @@
 
 
     "nodes3":[{"id":0,"text":"value","x":270,"y":100,"reflexive":true,"level":1},
-        {"id":1,"text":"variable","x":785,"y":300,"reflexive":true,"level":1},
+        {"id":1,"text":"variable","x":1070,"y":300,"reflexive":true,"level":1},
         {"id":2,"text":"constant","x":300,"y":300,"reflexive":true,"level":2},
         {"id":3,"text":"instance variable","x":580,"y":380,"reflexive":true,"level":3},
         {"id":4,"text":"local variable","x":700,"y":395,"reflexive":true,"level":3},
@@ -269,7 +269,14 @@
         {"id":4,"text":"put first","x":-392,"y":140},
         {"id":5,"text":"create","x":262,"y":156},
         {"id":6,"text":"shows","x":34,"y":253},
-        {"id":7,"text":"by","x":6,"y":328}],
+        {"id":7,"text":"by","x":6,"y":328},
+        {"id": 8,  "text" : "same type with", "x": 397, "y": 25 },
+        {"id": 9,  "text" : "can require", "x": 570, "y": -90 },
+        {"id": 10,  "text" : "return", "x": 280, "y": 50 },
+        {"id": 11,  "text" : "is", "x": 1155, "y": 300 },
+        {"id": 12,  "text" : "is", "x": 550, "y": 100 }
+      
+      ],
         
         
         "links3":[{"id":"a0 b0","source":"nodes[0]","target":"linkwords[0]"},
@@ -287,13 +294,31 @@
         {"id":"c1 b6","source":"nodesNextMap[1]","target":"linkwords[6]"},
         {"id":"b6 c2","source":"linkwords[6]","target":"nodesNextMap[2]"},
         {"id":"c2 b7","source":"nodesNextMap[2]","target":"linkwords[7]"},
-        {"id":"b7 c3","source":"linkwords[7]","target":"nodesNextMap[3]"}],
+        {"id":"b7 c3","source":"linkwords[7]","target":"nodesNextMap[3]"},
+        {"id":"c5 b8","source":"nodesNextMap[5]","target":"linkwords[8]"},
+        {"id":"b8 c6","source":"linkwords[8]","target":"nodesNextMap[6]"},
+        {"id":"c6 b9","source":"nodesNextMap[6]","target":"linkwords[9]"},
+        {"id":"c4 b10","source":"nodesNextMap[4]","target":"linkwords[10]"},
+        {"id":"b10 a0","source":"linkwords[10]","target":"nodes[0]"},
+        {"id":"c7 b11","source":"nodesNextMap[7]","target":"linkwords[11]"},
+        {"id":"b11 a1","source":"linkwords[11]","target":"nodes[1]"},
+        {"id":"c5 b12","source":"nodesNextMap[5]","target":"linkwords[12]"},
+        {"id":"c6 b12","source":"nodesNextMap[6]","target":"linkwords[12]"},
+        {"id":"b12 a1","source":"linkwords[12]","target":"nodes[1]"}
+      
+      ],
         
         
-        "nodesNextMap3":[{"id":0,"text":"initialization","x":-482,"y":250,"reflexive":true},
-        {"id":1,"text":"print statement","x":33,"y":220,"reflexive":true},
-        {"id":2,"text":"output","x":27,"y":289,"reflexive":true},
-        {"id":3,"text":"System class","x":80,"y":390,"reflexive":true}],
+        "nodesNextMap3":[{"id":0,"text":"initialization","x":-482,"y":250,"reflexive":true, "link": "/program"},
+        {"id":1,"text":"print statement","x":33,"y":220,"reflexive":true, "link": "/program"},
+        {"id":2,"text":"output","x":27,"y":289,"reflexive":true, "link": "/program"},
+        {"id":3,"text":"System class","x":80,"y":390,"reflexive":true, "link": "/program"},
+        {"id":4,"text":"value method","x":302,"y":-115,"reflexive":true, "link": "/method"},
+        {"id":5,"text":"argument","x":247,"y":0,"reflexive":true, "link": "/method"},
+        {"id":6,"text":"parameter","x":532,"y":50,"reflexive":true, "link": "/method"},
+        {"id":7,"text":"attribute","x":1240,"y":300,"reflexive":true, "link": "/object"},
+        {"id":8,"text":"index","x":1280,"y":400,"reflexive":true, "link": "/object"}
+      ],
         
         
         "glossaries3":[{"id":"0","target":"nodes[0]","hidden":true,"width":60,"height":80,"page":"15"},
@@ -312,18 +337,21 @@
         {"id":"5","text":"Like instance variables, class variables are defined in a class definition, before the method definitions. Butthey are identified by the keyword static. ","target":"nodes[5]","hidden":true,"page":"193"}],
 
   "nodes4" : [
-    { "id": 0, "text": "primitive type", "x": 450, "y": 50,  "reflexive": true, "level":1  },
-    { "id": 1, "text": "wrapper class", "x": 200, "y": 220,  "reflexive": true, "level":2  },
-    { "id": 2, "text": "floating point","x": 350, "y": 220,  "reflexive": true, "level":2  },
-    { "id": 3, "text": "boolean", "x": 550, "y": 220,  "reflexive": true, "level": 2 },
-    { "id": 4, "text": "type cast", "x": 700, "y": 220,  "reflexive": true, "level": 2  }
+    { "id": 0, "text": "primitive type", "x": 450, "y": 150,  "reflexive": true, "level":1  },
+    { "id": 1, "text": "wrapper class", "x": 200, "y": 320,  "reflexive": true, "level":2  },
+    { "id": 2, "text": "floating point","x": 350, "y": 320,  "reflexive": true, "level":2  },
+    { "id": 3, "text": "boolean", "x": 550, "y": 320,  "reflexive": true, "level": 2 },
+    { "id": 4, "text": "type cast", "x": 700, "y": 320,  "reflexive": true, "level": 2  }
   ],
-  "nodesNextMap4" : [],
+  "nodesNextMap4" : [
+    { "id": 0, "text": "garbage collection","x": 50, "y": 200,  "reflexive": true, "link": "/object" }
+  ],
   "linkwords4" : [
 
-    {"id": 0,  "text" : "can be transformed with", "x": 250, "y": 120 },
-    {"id": 1,  "text" : "has type", "x": 450, "y": 120 },
-    {"id": 2,  "text" : "can be changed with", "x": 600, "y": 120 }
+    {"id": 0,  "text" : "can be transformed with", "x": 250, "y": 220 },
+    {"id": 1,  "text" : "has type", "x": 450, "y": 220 },
+    {"id": 2,  "text" : "can be changed with", "x": 600, "y": 220 },
+    {"id": 3, "text": "into", "x": -50 ,"y": 300 }
   ],
   "links4" : [
     { "id": "a0 b0", "source": "nodes[0]", "target": "linkwords[0]"},
@@ -332,7 +360,8 @@
     { "id": "b0 a1", "source": "linkwords[0]", "target": "nodes[1]"},
     { "id": "b1 a2", "source": "linkwords[1]", "target": "nodes[2]"},
     { "id": "b1 a3", "source": "linkwords[1]", "target": "nodes[3]"},
-    { "id": "b2 a4", "source": "linkwords[2]", "target": "nodes[4]"}
+    { "id": "b2 a4", "source": "linkwords[2]", "target": "nodes[4]"},
+    { "id": "a1 b3", "source": "nodes[1]", "target": "linkwords[3]"}
     ],
   "glossaries4" : [
     { "id": "0", "target": "nodes[0]", "hidden": true, "width": 60, "height": 80, "page": "139"},
@@ -353,21 +382,37 @@
 
     "nodes5" : [
     { "id": 0, "text": "object", "x": 400, "y": 200,  "reflexive": true, "level": 1 },
-    { "id": 1, "text": "new operator", "x": 450, "y": 100,  "reflexive": true, "level": 2 },
-    { "id": 2, "text": "garbage collection","x": 650, "y": 200,  "reflexive": true, "level": 2 },
+    { "id": 1, "text": "new operator", "x": 450, "y": 110,  "reflexive": true, "level": 2 },
+    { "id": 2, "text": "garbage collection","x": 1050, "y": 200,  "reflexive": true, "level": 2 },
     { "id": 3, "text": "array", "x": 300, "y": 300,  "reflexive": true, "level": 2 },
     { "id": 4, "text": "string", "x": 500, "y": 300,  "reflexive": true, "level": 2 },
     { "id": 5, "text": "index", "x": 180, "y": 400,  "reflexive": true, "level": 3 },
-    { "id": 6, "text": "element", "x": 400, "y": 400,  "reflexive": true, "level": 3 }
+    { "id": 6, "text": "element", "x": 400, "y": 400,  "reflexive": true, "level": 3 },
+    { "id": 7, "text": "attribute", "x": 140, "y": 300,  "reflexive": true, "level": 3 }
   ],
-  "nodesNextMap5" : [],
+  "nodesNextMap5" : [
+    {"id":0,"text":"constructor","x":450,"y":20,"reflexive":true,"link":"/method"},
+    {"id":1,"text":"variable","x":-40,"y":300,"reflexive":true,"link":"/variable"},
+    {"id":2,"text":"method","x":-147,"y":-220,"reflexive":true,"link":"/method"},
+    {"id":3,"text":"package","x":208,"y":465,"reflexive":true,"link":"/class"},
+    {"id":4,"text":"class","x":491,"y":539,"reflexive":true,"link":"/class"},
+    { "id": 5, "text": "wrapper class", "x": 1200, "y": 320,  "reflexive": true, "link":"/primitiveType" }
+    
+  ],
   "linkwords5" : [
 
     {"id": 0,  "text" : "created by", "x": 420, "y": 150 },
-    {"id": 1,  "text" : "can be reclaimed by", "x": 520, "y": 200 },
+    {"id": 1,  "text" : "can be reclaimed by", "x": 750, "y": 200 },
     {"id": 2,  "text" : "has", "x": 400, "y": 250 },
     {"id": 3,  "text" : "contains", "x": 300, "y": 350 },
-    {"id": 4, "text": "indicated by", "x": 300 ,"y": 400 }
+    {"id": 4, "text": "indicated by", "x": 300 ,"y": 400 },
+    {"id": 5, "text": "is collection of ", "x": 200 ,"y": 100 },
+    {"id": 6, "text": "invokes", "x": 450 ,"y": 70 },
+    {"id": 7, "text": "into", "x": 950 ,"y": 300 },
+    {"id": 8, "text": "is", "x": 55 ,"y": 300 },
+    {"id": 9, "text": "is", "x": 8 ,"y": -161 },
+    {"id": 10, "text": "is template of", "x": 491 ,"y": 465 },
+    {"id": 11,  "text" : "can be transformed with", "x": 1250, "y": 220 }
   ],
   "links5" : [
     { "id": "a0 b0", "source": "nodes[0]", "target": "linkwords[0]"},
@@ -381,7 +426,21 @@
     { "id": "b3 a5", "source": "linkwords[3]", "target": "nodes[5]"},
     { "id": "b3 a6", "source": "linkwords[3]", "target": "nodes[6]"},
     { "id": "a6 b4", "source": "nodes[6]", "target": "linkwords[4]"},
-    { "id": "b4 a5", "source": "linkwords[4]", "target": "nodes[5]"}
+    { "id": "b4 a5", "source": "linkwords[4]", "target": "nodes[5]"},
+    { "id": "a0 b5", "source": "nodes[0]", "target": "linkwords[5]"},
+    { "id": "b5 a7", "source": "linkwords[5]", "target": "nodes[7]"},
+    { "id": "a1 b6", "source": "nodes[1]", "target": "linkwords[6]"},
+    { "id": "b7 a0", "source": "linkwords[7]", "target": "nodes[0]"},
+    { "id": "a7 b8", "source": "nodes[7]", "target": "linkwords[8]"},
+    { "id": "b8 c1", "source": "linkwords[8]", "target": "nodesNextMap[1]"},
+    { "id": "a1 b6", "source": "nodes[1]", "target": "linkwords[6]"},
+    { "id": "b6 c0", "source": "linkwords[6]", "target": "nodesNextMap[0]"},
+    { "id": "c0 b9", "source": "nodesNextMap[0]", "target": "linkwords[9]"},
+    { "id": "b5 c2", "source": "linkwords[5]", "target": "nodesNextMap[2]"},
+    { "id": "c4 b10", "source": "nodesNextMap[4]", "target": "linkwords[10]"},
+    { "id": "b10 a0", "source": "linkwords[10]", "target": "nodes[0]"},
+    { "id": "c5 b7", "source": "nodesNextMap[5]", "target": "linkwords[7]"},
+    { "id": "b11 c5", "source": "linkwords[11]", "target": "nodesNextMap[5]"}
   ],
   "glossaries5" : [
     { "id": "0", "target": "nodes[0]", "hidden": true, "width": 60, "height": 80, "page": "139"},
@@ -400,7 +459,145 @@
     {"id": "4", "text": "Phrases that appear in quotation marks are called strings.", "target": "nodes[4]", "hidden": true, "page": "6"},
     {"id": "5", "text": "The small numbers outside the boxes are the indexes (or indices) used to identify each location in the array", "target": "nodes[5]", "hidden": true, "page": "124"},
     {"id": "6", "text": "The values in the array are called elements", "target": "nodes[6]", "hidden": true, "page": "123"}
-  ]
+  ],
+
+
+
+
+
+"nodes6":[{"id":0,"text":"class","x":491,"y":144,"reflexive":true,"level":1},
+{"id":1,"text":"package","x":208,"y":70,"reflexive":true,"level":2},
+{"id":2,"text":"comment","x":322,"y":242,"reflexive":true,"level":2},
+{"id":3,"text":"composition","x":566,"y":355,"reflexive":true,"level":2},
+{"id":4,"text":"inheritance","x":736,"y":339,"reflexive":true,"level":2},
+{"id":5,"text":"java library","x":920,"y":248,"reflexive":true,"level":2},
+{"id":6,"text":"tag","x":177,"y":344,"reflexive":true,"level":3},
+{"id":7,"text":"Java Doc","x":344,"y":379,"reflexive":true,"level":3}],
+
+
+"linkwords6":[{"id":0,"text":"forms","x":342,"y":100},
+{"id":1,"text":"can have","x":388,"y":208},
+{"id":2,"text":"can be from","x":740,"y":188},
+{"id":3,"text":"has type of relationships","x":524,"y":254},
+{"id":4,"text":"begin with","x":250,"y":284},
+{"id":5,"text":"organized by","x":324,"y":316},
+{"id": 6, "text": "is template of", "x": 491 ,"y": 70 },
+{"id": 7, "text": "indicated by", "x": 300 ,"y": 5 }
+],
+
+
+"links6":[{"id":"a0 b0","source":"nodes[0]","target":"linkwords[0]"},
+{"id":"a0 b1","source":"nodes[0]","target":"linkwords[1]"},
+{"id":"a0 b2","source":"nodes[0]","target":"linkwords[2]"},
+{"id":"a0 b3","source":"nodes[0]","target":"linkwords[3]"},
+{"id":"b0 a1","source":"linkwords[0]","target":"nodes[1]"},
+{"id":"b1 a2","source":"linkwords[1]","target":"nodes[2]"},
+{"id":"b2 a5","source":"linkwords[2]","target":"nodes[5]"},
+{"id":"b3 a3","source":"linkwords[3]","target":"nodes[3]"},
+{"id":"b3 a4","source":"linkwords[3]","target":"nodes[4]"},
+{"id":"a2 b4","source":"nodes[2]","target":"linkwords[4]"},
+{"id":"a2 b5","source":"nodes[2]","target":"linkwords[5]"},
+{"id":"b4 a6","source":"linkwords[4]","target":"nodes[6]"},
+{"id":"b5 a7","source":"linkwords[5]","target":"nodes[7]"},
+{"id":"a0 b6","source":"nodes[0]","target":"linkwords[6]"},
+{"id":"b6 c0","source":"linkwords[6]","target":"nodesNextMap[0]"}
+],
+
+
+"nodesNextMap6":[
+  { "id": 0, "text": "object", "x": 400, "y": -195,  "reflexive": true, "link": "/object" },
+  { "id": 1, "text": "index", "x": 180, "y": 5,  "reflexive": true, "link": "/object" },
+  { "id": 2, "text": "element", "x": 400, "y": 5,  "reflexive": true, "link": "/object" }
+],
+
+
+"glossaries6":[{"id":"0","target":"nodes[0]","hidden":true,"width":60,"height":80,"page":"5"},
+{"id":"1","target":"nodes[1]","hidden":true,"width":60,"height":80,"page":"33"},
+{"id":"2","target":"nodes[2]","hidden":true,"width":60,"height":80,"page":"11"},
+{"id":"3","target":"nodes[3]","hidden":true,"width":60,"height":80,"page":"24"},
+{"id":"4","target":"nodes[4]","hidden":true,"width":60,"height":80,"page":"230"},
+{"id":"5","target":"nodes[5]","hidden":true,"width":60,"height":80,"page":"34"},
+{"id":"6","target":"nodes[6]","hidden":true,"width":60,"height":80,"page":"94"},
+{"id":"7","target":"nodes[7]","hidden":true,"width":60,"height":80,"page":"61"}],
+
+
+"gTexts6":[{"id":"0","text":"A class is a collection of methods.","target":"nodes[0]","hidden":true,"page":"5"},
+{"id":"1","text":"A package is a collection of related classes; java.io contains classes for 鈥淚/O鈥?which stands for input and output.","target":"nodes[1]","hidden":true,"page":"33"},
+{"id":"2","text":"A part of a program that contains information about the program but has no effect when the program runs.","target":"nodes[2]","hidden":true,"page":"11"},
+{"id":"3","text":"One of the most useful features of programming languages is their ability to take small building blocks and compose them.","target":"nodes[3]","hidden":true,"page":"24"},
+{"id":"4","text":"One class extends another class. For example, Hand extends CardCollection, so every instance of Hand is also a CardCollection.","target":"nodes[4]","hidden":true,"page":"230"},
+{"id":"5","text":"System is defined in a file called System.java, and PrintStream is defined in PrintStream.java. These files are part of the Java library, which is an extensive collection of classes you can use in your programs.","target":"nodes[5]","hidden":true,"page":"34"},
+{"id":"6","text":"To organize the documentation into sections, Javadoc supports optional tags that begin with the at sign (@). For example, we can use @param and @return to provide additional information about parameters and return values.","target":"nodes[6]","hidden":true,"page":"94"},
+{"id":"7","text":"If you include documentation in your source code, you can extract it automatically, and generate well-formatted HTML, using a tool called Javadoc.","target":"nodes[7]","hidden":true,"page":"61"}],
+
+
+
+
+  
+"nodes7":[{"id":0,"text":"method","x":583,"y":110,"reflexive":true,"level":1},
+{"id":1,"text":"void method","x":277,"y":68,"reflexive":true,"level":2},
+{"id":2,"text":"value method","x":302,"y":145,"reflexive":true,"level":2},
+{"id":3,"text":"argument","x":247,"y":266,"reflexive":true,"level":2},
+{"id":4,"text":"parameter","x":532,"y":310,"reflexive":true,"level":2},
+{"id":5,"text":"constructor","x":1180,"y":350,"reflexive":true,"level":2}],
+
+
+"linkwords7":[{"id":0,"text":"has type","x":412,"y":108},
+{"id":1,"text":"can have","x":433,"y":165},
+{"id":2,"text":"can require","x":570,"y":170},
+{"id":3,"text":"is","x":738,"y":169},
+{"id":4,"text":"same type with","x":397,"y":285},
+{"id": 5,  "text" : "return", "x": 280, "y": 310 },
+{"id": 6,  "text" : "is", "x": 550, "y": 360 },
+{"id": 7,"text":"into","x":550,"y":420},
+{"id": 8,"text":"invokes","x":1180,"y":400}
+],
+
+
+"links7":[{"id":"a0 b0","source":"nodes[0]","target":"linkwords[0]"},
+{"id":"a0 b1","source":"nodes[0]","target":"linkwords[1]"},
+{"id":"a0 b2","source":"nodes[0]","target":"linkwords[2]"},
+{"id":"a0 b3","source":"nodes[0]","target":"linkwords[3]"},
+{"id":"b0 a1","source":"linkwords[0]","target":"nodes[1]"},
+{"id":"b0 a2","source":"linkwords[0]","target":"nodes[2]"},
+{"id":"b1 a3","source":"linkwords[1]","target":"nodes[3]"},
+{"id":"b2 a4","source":"linkwords[2]","target":"nodes[4]"},
+{"id":"b3 a5","source":"linkwords[3]","target":"nodes[5]"},
+{"id":"a3 b4","source":"nodes[3]","target":"linkwords[4]"},
+{"id":"b4 a4","source":"linkwords[4]","target":"nodes[4]"},
+{"id":"a2 b5","source":"nodes[2]","target":"linkwords[5]"},
+{"id":"b5 c0","source":"linkwords[5]","target":"nodesNextMap[0]"},
+{"id":"a4 b6","source":"nodes[4]","target":"linkwords[6]"},
+{"id":"b6 c1","source":"linkwords[6]","target":"nodesNextMap[1]"},
+{"id":"c0 b7","source":"nodesNextMap[0]","target":"linkwords[7]"},
+{"id":"b7 c1","source":"linkwords[7]","target":"nodesNextMap[1]"},
+{"id":"c2 b8","source":"nodesNextMap[2]","target":"linkwords[8]"},
+{"id":"b8 a5","source":"linkwords[8]","target":"nodes[5]"}
+],
+
+
+"nodesNextMap7":[
+  {"id":0,"text":"value","x":270,"y":360,"reflexive":true,"link": "/variable"},
+  {"id":1,"text":"variable","x":985,"y":560,"reflexive":true,"link": "/variable"},
+  {"id":2,"text":"new operator","x":1180,"y":440,"reflexive":true,"link": "/object"},
+  {"id":3, "text": "attribute", "x": 850, "y": 630,  "reflexive": true,"link": "/object"}
+],
+
+
+"glossaries7":[{"id":"0","target":"nodes[0]","hidden":true,"width":60,"height":80,"page":"5"},
+{"id":"1","target":"nodes[1]","hidden":true,"width":60,"height":80,"page":"85"},
+{"id":"2","target":"nodes[2]","hidden":true,"width":60,"height":80,"page":"85"},
+{"id":"3","target":"nodes[3]","hidden":true,"width":60,"height":80,"page":"49"},
+{"id":"4","target":"nodes[4]","hidden":true,"width":60,"height":80,"page":"52"},
+{"id":"5","target":"nodes[5]","hidden":true,"width":60,"height":80,"page":"173"}],
+
+
+"gTexts7":[{"id":"0","text":"A method is a named sequence of statements.","target":"nodes[0]","hidden":true,"page":"5"},
+{"id":"1","text":"All the methods we have written so far have been void; that is, they don鈥檛 return values.","target":"nodes[1]","hidden":true,"page":"85"},
+{"id":"2","text":"The methods that return values, which we call value methods.","target":"nodes[2]","hidden":true,"page":"85"},
+{"id":"3","text":"You evaluate the expression in parentheses, which is called the argument of the function. Then you can evaluate the function itself, maybe by punching it into a calculator.","target":"nodes[3]","hidden":true,"page":"49"},
+{"id":"4","text":"The parentheses after the method name contain a list of variables, called parameters, where the method stores its arguments.","target":"nodes[4]","hidden":true,"page":"52"},
+{"id":"5","text":"The syntax for constructors is similar to that of other methods, except: The name of the constructor is the same as the name of the class. Constructors have no return type (and no return value).The keyword static is omitted. ","target":"nodes[5]","hidden":true,"page":"173"}]
 
 
     }

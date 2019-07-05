@@ -138,6 +138,7 @@ export class Test1Component implements OnInit{
 
     for(let i=0; i<this.randomItem.length;i++){
       this.svg.append('foreignObject')
+        .attr('class', 'input')         
         .attr('width',110)
         .attr('height',70)
         .attr('x',this.nodes[this.randomItem[i]].x-55)

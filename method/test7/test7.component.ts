@@ -1,21 +1,18 @@
 import { Component, ElementRef, ViewChild, OnInit, DoCheck } from '@angular/core';
 import * as d3 from 'd3';
-import {style} from '@angular/animations';
-// import { svg } from 'd3';
 import { TestMapService } from '../../testMap.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-// import example from '../assets/example.json';
 import json from '../../data.json';
 
 
 @Component({
-  selector: 'app-test2',
-  templateUrl: './test2.component.html',
-  styleUrls: ['./test2.component.css'],
+  selector: 'app-test7',
+  templateUrl: './test7.component.html',
+  styleUrls: ['./test7.component.css'],
   providers: [TestMapService],
 })
-export class Test2Component implements OnInit{
+export class Test7Component implements OnInit{
 
  
   constructor(private testMapService: TestMapService, private router: Router){
@@ -28,12 +25,12 @@ export class Test2Component implements OnInit{
   
    
    // console.log(json.nodes);
-    this.nodes = json.nodes2;
-    this.nodesNextMap = json.nodesNextMap2;
-    this.linkwords = json.linkwords2;
+    this.nodes = json.nodes7;
+    this.nodesNextMap = json.nodesNextMap7;
+    this.linkwords = json.linkwords7;
 
 
-    var temp = json.links2;
+    var temp = json.links7;
     for(var i = 0; i<temp.length; i++){
       var link = {"source":null, "target":null, "left": false, "right": true};
       if(temp[i].source.includes("nodes["))
@@ -192,7 +189,7 @@ export class Test2Component implements OnInit{
       console.log(resultAnswer[key])
     }
     (<HTMLInputElement>document.getElementById('submitBlock')).disabled = true;
-    this.testMapService.callServer('program',resultAnswer, "blocktest");
+    this.testMapService.callServer('computer science',resultAnswer, "blocktest");
   }
 
 delayNavigation() {
@@ -226,39 +223,72 @@ this.circleNextMap.merge(this.circleNextMap);
 this.routerLink = buildMap[5];
 // console.log(this.routerLink);
 
-if(this.routerLink!=null){
+if(this.routerLink==='/variable'){
   
   this.svg.selectAll('ellipse').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('text.eText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('text.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('path.link').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('ellipse.linkword').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('rect.gRect').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('text.gText').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('image.gImage').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
   this.svg.selectAll('text.eTextNextMap').transition()
   .duration(750)
-  .attr('transform', 'translate(' + -600  + ',' + 0 + ')');
+  .attr('transform', 'translate(' +  0  + ',' + -260 + ')');
+}
+
+else if(this.routerLink==='/object'){
+  
+  this.svg.selectAll('ellipse').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('text.eText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('text.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('path.link').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('ellipse.linkword').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('rect.gRect').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('text.gText').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('image.gImage').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+  this.svg.selectAll('text.eTextNextMap').transition()
+  .duration(750)
+  .attr('transform', 'translate(' +  -730  + ',' + -330 + ')');
+}
 
 
 
 
+if(this.routerLink!==null){
   setTimeout(function(){
     d3.select('rect.toNext').attr('visibility', 'hidden');
     d3.select('text.toNext').attr('visibility', 'hidden');
@@ -267,14 +297,9 @@ if(this.routerLink!=null){
   }, 750)
 
   setTimeout(() => { this.delayNavigation(); }, 750);
-
-
-
-  
-}
-
-
+} 
 
   }
 }
+
 
