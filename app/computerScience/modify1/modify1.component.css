@@ -1,0 +1,71 @@
+::ng-deep svg {
+    background-color: lightgray;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+
+  ::ng-deep ellipse.node {
+    stroke-width: 1.5px;
+    cursor: pointer;
+  }
+
+  ::ng-deep ellipse.nodeNextMap {
+    stroke-width: 1.5px;
+    cursor: pointer;
+  }
+
+  ::ng-deep circle.ball {
+    stroke-width: 1.5px;
+    cursor: pointer;
+  }
+
+  ::ng-deep rect.button {
+    cursor: pointer;
+  }
+
+  ::ng-deep path.link {
+    fill: none;
+    stroke: #000;
+    stroke-width: 4px;
+    cursor: default;
+  }
+
+  ::ng-deep path.dragLine {
+    fill: none;
+    stroke: #000;
+    stroke-width: 4px;
+    cursor: default;
+  }
+
+  ::ng-deep path.temp {
+    fill: none;
+    stroke: #000;
+    stroke-width: 4px;
+    cursor: default;
+  }
+
+  ::ng-deep text{
+    font: 10px sans-serif;
+    pointer-events: none;
+  }
+
+  ::ng-deep text.gText{
+    font: 10px sans-serif;
+    pointer-events: none;
+  }
+
+
+
+  ::ng-deep text.toNext{
+    font: 30px sans-serif;
+    pointer-events: none;
+  }
+
+
+  ::ng-deep svg:not(.active):not(.ctrl) {
+    cursor: crosshair;
+  }

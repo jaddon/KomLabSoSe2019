@@ -1,0 +1,32 @@
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">Home</a></li>
+		<li class="breadcrumb-item"><a href="/home">Macro Map</a></li>
+		<li class="breadcrumb-item"><a href="/object">Object Micro Map</a></li>
+		<li class="breadcrumb-item active" aria-current="page">Object Single Choice Test</li>
+	</ol>
+</nav>
+<h2 class="font-weight-bold">Single Choice Test</h2>
+
+<form autocomplete="off">
+  <fieldset align="center">
+    <legend>Question:{{questionPosition+1}}/{{questions.length}}<br/>{{questions[questionPosition].question}}</legend>
+    <div>
+      <input type="radio" value="A" id="A" name="item" [(ngModel)]="questions[questionPosition].userchoice" ><label for="A"  id='labelA' style="cursor:pointer; margin-left:10px">{{questions[questionPosition].items[0]}}</label><br/>
+      <input type="radio" value="B" id="B" name="item" [(ngModel)]="questions[questionPosition].userchoice"><label for="B"  id='labelB' style="cursor:pointer; margin-left:10px">{{questions[questionPosition].items[1]}}</label><br/>
+      <input type="radio" value="C" id="C" name="item" [(ngModel)]="questions[questionPosition].userchoice"> <label for="C" id='labelC'  style="cursor:pointer; margin-left:10px">{{questions[questionPosition].items[2]}}</label> <br/>
+      <input type="radio" value="D" id="D" name="item" [(ngModel)]="questions[questionPosition].userchoice"><label for="D" id='labelD' style="cursor:pointer; margin-left:10px">{{questions[questionPosition].items[3]}}</label><br/>
+    </div>
+  </fieldset>
+  <div align="center">
+    <button class="btn btn-light" id = "previous" (click)="questionPrevious()">Previous</button>
+    <button class="btn btn-light" id = "submit" (click)="submitAnswer()"  [disabled]="check()">Submit</button>
+    <button class="btn btn-light" id = 'next'(click)="questionNext()" >Next</button>
+  </div>
+  <div align="center">
+    <textarea  id = "explanation"  readonly value={{textNow}}></textarea>
+  </div>
+</form>
+<button type="button" class="btn btn-dark" aria-label="Left Align"  style="margin-left: 15px" routerLink="/object">
+  Back
+</button>

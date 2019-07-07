@@ -1,0 +1,21 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" *ngIf="currentUser">
+  <a class="navbar-brand col-sm-2" href="/">
+    <img src="../../assets/icon.jpg" width="30" height="30" class="d-inline-block" alt="">
+    ICM
+  </a>
+          <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+  <div class="flex-grow-1 text-right" style="color:white">{{currentUser.username}}</div>
+  <div class="flex-grow-1 col-sm-1 text-right">
+    <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+  </div>
+</nav>
+<!-- <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Macro Map</li>
+  </ol>
+</nav> -->

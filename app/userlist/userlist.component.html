@@ -1,0 +1,16 @@
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/">Home</a></li>
+		<li class="breadcrumb-item active" aria-current="page">Userlist</li>
+	</ol>
+</nav>
+<div style="margin-left: 15px">
+	<h1>Hi {{currentUser.username}}! This page is for user debugging.</h1>
+	<h3>All registered users:</h3>
+	<ul>
+		<li *ngFor="let user of users">
+			{{user.username}}
+			- <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
+		</li>
+	</ul>
+</div>
