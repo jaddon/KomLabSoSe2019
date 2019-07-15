@@ -21,7 +21,7 @@ export class ModifyMapService{
         lineNumber = 0,
         
         // this should be set manually, otherwise problem when continuelly click on different nodes
-        lineHeight = 5,
+        lineHeight = 12,
         // lineHeight = text.node().getBoundingClientRect().height,
         x = +text.attr('x'),
         y = +text.attr('y'),
@@ -257,7 +257,7 @@ export class ModifyMapService{
       gText
       .attr('x',d3.event.x+10)
       .attr('y',d3.event.y-100)
-      .call(this.wrap,40)
+      .call(this.wrap,100)
       ;
 
       gImage
@@ -370,7 +370,7 @@ export class ModifyMapService{
 
       gText
       .text(textNew)
-      .call(this.wrap,40)
+      .call(this.wrap,100)
       ;
 
       console.log(gText)
@@ -1216,22 +1216,22 @@ export class ModifyMapService{
         gGlossary
           .append('svg:rect')
           .attr('class', 'gRect')
-          .attr('x', (d) => { if(d.target.x+60<=svg.attr('width')){
+          .attr('x', (d) => { if(d.target.x+150<=svg.attr('width')){
                return d.target.x;}
                else{
-                 return d.target.x-60;
+                 return d.target.x-150;
                }
           })
-          .attr('y', (d) => {if(d.target.y+80<=svg.attr('height')){
+          .attr('y', (d) => {if(d.target.y+200<=svg.attr('height')){
               return d.target.y;
            }
            else{
-               return d.target.y-80;
+               return d.target.y-200;
 
            }})
           .attr('fill', 'orange')
-          .attr('width', '60')
-          .attr('height', '80')
+          .attr('width', '150')
+          .attr('height', '200')
           .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
           .attr('id',(d)=>d.id)
           .attr('stroke', 'black')
@@ -1285,25 +1285,25 @@ export class ModifyMapService{
     .enter()
     .append('svg:text')
     .attr('class', 'gText')
-    .attr('x', (d) => { if(d.target.x+60<=svg.attr('width')){
-      return d.target.x+10;}
+    .attr('x', (d) => { if(d.target.x+150<=svg.attr('width')){
+      return d.target.x+25;}
       else{
-        return d.target.x-50;
+        return d.target.x-125;
       }
  })
-    .attr('y', (d) => {if(d.target.y+80<=svg.attr('height')){
-        return d.target.y+10;
+    .attr('y', (d) => {if(d.target.y+200<=svg.attr('height')){
+        return d.target.y+20;
      }
      else{
-         return d.target.y-70;
+         return d.target.y-180;
      }})
     .attr('id',(d)=>d.id)
     .attr('fill', 'black')
-    .attr('font-size', '4')
+    .attr('font-size', '10')
     .attr('text-anchor', 'left')
     .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
     .text((d) => d.text)
-    .call(this.wrap,40)
+    .call(this.wrap,100)
     .on('mousedown', (d)=>{
 
     })
@@ -1314,21 +1314,21 @@ export class ModifyMapService{
     .enter()
     .append('svg:image')
     .attr('class', 'gImage')
-    .attr('x', (d) => { if(d.target.x+60<=svg.attr('width')){
-      return d.target.x+10;}
+    .attr('x', (d) => { if(d.target.x+150<=svg.attr('width')){
+      return d.target.x+25;}
       else{
-        return d.target.x-50;
+        return d.target.x-125;
       }
  })
-    .attr('y', (d) => {if(d.target.y+80<=svg.attr('height')){
-        return d.target.y+60;
+    .attr('y', (d) => {if(d.target.y+200<=svg.attr('height')){
+        return d.target.y+150;
      }
      else{
-         return d.target.y-20;
+         return d.target.y-50;
      }})
     .attr('xlink:href', 'assets/icon.jpg')
-    .attr('width', 20)
-    .attr('height', 15)
+    .attr('width', 40)
+    .attr('height', 30)
     .attr('visibility', (d) => d.hidden ? 'hidden' : 'visible')
     .merge(gImage)
     ;

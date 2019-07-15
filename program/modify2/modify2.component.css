@@ -54,7 +54,7 @@
   }
 
   ::ng-deep text.gText{
-    font: 4px sans-serif;
+    font: 10px sans-serif;
     pointer-events: none;
   }
 
